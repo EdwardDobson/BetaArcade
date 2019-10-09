@@ -4,45 +4,65 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    CharacterController characterController;
     private float speed = 5.0f;
-    private float jumpSpeed = 8.0f;
-    private float gravity = 20.0f;
-    private float rotateSpeed = 75.0f;
+    private float jumpSpeed = 20.0f;
+    private float rotateSpeed = 75.0f; 
+    private float dashSpeed = 8.0f;
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 rotateDirection = Vector3.zero;
-
+    private Vector3 movement;
+    private Rigidbody rb;
+    private bool isGrounded;
+    private bool hasDashed;
     // Start is called before the first frame update
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (characterController.isGrounded)
+        if(isGrounded)
         {
-            // We are grounded, so recalculate
-            // move direction directly from axes
-
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-            moveDirection *= speed;
-            rotateDirection = new Vector3(0, Input.GetAxis("Mouse X"), 0);
-            rotateDirection *= rotateSpeed;
-            
-
             if (Input.GetButton("Jump"))
             {
-                moveDirection.y = jumpSpeed;
+                rb.AddForce(Vector3.up * jumpSpeed);
+
             }
-            /*if (Input.GetButton("Dash"))
+            if (Input.GetButton("Dash") && !hasDashed)
             {
-                moveDirection.y = jumpSpeed;
-            }*/
+                rb.AddForce(movement * dashSpeed, ForceMode.Impulse);
+                hasDashed = true;
+                StartCoroutine(ResetDash());
+            }
         }
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+        movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        rb.AddForce(movement * speed);
+        rotateDirection = new Vector3(0, Input.GetAxis("Mouse X"), 0);
+        rotateDirection *= rotateSpeed;
         transform.Rotate(rotateDirection * Time.deltaTime);
-        moveDirection.y -= gravity * Time.deltaTime;
-        characterController.Move(moveDirection * Time.deltaTime);
+      
+    }
+    IEnumerator ResetDash()
+    {
+        yield return new WaitForSeconds(0.5f);
+        hasDashed = false;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Ground")
+        {
+            isGrounded = true;
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            isGrounded = false;
+        }
     }
 }
