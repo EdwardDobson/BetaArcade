@@ -1,12 +1,49 @@
 Base path: C:/Program Files/Unity/Hub/Editor/2019.1.11f1/Editor/Data
 Cmd: initializeCompiler
-Cmd: compileSnippet
-  api=4 type=1 insize=2962 outsize=1838 kw= pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1
-Cmd: compileSnippet
-  api=4 type=0 insize=7237 outsize=810 kw= pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1
-Cmd: compileSnippet
-  api=4 type=1 insize=5657 outsize=498 kw= pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1
-Cmd: compileSnippet
-  api=4 type=0 insize=17201 outsize=810 kw= pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1
-Cmd: compileSnippet
-  api=4 type=0 insize=7060 outsize=810 kw= pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1
+Cmd: compileComputeKernel
+  api=4 insize=14406 outsize=29065 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=14406 outsize=62241 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=14406 outsize=64973 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=14406 outsize=93381 ok=1
+Cmd: compileComputeKernel
+  error: 1 plat 4 at (0): Program 'Deferred_Indirect_ShadowMask_Fptl_Variant26', warning X4714: sum of temp registers and indexable temp registers times 256 threads exceeds the recommended total 16384.  Performance may be reduced
+  api=4 insize=14406 outsize=95645 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=26648 outsize=14253 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=26648 outsize=16285 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=9347 outsize=12805 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=6309 outsize=661 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=7423 outsize=1353 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=2364 outsize=1025 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=20012 outsize=14613 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=2517 outsize=2573 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=2905 outsize=1849 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=3022 outsize=3277 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=7704 outsize=5681 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=34508 outsize=35413 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=34508 outsize=36169 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=17193 outsize=7957 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=5089 outsize=729 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=5089 outsize=929 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=2596 outsize=2085 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=7712 outsize=4613 ok=1
