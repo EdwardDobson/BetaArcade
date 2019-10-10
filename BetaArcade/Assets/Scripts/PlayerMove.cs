@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    private float speed = 5.0f;
-    private float jumpSpeed = 20.0f;
+    private float speed = 20.0f;
+    private float jumpSpeed = 80.0f;
     private float rotateSpeed = 75.0f; 
     private float dashSpeed = 8.0f;
     private Vector3 moveDirection = Vector3.zero;
@@ -21,7 +21,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(isGrounded)
         {

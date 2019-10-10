@@ -1,3 +1,39 @@
-Base path: C:/Program Files/Unity/Editor/Data
+Base path: F:/GameEngineStuff/Unity/Editor/Data
 Cmd: initializeCompiler
-Cmd: initializeCompiler
+Cmd: compileComputeKernel
+  api=4 insize=14406 outsize=113273 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=14406 outsize=56265 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=14406 outsize=55353 ok=1
+Cmd: compileComputeKernel
+  error: 1 plat 4 at (0): Program 'Deferred_Indirect_ShadowMask_Fptl_Variant26', warning X4714: sum of temp registers and indexable temp registers times 256 threads exceeds the recommended total 16384.  Performance may be reduced
+  api=4 insize=14406 outsize=95645 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=26648 outsize=16081 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=9347 outsize=7973 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=2532 outsize=1877 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=10769 outsize=10585 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=20012 outsize=14753 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=3022 outsize=2065 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=34508 outsize=36169 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=34508 outsize=35413 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=5089 outsize=729 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=5089 outsize=929 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=7712 outsize=4613 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=3918 outsize=709 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=5723 outsize=637 ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=7125 outsize=1834 kw=UNITY_PASS_MOTIONVECTORS _NORMALMAP_TANGENT_SPACE pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1
