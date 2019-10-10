@@ -8,7 +8,8 @@ public class ScoreManager : MonoBehaviour
     TextMeshProUGUI scoreText;
     int score;
     PointMove point;
-
+    [SerializeField]
+    List<Material> materials = new List<Material>();
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +27,7 @@ public class ScoreManager : MonoBehaviour
         if(other.gameObject.tag == "Point")
         {
             InvokeRepeating("AddScore", 0, 1);
+            point.gameObject.GetComponent<MeshRenderer>().material = materials[1];
         }
     }
     private void OnTriggerExit(Collider other)
@@ -33,6 +35,7 @@ public class ScoreManager : MonoBehaviour
         if (other.gameObject.tag == "Point")
         {
             CancelInvoke("AddScore");
+            point.gameObject.GetComponent<MeshRenderer>().material = materials[0];
         }
     }
     void AddScore()
