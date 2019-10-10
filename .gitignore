@@ -9,7 +9,11 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-
+BetaArcade/Library/metadata/
+BetaArcade/Library/ShaderCache/
+BetaArcade/Library/StateCache/
+BetaArcade/Library/PackageCache/
+Temp/
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 
