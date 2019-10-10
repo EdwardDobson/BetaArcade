@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-   
-    private float speed = 25.0f;
+    private float speed = 20.0f;
     private float jumpSpeed = 80.0f;
-    private float rotateSpeed = 75.0f; 
+    private float rotateSpeed = 75.0f;
     private float dashSpeed = 8.0f;
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 rotateDirection = Vector3.zero;
@@ -45,7 +44,7 @@ public class PlayerMove : MonoBehaviour
         rotateDirection = new Vector3(0, Input.GetAxis("Mouse X"), 0);
         rotateDirection *= rotateSpeed;
         transform.Rotate(rotateDirection * Time.deltaTime);
-      
+
     }
     IEnumerator ResetDash()
     {
