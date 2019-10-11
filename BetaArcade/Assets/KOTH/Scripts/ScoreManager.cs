@@ -37,7 +37,22 @@ public class ScoreManager : MonoBehaviour
                 if(otherPlayers[i].inPoint != true)
                 {
                     InvokeRepeating("AddScore", 0, 1);
-                    point.gameObject.GetComponent<MeshRenderer>().material = materials[1];
+                    if(gameObject.tag == "Player")
+                    {
+                        point.gameObject.GetComponent<MeshRenderer>().material = materials[1];
+                    }
+                    if (gameObject.tag == "Player2")
+                    {
+                        point.gameObject.GetComponent<MeshRenderer>().material = materials[2];
+                    }
+                    if (gameObject.tag == "Player3")
+                    {
+                        point.gameObject.GetComponent<MeshRenderer>().material = materials[3];
+                    }
+                    if (gameObject.tag == "Player4")
+                    {
+                        point.gameObject.GetComponent<MeshRenderer>().material = materials[4];
+                    }
                 }
             }
           
