@@ -41,7 +41,6 @@ public class PlayerHotPotato : MonoBehaviour
     {
         if (!hasLeftEnemy)
         {
-
             if (other.gameObject.tag == "Player")
             {
                 StartCoroutine(ResetCanTakeBomb());
@@ -76,10 +75,9 @@ public class PlayerHotPotato : MonoBehaviour
             if (other.GetComponent<PlayerHotPotato>().hasBomb && canTakeBomb)
             {
                 other.GetComponent<PlayerHotPotato>().SetHasBomb(false);
+                StartCoroutine(ResetPlayerMovement());
                 hasBomb = true;
-
             }
-
         }
         if (other.gameObject.tag == "Player2")
         {
@@ -91,8 +89,8 @@ public class PlayerHotPotato : MonoBehaviour
             if (other.GetComponent<PlayerHotPotato>().hasBomb && canTakeBomb)
             {
                 other.GetComponent<PlayerHotPotato>().SetHasBomb(false);
+                StartCoroutine(ResetPlayerMovement());
                 hasBomb = true;
-
             }
         }
         if (other.gameObject.tag == "Player3")
@@ -105,8 +103,8 @@ public class PlayerHotPotato : MonoBehaviour
             if (other.GetComponent<PlayerHotPotato>().hasBomb && canTakeBomb)
             {
                 other.GetComponent<PlayerHotPotato>().SetHasBomb(false);
+                StartCoroutine(ResetPlayerMovement());
                 hasBomb = true;
-
             }
         }
         if (other.gameObject.tag == "Player4")
@@ -119,8 +117,8 @@ public class PlayerHotPotato : MonoBehaviour
             if (other.GetComponent<PlayerHotPotato>().hasBomb && canTakeBomb)
             {
                 other.GetComponent<PlayerHotPotato>().SetHasBomb(false);
+                StartCoroutine(ResetPlayerMovement());
                 hasBomb = true;
-
             }
         }
     }
@@ -129,5 +127,13 @@ public class PlayerHotPotato : MonoBehaviour
         yield return new WaitForSeconds(1);
         canTakeBomb = true;
         hasLeftEnemy = false;
+    }
+    IEnumerator ResetPlayerMovement()
+    {
+        GetComponent<Rigidbody>().mass = 200;
+        GetComponent<Rigidbody>().drag = 200;
+        yield return new WaitForSeconds(1);
+        GetComponent<Rigidbody>().mass = 1;
+        GetComponent<Rigidbody>().drag = 0;
     }
 }
