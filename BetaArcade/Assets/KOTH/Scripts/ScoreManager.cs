@@ -7,14 +7,19 @@ public class ScoreManager : MonoBehaviour
 {
     TextMeshProUGUI scoreText;
     int score;
+    bool inPoint;
     PointMove point;
     [SerializeField]
     List<Material> materials = new List<Material>();
+    AudioSource scoreIncrease;
+    [SerializeField]
+    List<ScoreManager> otherPlayers = new List<ScoreManager>();
     // Start is called before the first frame update
     void Start()
     {
         point = GameObject.Find("Point").GetComponent<PointMove>();
         scoreText = GameObject.Find("Counter").GetComponent<TextMeshProUGUI>();
+        scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
         scoreText.text = "0";
     }
 
@@ -26,14 +31,23 @@ public class ScoreManager : MonoBehaviour
     {
         if(other.gameObject.tag == "Point")
         {
-            InvokeRepeating("AddScore", 0, 1);
-            point.gameObject.GetComponent<MeshRenderer>().material = materials[1];
+            inPoint = true;
+            for(int i =0; i< otherPlayers.Count; ++i)//Used to check if any other player is in the zone
+            {
+                if(otherPlayers[i].inPoint != true)
+                {
+                    InvokeRepeating("AddScore", 0, 1);
+                    point.gameObject.GetComponent<MeshRenderer>().material = materials[1];
+                }
+            }
+          
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Point")
         {
+            inPoint = false;
             CancelInvoke("AddScore");
             point.gameObject.GetComponent<MeshRenderer>().material = materials[0];
         }
@@ -42,7 +56,6 @@ public class ScoreManager : MonoBehaviour
     {
         score += 1;
         scoreText.text = "" + score;
-        Debug.Log("Add point");
-
+        scoreIncrease.Play();
     }
 }
