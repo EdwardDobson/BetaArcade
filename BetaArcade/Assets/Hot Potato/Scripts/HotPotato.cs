@@ -46,7 +46,7 @@ public class HotPotato : MonoBehaviour
     }
     void ResetRound()
     {
-        if (increaseInactivePlayers >= players.Count)
+        if (increaseInactivePlayers >= players.Count-1)
         {
             for (int i = 0; i < players.Count; ++i)
             {
@@ -54,6 +54,8 @@ public class HotPotato : MonoBehaviour
               
                 increaseInactivePlayers = 0;
             }
+            currentBombTimer = maxBombTimer;
+            SwitchPlayer();
         }
     }
     void ResetBomb()
