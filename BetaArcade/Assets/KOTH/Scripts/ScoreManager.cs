@@ -7,7 +7,10 @@ public class ScoreManager : MonoBehaviour
 {
     TextMeshProUGUI scoreText;
     int score;
+    [SerializeField]
+    float timer;
     bool inPoint;
+    bool dontAddScore;
     PointMove point;
     [SerializeField]
     List<Material> materials = new List<Material>();
@@ -26,18 +29,38 @@ public class ScoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        for (int i = 0; i < otherPlayers.Count; ++i)//Used to check if any other player is in the zone
+        {
+            if (otherPlayers[i].inPoint && inPoint)
+            {
+                timer = 0;
+ 
+                point.gameObject.GetComponent<MeshRenderer>().material = materials[0];
+            }
+            if (inPoint  && !otherPlayers[i].inPoint)
+            {
+                timer += Time.deltaTime;
+                if (timer >= 1)
+                {
+                    score += 1;
+                    scoreText.text = "" + score;
+                    scoreIncrease.Play();
+                    timer = 0;
+                }
+            }
+
+        }
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.tag == "Point")
         {
             inPoint = true;
             for(int i =0; i< otherPlayers.Count; ++i)//Used to check if any other player is in the zone
             {
-                if(otherPlayers[i].inPoint != true)
+                if(!otherPlayers[i].inPoint)
                 {
-                    InvokeRepeating("AddScore", 0, 1);
-                    if(gameObject.tag == "Player")
+                    if (gameObject.tag == "Player")
                     {
                         point.gameObject.GetComponent<MeshRenderer>().material = materials[1];
                     }
@@ -63,8 +86,10 @@ public class ScoreManager : MonoBehaviour
         if (other.gameObject.tag == "Point")
         {
             inPoint = false;
+            dontAddScore = false;
             CancelInvoke("AddScore");
             point.gameObject.GetComponent<MeshRenderer>().material = materials[0];
+            timer = 0;
         }
     }
     void AddScore()
