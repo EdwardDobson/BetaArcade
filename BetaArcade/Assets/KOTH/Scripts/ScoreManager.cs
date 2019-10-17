@@ -46,7 +46,7 @@ public class ScoreManager : MonoBehaviour
         winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
         inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
         KOTHPlayerSpawner = GetComponent<KOTHPlayerSpawner>();
-        maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
+        //maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
     }
 
     // Update is called once per frame

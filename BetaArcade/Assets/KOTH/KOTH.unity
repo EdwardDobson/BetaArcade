@@ -1808,7 +1808,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh21896
+  m_Name: pb_Mesh37026
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10551,7 +10551,7 @@ MonoBehaviour:
   playerThreeInGameScore: 0
   playerFourInGameScore: 0
   currentRound: 0
-  maxRound: 0
+  maxRound: 2
 --- !u!114 &631749823
 MonoBehaviour:
   m_ObjectHideFlags: 0
