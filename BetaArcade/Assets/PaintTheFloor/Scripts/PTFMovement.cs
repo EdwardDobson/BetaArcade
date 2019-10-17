@@ -11,13 +11,15 @@ public class PTFMovement : MonoBehaviour
   private float m_ShotPower = 10f;
   private Transform m_FirePoint;
   private bool m_CanShoot = true;
+  private PlayerMove m_PlayerMoveScript;
   private void Start()
     {
     m_FirePoint = ShootingObject.transform.GetChild(0);
+    m_PlayerMoveScript = gameObject.GetComponent<PlayerMove>();
     }
   void Update()
     {
-    if (Input.GetButton("RB"))
+    if (Input.GetButton("RB" + m_PlayerMoveScript.ID))
       {
       if (ShootingObject.transform.localRotation.x > -.25f)
         {
@@ -25,7 +27,7 @@ public class PTFMovement : MonoBehaviour
         ShootingObject.transform.Rotate(Vector3.left, m_AimRotateSpeed);
         }
       }
-    if (Input.GetButton("LB"))
+    if (Input.GetButton("LB" + m_PlayerMoveScript.ID))
       {
       if (ShootingObject.transform.localRotation.x < .25f)
         {
@@ -34,7 +36,7 @@ public class PTFMovement : MonoBehaviour
         }
       }
 
-    if (Input.GetAxis("RT") != 0)
+    if (Input.GetAxis("RT" + m_PlayerMoveScript.ID) != 0)
       {
       if (m_CanShoot)
         {
@@ -48,6 +50,7 @@ public class PTFMovement : MonoBehaviour
     {
     Debug.Log("Shot paint");
     var paintBall = Instantiate(PaintBall);
+    paintBall.GetComponent<PaintballScript>().Color = GetComponent<Renderer>().material.GetColor("_BaseColor");
     paintBall.transform.position = m_FirePoint.position;
     paintBall.GetComponent<Rigidbody>().AddForce(m_FirePoint.forward * m_ShotPower, ForceMode.Impulse);
     }
