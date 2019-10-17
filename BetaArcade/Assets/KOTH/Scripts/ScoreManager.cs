@@ -5,18 +5,20 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
+    TextMeshProUGUI winText;
     TextMeshProUGUI scoreText;
-    int score;
+    public int maxScore;
+    bool resetPoints;
+    int scoreIncreaseValue = 1;
+    int resetPointsCounter;
     [SerializeField]
     float timer;
-    bool inPoint;
-    bool dontAddScore;
     PointMove point;
     [SerializeField]
-    List<Material> materials = new List<Material>();
+    public Material pointMat;
     AudioSource scoreIncrease;
     [SerializeField]
-    List<ScoreManager> otherPlayers = new List<ScoreManager>();
+    List<PointCollide> otherPlayers = new List<PointCollide>();
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,7 @@ public class ScoreManager : MonoBehaviour
         scoreText = GameObject.Find("Counter").GetComponent<TextMeshProUGUI>();
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
         scoreText.text = "0";
+        winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -31,71 +34,62 @@ public class ScoreManager : MonoBehaviour
     {
         for (int i = 0; i < otherPlayers.Count; ++i)//Used to check if any other player is in the zone
         {
-            if (otherPlayers[i].inPoint && inPoint)
+            for (int a = 0; a < otherPlayers.Count; ++a)//Used to check if any other player is in the zone
             {
-                timer = 0;
- 
-                point.gameObject.GetComponent<MeshRenderer>().material = materials[0];
-            }
-            if (inPoint  && !otherPlayers[i].inPoint)
-            {
-                timer += Time.deltaTime;
-                if (timer >= 1)
+                if (otherPlayers[i] != otherPlayers[a])
                 {
-                    score += 1;
-                    scoreText.text = "" + score;
-                    scoreIncrease.Play();
-                    timer = 0;
-                }
-            }
-
-        }
-    }
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.gameObject.tag == "Point")
-        {
-            inPoint = true;
-            for(int i =0; i< otherPlayers.Count; ++i)//Used to check if any other player is in the zone
-            {
-                if(!otherPlayers[i].inPoint)
-                {
-                    if (gameObject.tag == "Player")
+                    if (otherPlayers[i].GetinPoint() && otherPlayers[a].GetinPoint() || !otherPlayers[i].GetinPoint() && !otherPlayers[a].GetinPoint())
                     {
-                        point.gameObject.GetComponent<MeshRenderer>().material = materials[1];
+                        timer = 0;
+                        point.gameObject.GetComponent<MeshRenderer>().material = pointMat;
+                        point.GetComponentInChildren<Light>().color = pointMat.color;
+                        otherPlayers[i].SetinPoint(false);
+                        otherPlayers[a].SetinPoint(false);
                     }
-                    if (gameObject.tag == "Player2")
+                    if (otherPlayers[i].GetinPoint() && !resetPoints)
                     {
-                        point.gameObject.GetComponent<MeshRenderer>().material = materials[2];
+                        point.gameObject.GetComponent<MeshRenderer>().material = otherPlayers[i].pointMat;
+                        point.GetComponentInChildren<Light>().color = otherPlayers[i].pointMat.color;
+                        timer += Time.deltaTime;
+                        if (timer >= 1)
+                        {
+                            otherPlayers[i].SetScore(scoreIncreaseValue);
+                            scoreText.text = "" + otherPlayers[i].GetScore();
+                            scoreIncrease.Play();
+                            timer = 0;
+                        }
                     }
-                    if (gameObject.tag == "Player3")
+                    if (otherPlayers[i].GetScore() >= maxScore)
                     {
-                        point.gameObject.GetComponent<MeshRenderer>().material = materials[3];
-                    }
-                    if (gameObject.tag == "Player4")
-                    {
-                        point.gameObject.GetComponent<MeshRenderer>().material = materials[4];
+                        winText.text = otherPlayers[i].tag + " wins";
+                        resetPoints = true;
+                     
                     }
                 }
             }
-          
+           
         }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Point")
+        if (resetPoints == true)
         {
-            inPoint = false;
-            dontAddScore = false;
-            CancelInvoke("AddScore");
-            point.gameObject.GetComponent<MeshRenderer>().material = materials[0];
-            timer = 0;
+            for (int i = 0; i < otherPlayers.Count; i++)
+            {
+                otherPlayers[i].ResetScore(0);
+                resetPointsCounter++;
+                scoreText.text = "" + otherPlayers[i].GetScore();
+            }
+            if(resetPointsCounter >= otherPlayers.Count)
+            {
+                resetPoints = false;
+                point.MovePoint();
+            }
         }
     }
-    void AddScore()
+    public bool GetresetPoints()
     {
-        score += 1;
-        scoreText.text = "" + score;
-        scoreIncrease.Play();
+        return resetPoints;
+    }
+    public void SetresetPoints(bool _reset)
+    {
+         resetPoints = _reset;
     }
 }

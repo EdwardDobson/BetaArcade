@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PTFLevelManager : MonoBehaviour
   {
+  public GameObject Player;
   public GameObject FlatFloor;
   private int maxX = 50;
   private int maxY = 50;
+  private int playerCount = 0;
   void Start()
     {
     FlatFloor.transform.localScale = new Vector3(maxX, .1f, maxY);
@@ -23,5 +25,44 @@ public class PTFLevelManager : MonoBehaviour
         }
       }
     #endregion
+    CreatePlayer();
+    }
+
+  private void Update()
+    {
+    // DEBUG
+    if (Debug.isDebugBuild)
+      {
+      if (Input.GetKeyDown(KeyCode.P) && playerCount < 4)
+        CreatePlayer();
+      }
+    }
+
+  private void CreatePlayer()
+    {
+    var player = Instantiate(Player);
+    player.transform.position = new Vector3(5 * playerCount, .8f, 0);
+    playerCount++;
+    player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
+    player.GetComponent<PlayerMove>().ID = playerCount;
+    }
+
+  private Color PlayerIDToColor(int id)
+    {
+    switch (id)
+      {
+      case 1:
+        return Color.red;
+      case 2:
+        return Color.yellow;
+      case 3:
+        return Color.green;
+      case 4:
+        return Color.blue;
+      default:
+        Debug.LogError("Player has no ID");
+        break;
+      }
+    return Color.clear;
     }
   }
