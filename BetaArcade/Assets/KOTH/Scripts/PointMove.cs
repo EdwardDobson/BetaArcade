@@ -13,18 +13,20 @@ public class PointMove : MonoBehaviour
     int pointID;
     [SerializeField]
     int pointAmount = 0;
+    int pointResetCounter;
     bool moved;
+    ScoreManager scoreManager;
     // Start is called before the first frame update
     void Start()
     {
         previousPos = transform;
-        
+        scoreManager = GetComponent<ScoreManager>();
         InvokeRepeating("MovePoint", 1, 5);
         pointsHolder = GameObject.Find("Points");
         for(int i =0; i< pointAmount; ++i)
         {
             points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
-         
+            transform.position = pointsHolder.GetComponent<Transform>().GetChild(0).position;
         }
         moveText = GameObject.Find("MoveText").GetComponent<TextMeshProUGUI>();
     }
@@ -37,16 +39,17 @@ public class PointMove : MonoBehaviour
             for (int i = 0; i < pointAmount; ++i)
             {
                 points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
+                pointResetCounter++;
             }
+            
         }
     }
-    void MovePoint()
+   public void MovePoint()
     {
         if(!moved)
         {
             for (int i = 0; i < 1; ++i)
             {
-            
                 previousPos.position = transform.position;
                 pointID = Random.Range(0, points.Count);
                 transform.position = points[pointID].transform.position;
@@ -56,8 +59,6 @@ public class PointMove : MonoBehaviour
                 StartCoroutine(HideText());
             }
         }
-   
-    
     }
     IEnumerator HideText()
     {
