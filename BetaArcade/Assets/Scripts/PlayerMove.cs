@@ -49,6 +49,7 @@ public class PlayerMove : MonoBehaviour
                 }
             }
             float moveHorizontal = Input.GetAxis(HorizontalPlayer);
+            Debug.Log(moveHorizontal);
             float moveVertical = Input.GetAxis(VerticalPlayer);
             movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
             rb.AddForce(movement * speed);
