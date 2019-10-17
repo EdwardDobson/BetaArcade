@@ -14,6 +14,14 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody rb;
     private bool isGrounded;
     private bool hasDashed;
+
+    public string HorizontalPlayer = "Horizontal_P1";
+    public string VerticalPlayer = "Vertical_P1";
+    public string Jump = "Jump_P1";
+    public string Dash = "Dash_P1";
+    public string MouseX = "Mouse X_P1";
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,23 +33,23 @@ public class PlayerMove : MonoBehaviour
     {
         if(isGrounded)
         {
-            if (Input.GetButton("Jump"))
+            if (Input.GetButton(Jump))
             {
                 rb.AddForce(Vector3.up * jumpSpeed);
 
             }
-            if (Input.GetButton("Dash") && !hasDashed)
+            if (Input.GetButton(Dash) && !hasDashed)
             {
                 rb.AddForce(movement * dashSpeed, ForceMode.Impulse);
                 hasDashed = true;
                 StartCoroutine(ResetDash());
             }
         }
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        float moveHorizontal = Input.GetAxis(HorizontalPlayer);
+        float moveVertical = Input.GetAxis(VerticalPlayer);
         movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
         rb.AddForce(movement * speed);
-        rotateDirection = new Vector3(0, Input.GetAxis("Mouse X"), 0);
+        rotateDirection = new Vector3(0, Input.GetAxis(MouseX), 0);
         rotateDirection *= rotateSpeed;
         transform.Rotate(rotateDirection * Time.deltaTime);
 
