@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PaintballScript : MonoBehaviour
   {
+  public Color Color;
   private void OnCollisionEnter(Collision collision)
     {
-    var color = gameObject.GetComponent<Renderer>().material.color;
+    var color = gameObject.GetComponent<Renderer>().material.GetColor("_BaseColor");
 
     var renderer = collision.gameObject.GetComponent<Renderer>();
     if(renderer != null)
@@ -18,6 +19,7 @@ public class PaintballScript : MonoBehaviour
 
   private void Start()
     {
+    GetComponent<Renderer>().material.SetColor("_BaseColor", Color);
     StartCoroutine(DeleteAfterTime(5f));
     }
 
