@@ -3,69 +3,71 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
-  {
-  private float speed = 20.0f;
-  private float jumpSpeed = 80.0f;
-  private float rotationSpeed = 12.5f;
-  private float dashSpeed = 8.0f;
-  private Vector3 moveDirection = Vector3.zero;
-  private Vector3 movement;
-  private Rigidbody rb;
-  private bool isGrounded;
-  private bool hasDashed;
-  // Start is called before the first frame update
-  void Start()
+{
+    public int ID;
+
+    private float speed = 20.0f;
+    private float jumpSpeed = 80.0f;
+    private float rotationSpeed = 12.5f;
+    private float dashSpeed = 8.0f;
+    private Vector3 moveDirection = Vector3.zero;
+    private Vector3 movement;
+    private Rigidbody rb;
+    private bool isGrounded;
+    private bool hasDashed;
+    // Start is called before the first frame update
+    void Start()
     {
-    rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
 
-  // Update is called once per frame
-  void FixedUpdate()
+    // Update is called once per frame
+    void FixedUpdate()
     {
-    if (isGrounded)
-      {
-      if (Input.GetButton("Jump"))
+        if (isGrounded)
         {
-        rb.AddForce(Vector3.up * jumpSpeed);
+            if (Input.GetButton("Jump" + ID))
+            {
+                rb.AddForce(Vector3.up * jumpSpeed);
 
+            }
+            if (Input.GetButton("Dash" + ID) && !hasDashed)
+            {
+                rb.AddForce(movement * dashSpeed, ForceMode.Impulse);
+                hasDashed = true;
+                StartCoroutine(ResetDash());
+            }
         }
-      if (Input.GetButton("Dash") && !hasDashed)
+        float moveHorizontal = Input.GetAxis("Horizontal" + ID);
+        float moveVertical = Input.GetAxis("Vertical" + ID);
+        movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        rb.AddForce(movement * speed);
+
+        Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
+
+        if (lookDir.magnitude > 0.5)
         {
-        rb.AddForce(movement * dashSpeed, ForceMode.Impulse);
-        hasDashed = true;
-        StartCoroutine(ResetDash());
+            Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
+            transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
         }
-      }
-    float moveHorizontal = Input.GetAxis("Horizontal");
-    float moveVertical = Input.GetAxis("Vertical");
-    movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-    rb.AddForce(movement * speed);
-
-    Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X"), 0, -Input.GetAxis("Mouse Y"));
-
-    if (lookDir.magnitude > 0.5)
-      {
-      Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
-      transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
-      }
     }
-  IEnumerator ResetDash()
+    IEnumerator ResetDash()
     {
-    yield return new WaitForSeconds(0.5f);
-    hasDashed = false;
+        yield return new WaitForSeconds(0.5f);
+        hasDashed = false;
     }
-  private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-    if (collision.gameObject.tag == "Ground")
-      {
-      isGrounded = true;
-      }
+        if (collision.gameObject.tag == "Ground")
+        {
+            isGrounded = true;
+        }
     }
-  private void OnCollisionExit(Collision collision)
+    private void OnCollisionExit(Collision collision)
     {
-    if (collision.gameObject.tag == "Ground")
-      {
-      isGrounded = false;
-      }
+        if (collision.gameObject.tag == "Ground")
+        {
+            isGrounded = false;
+        }
     }
-  }
+}
