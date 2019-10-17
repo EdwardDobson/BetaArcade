@@ -8,12 +8,16 @@ public class PointCollide : MonoBehaviour
     [SerializeField]
     int score;
     public Material pointMat;
- 
+    private void Start()
+    {
+        pointMat = GetComponent<Renderer>().material;
+    }
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Point")
         {
             inPoint = true;
+
         }
     }
     private void OnTriggerExit(Collider other)

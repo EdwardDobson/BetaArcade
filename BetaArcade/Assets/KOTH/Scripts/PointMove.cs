@@ -13,7 +13,8 @@ public class PointMove : MonoBehaviour
     int pointID;
     [SerializeField]
     int pointAmount = 0;
-    int pointResetCounter;
+    [SerializeField]
+    int movePointSpeed = 0;
     bool moved;
     ScoreManager scoreManager;
     // Start is called before the first frame update
@@ -21,7 +22,7 @@ public class PointMove : MonoBehaviour
     {
         previousPos = transform;
         scoreManager = GetComponent<ScoreManager>();
-        InvokeRepeating("MovePoint", 1, 5);
+        InvokeRepeating("MovePoint", 1, movePointSpeed);
         pointsHolder = GameObject.Find("Points");
         for(int i =0; i< pointAmount; ++i)
         {
@@ -39,7 +40,6 @@ public class PointMove : MonoBehaviour
             for (int i = 0; i < pointAmount; ++i)
             {
                 points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
-                pointResetCounter++;
             }
             
         }
