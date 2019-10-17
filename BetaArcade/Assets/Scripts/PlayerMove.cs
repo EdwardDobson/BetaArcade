@@ -3,18 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
-  {
-  private float speed = 20.0f;
-  private float jumpSpeed = 80.0f;
-  private float rotationSpeed = 12.5f;
-  private float dashSpeed = 8.0f;
-  private Vector3 moveDirection = Vector3.zero;
-  private Vector3 movement;
-  private Rigidbody rb;
-  private bool isGrounded;
-  private bool hasDashed;
-  // Start is called before the first frame update
-  void Start()
+{
+    private float speed = 20.0f;
+    private float jumpSpeed = 80.0f;
+    private float rotateSpeed = 75.0f;
+    private float dashSpeed = 8.0f;
+    private Vector3 moveDirection = Vector3.zero;
+    private Vector3 rotateDirection = Vector3.zero;
+    private Vector3 movement;
+    private Rigidbody rb;
+    private bool isGrounded;
+    private bool hasDashed;
+
+    public string HorizontalPlayer = "Horizontal_P1";
+    public string VerticalPlayer = "Vertical_P1";
+    public string Jump = "Jump_P1";
+    public string Dash = "Dash_P1";
+    public string MouseX = "Mouse X_P1";
+
+
+    // Start is called before the first frame update
+    void Start()
     {
     rb = GetComponent<Rigidbody>();
     }
@@ -26,20 +35,25 @@ public class PlayerMove : MonoBehaviour
       {
       if (Input.GetButton("Jump"))
         {
-        rb.AddForce(Vector3.up * jumpSpeed);
+            if (Input.GetButton(Jump))
+            {
+                rb.AddForce(Vector3.up * jumpSpeed);
 
+            }
+            if (Input.GetButton(Dash) && !hasDashed)
+            {
+                rb.AddForce(movement * dashSpeed, ForceMode.Impulse);
+                hasDashed = true;
+                StartCoroutine(ResetDash());
+            }
         }
-      if (Input.GetButton("Dash") && !hasDashed)
-        {
-        rb.AddForce(movement * dashSpeed, ForceMode.Impulse);
-        hasDashed = true;
-        StartCoroutine(ResetDash());
-        }
-      }
-    float moveHorizontal = Input.GetAxis("Horizontal");
-    float moveVertical = Input.GetAxis("Vertical");
-    movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-    rb.AddForce(movement * speed);
+        float moveHorizontal = Input.GetAxis(HorizontalPlayer);
+        float moveVertical = Input.GetAxis(VerticalPlayer);
+        movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        rb.AddForce(movement * speed);
+        rotateDirection = new Vector3(0, Input.GetAxis(MouseX), 0);
+        rotateDirection *= rotateSpeed;
+        transform.Rotate(rotateDirection * Time.deltaTime);
 
     Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X"), 0, -Input.GetAxis("Mouse Y"));
 
