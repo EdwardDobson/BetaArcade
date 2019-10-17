@@ -9,8 +9,11 @@ public class PaintballScript : MonoBehaviour
     var color = gameObject.GetComponent<Renderer>().material.color;
 
     var renderer = collision.gameObject.GetComponent<Renderer>();
-    renderer.material.SetColor("_BaseColor", color);
-    Destroy(gameObject);
+    if(renderer != null)
+      {
+      renderer.material.SetColor("_BaseColor", color);
+      Destroy(gameObject);
+      }
     }
 
   private void Start()
