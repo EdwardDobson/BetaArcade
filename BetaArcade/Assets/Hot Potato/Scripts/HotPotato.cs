@@ -40,6 +40,7 @@ public class HotPotato : MonoBehaviour
                 break;
             }
         }
+        currentRound++;
         maxRound = gameManager.GetNumberOfRounds();
         roundText.text = "Round: 1 of " + maxRound;
         InvokeRepeating("BombTimer", 0, 1);
@@ -83,7 +84,6 @@ public class HotPotato : MonoBehaviour
                             gameManager.SetPlayerFourScore(1);
                         }
                         increaseInactivePlayers = 0;
-                        currentRound++;
                         currentRound++;
                     }
 
