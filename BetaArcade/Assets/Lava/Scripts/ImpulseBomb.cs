@@ -11,24 +11,18 @@ public class ImpulseBomb : MonoBehaviour
 
 	[SerializeField]
 	private float fuseTimer = 5.0f;
-	private bool hasDetonated = false;
 
 	void Start()
 	{
 
-
+		Invoke("Explosion", fuseTimer);
 	}
 
 	void FixedUpdate()
 	{
-		fuseTimer -= Time.deltaTime;
-		//play an effect and speed it up closer to the time methinks
-		if (fuseTimer <= 0 && !hasDetonated)
-		{
-			hasDetonated = true;
-			Explosion();
-		}
+
 	}
+
 	void Explosion()
 	{
 		Vector3 explosionPos = bomb.transform.position;

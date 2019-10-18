@@ -5,12 +5,19 @@ using UnityEngine;
 public class Lava : MonoBehaviour
 {
 	[SerializeField]
-	float lavaTime = 120.0f; //replace with global timer
+	private float lavaTime = 120.0f; //replace with global timer
 	bool hasStopped = false;
 	float riseRate = 0.0f; //set default
 	[SerializeField]
-	float defaultRiseRate = 0.1f; //could be influenced by a difficulty option?
-								  // Start is called before the first frame update
+	private float defaultRiseRate = 0.1f; //could be influenced by a difficulty option?
+	[SerializeField]
+	List<GameObject> spawnPoints = new List<GameObject>();
+	int previousSpawn = 0;
+	[SerializeField]
+	int maxSpawns = 0;
+	int i = 0;
+	public GameObject PlatformObject;
+
 	void Start()
 	{
 		riseRate = defaultRiseRate;
@@ -29,7 +36,14 @@ public class Lava : MonoBehaviour
 	{
 		while(true)
 		{
-			yield return new WaitForSeconds (5.0f);
+			i = Random.Range(0, maxSpawns);
+			while (i==previousSpawn)
+			{
+				i = Random.Range(0, maxSpawns);
+			}
+			Instantiate(PlatformObject, spawnPoints[i].transform.position, Quaternion.identity);
+			previousSpawn = i;
+			yield return new WaitForSeconds (15.0f);
 		}
 	}
 	// Update is called once per frame
