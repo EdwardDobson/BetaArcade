@@ -52,6 +52,7 @@ public class ScoreManager : MonoBehaviour
         maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         roundText.text = "Round: 1 of " + maxRound;
+        currentRound++;
     }
 
     // Update is called once per frame
@@ -119,7 +120,6 @@ public class ScoreManager : MonoBehaviour
                     playerFourInGameScore++;
                 }
                 winText.text = otherPlayers[i].tag + " wins the round";
-                currentRound++;
                 currentRound++;
                 roundText.text = "Round: " + currentRound + " of " + maxRound;
                 resetPoints = true;
