@@ -2,13 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
+using TMPro;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
     List<int> levelPlaylist = new List<int>();
+    [SerializeField]
+    public List<Transform> Portraits = new List<Transform>();
+    public List<GameObject> PlayerUIs = new List<GameObject>();
+    public GameObject PlayerUI;
     int currentSceneID = 0;//Represents the element id
-    int numberOfRounds = 0;//Set in lobby menu
+    int numberOfRounds = 2;//Set in lobby menu
+    int playerTotal = 4;
+    int playerCount = 0;
     GameObject winScreen;
     #region Scores
     //Manage your own rounds within your game scene then when somebody wins the round add to these values
@@ -21,6 +28,21 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         winScreen = transform.GetChild(0).gameObject;
+        if(playerCount < 4)
+        {
+            for (int i = 0; i < playerTotal; ++i)
+            {
+                CreatePlayerUI();
+                //Hides ui for the main menu
+                /*
+                foreach (Transform child in GameObject.Find("PlayerUI").transform.GetChild(1).transform)
+                {
+                    child.gameObject.SetActive(false);
+                }
+                */
+            }
+        }
+    
     }
 
     // Update is called once per frame
@@ -35,6 +57,41 @@ public class GameManager : MonoBehaviour
 
             }
         }
+    }
+    public void CreatePlayerUI()
+    {
+        GameObject playerUI = Instantiate(PlayerUI);
+        if (playerCount == 0)
+        {
+            playerUI.GetComponent<Image>().color = Color.red;
+            playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 0.3f);
+            playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.red;
+        }
+        if (playerCount == 1)
+        {
+            playerUI.GetComponent<Image>().color = Color.yellow;
+            playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 0, 0.3f);
+            playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.yellow;
+        }
+        if (playerCount == 2)
+        {
+            playerUI.GetComponent<Image>().color = Color.green;
+            playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 0.3f);
+            playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.green;
+        }
+        if (playerCount == 3)
+        {
+            playerUI.GetComponent<Image>().color = Color.blue;
+            playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 0.3f);
+            playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.blue;
+        }
+        playerUI.transform.position = Portraits[playerCount].position;
+        playerCount++;
+        playerUI.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        playerUI.transform.GetChild(2).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        playerUI.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: 0 ";
+        playerUI.transform.SetParent(GameObject.Find("PlayerUI").transform.GetChild(1).transform);
+        PlayerUIs.Add(playerUI);
     }
     public void CreatePlaylist(int _levelID)//Used to create the playlist of levels
     {
@@ -75,6 +132,17 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
+        //Used to reactive the player uis in the main menu
+        /* 
+        foreach (Transform child in GameObject.Find("PlayerUI").transform.GetChild(1).transform)
+        {
+            for(int i = 0; i< playerTotal; ++i)
+            {
+
+            child.gameObject.SetActive(true);
+            }
+        }
+        */
     }
   
     #region ScoreSetters

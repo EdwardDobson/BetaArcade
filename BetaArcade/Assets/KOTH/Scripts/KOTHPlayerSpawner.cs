@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 public class KOTHPlayerSpawner : MonoBehaviour
 {
     public GameObject Player;
@@ -33,27 +34,23 @@ public class KOTHPlayerSpawner : MonoBehaviour
     public void CreatePlayer()
     {
         GameObject player = Instantiate(Player);
-        if(playerCount == 0)
+        if (playerCount == 0)
         {
             player.tag = "Player1";
-            player.transform.position = SpawnPoints[0].position;
         }
         if (playerCount == 1)
         {
             player.tag = "Player2";
-            player.transform.position = SpawnPoints[1].position;
         }
         if (playerCount == 2)
         {
             player.tag = "Player3";
-            player.transform.position = SpawnPoints[2].position;
         }
         if (playerCount == 3)
         {
             player.tag = "Player4";
-            player.transform.position = SpawnPoints[3].position;
         }
-
+        player.transform.position = SpawnPoints[playerCount].position;
         playerCount++;
         player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
         player.GetComponent<PlayerMove>().ID = playerCount;

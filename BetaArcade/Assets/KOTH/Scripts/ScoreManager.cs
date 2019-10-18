@@ -6,8 +6,8 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
     TextMeshProUGUI winText;
-    TextMeshProUGUI scoreText;
     TextMeshProUGUI inPointText;
+    TextMeshProUGUI roundText;
     public int maxScore;
     bool resetPoints = false;
     bool canGainPoints = true;
@@ -19,6 +19,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField]
     public Material pointMat;
     AudioSource scoreIncrease;
+    [SerializeField]
     int inPointCount;
     KOTHPlayerSpawner KOTHPlayerSpawner;
     [SerializeField]
@@ -35,38 +36,43 @@ public class ScoreManager : MonoBehaviour
     [SerializeField]
     int currentRound;
     [SerializeField]
-    int maxRound = 0; 
+    int maxRound = 0;
+    GameManager gameManager;
+    bool endGameMode = false;
+    int tempPointCount;
     // Start is called before the first frame update
     void Start()
     {
         point = GetComponent<PointMove>();
-        scoreText = GameObject.Find("Counter").GetComponent<TextMeshProUGUI>();
+        roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
-        scoreText.text = "0";
         winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
         inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
         KOTHPlayerSpawner = GetComponent<KOTHPlayerSpawner>();
-        //maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
+        maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        roundText.text = "Round: 1 of " + maxRound;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(canGainPoints && currentRound < maxRound)
+        if(canGainPoints && currentRound <= maxRound && !endGameMode)
         {
-
-        AddScore();
+            AddScore();
         }
-        if(currentRound >= maxRound)
+        if(currentRound > maxRound)
         {
             inPointText.text = "";
-          
+            roundText.text = "";
+            endGameMode = true;
         }
 
 
     }
     void AddScore()
     {
+       
         for (int i = 0; i < otherPlayers.Count; ++i)//Used to check if any other player is in the zone
         {
             if (inPointCount <= 1 && otherPlayers[i].GetComponent<PointCollide>().GetScore() != maxScore)
@@ -79,7 +85,7 @@ public class ScoreManager : MonoBehaviour
                     if (timer >= 1)
                     {
                         otherPlayers[i].GetComponent<PointCollide>().SetScore(scoreIncreaseValue);
-                        scoreText.text = "" + otherPlayers[i].GetComponent<PointCollide>().GetScore();
+                        gameManager.PlayerUIs[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: " + otherPlayers[i].GetComponent<PointCollide>().GetScore();
                         scoreIncrease.Play();
                         timer = 0;
                     }
@@ -94,23 +100,28 @@ public class ScoreManager : MonoBehaviour
             {
                 if(otherPlayers[i].tag == "Player1")
                 {
+                    gameManager.SetPlayerOneScore(1);
                     playerOneInGameScore++;
                 }
                 if (otherPlayers[i].tag == "Player2")
                 {
+                    gameManager.SetPlayerTwoScore(1);
                     playerTwoInGameScore++;
                 }
                 if (otherPlayers[i].tag == "Player3")
                 {
+                    gameManager.SetPlayerThreeScore(1);
                     playerThreeInGameScore++;
                 }
                 if (otherPlayers[i].tag == "Player4")
                 {
+                    gameManager.SetPlayerFourScore(1);
                     playerFourInGameScore++;
                 }
                 winText.text = otherPlayers[i].tag + " wins the round";
-             
                 currentRound++;
+                currentRound++;
+                roundText.text = "Round: " + currentRound + " of " + maxRound;
                 resetPoints = true;
             }
         }
@@ -119,8 +130,8 @@ public class ScoreManager : MonoBehaviour
             for (int i = 0; i < otherPlayers.Count; i++)
             {
                 otherPlayers[i].GetComponent<PointCollide>().ResetScore(0);
+                gameManager.PlayerUIs[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: 0";
                 resetPointsCounter++;
-                scoreText.text = "" + otherPlayers[i].GetComponent<PointCollide>().GetScore();
                 canGainPoints = false;
                 otherPlayers[i].transform.position = KOTHPlayerSpawner.SpawnPoints[i].position;
                 inPointText.text = "";
@@ -168,13 +179,13 @@ public class ScoreManager : MonoBehaviour
         }
         if (other.gameObject.tag == "Player4")
         {
-            inPointCount++;
+            inPointCount--;
         }
+ 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-     
         if (other.gameObject.tag == "Player1")
         {
             inPointCount++;
