@@ -19,9 +19,13 @@ public class GameManager : MonoBehaviour
     GameObject winScreen;
     #region Scores
     //Manage your own rounds within your game scene then when somebody wins the round add to these values
+    [SerializeField]
     int playerOneScore = 0;
+    [SerializeField]
     int playerTwoScore = 0;
+    [SerializeField]
     int playerThreeScore = 0;
+    [SerializeField]
     int playerFourScore = 0;
     #endregion
     // Start is called before the first frame update
@@ -33,6 +37,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < playerTotal; ++i)
             {
                 CreatePlayerUI();
+                
                 //Hides ui for the main menu
                 /*
                 foreach (Transform child in GameObject.Find("PlayerUI").transform.GetChild(1).transform)
@@ -89,7 +94,7 @@ public class GameManager : MonoBehaviour
         playerCount++;
         playerUI.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(2).GetComponent<Image>().color = new Color(1, 1, 1, 0);
-        playerUI.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: 0 ";
+   
         playerUI.transform.SetParent(GameObject.Find("PlayerUI").transform.GetChild(1).transform);
         PlayerUIs.Add(playerUI);
     }
