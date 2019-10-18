@@ -12,7 +12,7 @@ public class PlayerHotPotato : MonoBehaviour
     GameObject bombImage;
     void Start()
     {
-        bombImage = transform.GetChild(0).GetChild(0).gameObject;
+        bombImage = transform.GetChild(1).GetChild(0).gameObject;
     }
 
     // Update is called once per frame
@@ -23,7 +23,12 @@ public class PlayerHotPotato : MonoBehaviour
             bombImage.SetActive(true);
             canTakeBomb = false;
         }
-        else bombImage.SetActive(false);
+        if(!hasBomb)
+        {
+            bombImage.SetActive(false);
+            canTakeBomb = true;
+        }
+     
     }
     public void SetHasBomb(bool _bool)
     {
@@ -78,6 +83,7 @@ public class PlayerHotPotato : MonoBehaviour
                 StartCoroutine(ResetPlayerMovement());
                 hasBomb = true;
             }
+            Debug.Log("1");
         }
         if (other.gameObject.tag == "Player2")
         {
@@ -92,6 +98,7 @@ public class PlayerHotPotato : MonoBehaviour
                 StartCoroutine(ResetPlayerMovement());
                 hasBomb = true;
             }
+            Debug.Log("2");
         }
         if (other.gameObject.tag == "Player3")
         {
@@ -106,6 +113,7 @@ public class PlayerHotPotato : MonoBehaviour
                 StartCoroutine(ResetPlayerMovement());
                 hasBomb = true;
             }
+            Debug.Log("3");
         }
         if (other.gameObject.tag == "Player4")
         {
@@ -120,6 +128,7 @@ public class PlayerHotPotato : MonoBehaviour
                 StartCoroutine(ResetPlayerMovement());
                 hasBomb = true;
             }
+            Debug.Log("4");
         }
     }
     IEnumerator ResetCanTakeBomb()
