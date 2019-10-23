@@ -12,7 +12,7 @@ public class CameraFollow : MonoBehaviour
   private Transform[] m_Players;
   void FixedUpdate()
     {
-    m_Players = GameObject.FindGameObjectsWithTag("Player").Select(x => x.transform).ToArray();
+    m_Players = GameObject.FindObjectsOfType(typeof(GameObject)).Where(x => (x as GameObject).tag.ToLower().Contains("player")).Select(x => (x as GameObject).transform).ToArray();
     if(m_Players.Length > 0)
       Move();
     }
