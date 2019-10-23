@@ -13,7 +13,8 @@ public class CameraFollow : MonoBehaviour
   void FixedUpdate()
     {
     m_Players = GameObject.FindGameObjectsWithTag("Player").Select(x => x.transform).ToArray();
-    Move();
+    if(m_Players.Length > 0)
+      Move();
     }
 
   Vector3 GetCenterPoint()
