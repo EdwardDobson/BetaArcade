@@ -7,12 +7,15 @@ public class PTFMovement : MonoBehaviour
   public GameObject ShootingObject;
   public GameObject PaintBall;
 
+  public AudioClip ShotSound;
+
+  public int Score = 0;
+
   private float m_AimRotateSpeed = .3f;
   private float m_ShotPower = 10f;
   private Transform m_FirePoint;
   private bool m_CanShoot = true;
   private PlayerMove m_PlayerMoveScript;
-  public int Score = 0;
   private void Start()
     {
     m_FirePoint = ShootingObject.transform.GetChild(0);
@@ -54,6 +57,8 @@ public class PTFMovement : MonoBehaviour
     paintBall.GetComponent<PaintballScript>().Color = GetComponent<Renderer>().material.GetColor("_BaseColor");
     paintBall.transform.position = m_FirePoint.position;
     paintBall.GetComponent<Rigidbody>().AddForce(m_FirePoint.forward * m_ShotPower, ForceMode.Impulse);
+
+    GetComponent<AudioSource>().PlayOneShot(ShotSound);
     }
 
   IEnumerator ShotDelay()
