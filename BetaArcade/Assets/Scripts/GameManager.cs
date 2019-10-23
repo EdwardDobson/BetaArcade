@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     int playerTotal = 4;
     int playerCount = 0;
     GameObject winScreen;
+
     #region Scores
     //Manage your own rounds within your game scene then when somebody wins the round add to these values
     [SerializeField]
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
         winScreen = transform.GetChild(0).gameObject;
         if(playerCount < 4)
         {
@@ -62,6 +64,10 @@ public class GameManager : MonoBehaviour
 
             }
         }
+    }
+    public int GetPlayerCount()
+    {
+        return playerCount;
     }
     public void CreatePlayerUI()
     {

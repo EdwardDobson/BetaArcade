@@ -9,14 +9,18 @@ public class KOTHPlayerSpawner : MonoBehaviour
     [SerializeField]
     public List<Transform> SpawnPoints = new List<Transform>();
     ScoreManager scoreManager;
+    Transform playerHolder;
     private int playerCount = 0;
+    GameManager gameManager;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
+        playerHolder = GameObject.Find("PlayerHolder").transform;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         scoreManager = GetComponent<ScoreManager>();
-        if (playerCount < 4)
+        if (playerCount < gameManager.GetPlayerCount())
         {
-            for(int i = 0; i<4; ++i)
+            for(int i = 0; i< gameManager.GetPlayerCount(); ++i)
             {
                 CreatePlayer();
              
@@ -54,6 +58,7 @@ public class KOTHPlayerSpawner : MonoBehaviour
         playerCount++;
         player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
         player.GetComponent<PlayerMove>().ID = playerCount;
+        player.transform.SetParent(playerHolder);
         scoreManager.otherPlayers.Add(player);
     }
     private Color PlayerIDToColor(int id)
@@ -73,5 +78,9 @@ public class KOTHPlayerSpawner : MonoBehaviour
                 break;
         }
         return Color.clear;
+    }
+    public Transform GetPlayerHolderTransform()
+    {
+        return playerHolder;
     }
 }

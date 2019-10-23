@@ -24,14 +24,6 @@ public class ScoreManager : MonoBehaviour
     KOTHPlayerSpawner KOTHPlayerSpawner;
     [SerializeField]
     public List<GameObject> otherPlayers = new List<GameObject>();
-    [SerializeField]
-    int playerOneInGameScore;
-    [SerializeField]
-    int playerTwoInGameScore;
-    [SerializeField]
-    int playerThreeInGameScore;
-    [SerializeField]
-    int playerFourInGameScore;
     //temp values
     [SerializeField]
     int currentRound;
@@ -39,10 +31,11 @@ public class ScoreManager : MonoBehaviour
     int maxRound = 0;
     GameManager gameManager;
     bool endGameMode = false;
-    int tempPointCount;
+  
     // Start is called before the first frame update
     void Start()
     {
+
         point = GetComponent<PointMove>();
         roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
@@ -68,8 +61,35 @@ public class ScoreManager : MonoBehaviour
             roundText.text = "";
             endGameMode = true;
         }
+        foreach(Transform child in KOTHPlayerSpawner.GetPlayerHolderTransform())
+        {
+            if(!child.gameObject.activeSelf)
+            {
+                StartCoroutine(RespawnPlayer(child));
+            }
+        }
 
-
+    }
+    IEnumerator RespawnPlayer(Transform _child)
+    {
+        yield return new WaitForSeconds(3);
+        _child.gameObject.SetActive(true);
+        if (_child.tag == "Player1")
+        {
+            _child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[0].position;
+        }
+        if (_child.tag == "Player2")
+        {
+            _child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[1].position;
+        }
+        if (_child.tag == "Player3")
+        {
+            _child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[2].position;
+        }
+        if (_child.tag == "Player4")
+        {
+            _child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[3].position;
+        }
     }
     void AddScore()
     {
@@ -102,26 +122,23 @@ public class ScoreManager : MonoBehaviour
                 if(otherPlayers[i].tag == "Player1")
                 {
                     gameManager.SetPlayerOneScore(1);
-                    playerOneInGameScore++;
                 }
                 if (otherPlayers[i].tag == "Player2")
                 {
                     gameManager.SetPlayerTwoScore(1);
-                    playerTwoInGameScore++;
                 }
                 if (otherPlayers[i].tag == "Player3")
                 {
                     gameManager.SetPlayerThreeScore(1);
-                    playerThreeInGameScore++;
                 }
                 if (otherPlayers[i].tag == "Player4")
                 {
                     gameManager.SetPlayerFourScore(1);
-                    playerFourInGameScore++;
                 }
                 winText.text = otherPlayers[i].tag + " wins the round";
                 currentRound++;
                 roundText.text = "Round: " + currentRound + " of " + maxRound;
+             
                 resetPoints = true;
             }
         }
@@ -135,6 +152,13 @@ public class ScoreManager : MonoBehaviour
                 canGainPoints = false;
                 otherPlayers[i].transform.position = KOTHPlayerSpawner.SpawnPoints[i].position;
                 inPointText.text = "";
+                foreach(Transform child in KOTHPlayerSpawner.GetPlayerHolderTransform())
+                {
+                    if (!otherPlayers[i].activeSelf)
+                    {
+                        otherPlayers[i].SetActive(true);
+                    }
+                }
             }
             if (resetPointsCounter >= otherPlayers.Count)
             {
