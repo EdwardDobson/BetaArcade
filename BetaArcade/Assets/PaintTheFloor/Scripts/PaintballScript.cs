@@ -12,6 +12,16 @@ public class PaintballScript : MonoBehaviour
     var renderer = collision.gameObject.GetComponent<Renderer>();
     if(renderer != null)
       {
+      GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+      
+      foreach(var player in players)
+        {
+        if (player.GetComponent<Renderer>().material.GetColor("_BaseColor") == renderer.material.GetColor("_BaseColor"))
+          player.GetComponent<PTFMovement>().Score--;
+        if (player.GetComponent<Renderer>().material.GetColor("_BaseColor") == color)
+          player.GetComponent<PTFMovement>().Score++;
+        }
+
       renderer.material.SetColor("_BaseColor", color);
       Destroy(gameObject);
       }

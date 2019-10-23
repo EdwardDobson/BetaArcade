@@ -12,6 +12,7 @@ public class PTFMovement : MonoBehaviour
   private Transform m_FirePoint;
   private bool m_CanShoot = true;
   private PlayerMove m_PlayerMoveScript;
+  public int Score = 0;
   private void Start()
     {
     m_FirePoint = ShootingObject.transform.GetChild(0);
