@@ -9,21 +9,30 @@ public class HOTPotatoSpawner : MonoBehaviour
     public List<Transform> SpawnPoints = new List<Transform>();
     private int playerCount = 0;
     HotPotato hotPotato;
+    GameManager gameManager;
     // Start is called before the first frame update
+
     void Awake()
     {
+        Invoke("LateStart", 0.1f);
+    }
+    private void LateStart()
+    { 
+     gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         hotPotato = GetComponent<HotPotato>();
-        if (playerCount < 4)
+        if (playerCount < gameManager.GetPlayerCount())
         {
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
             {
                 CreatePlayer();
-
+                Debug.Log("asd");
             }
 
         }
+    
     }
 
+    
     // Update is called once per frame
     void Update()
     {

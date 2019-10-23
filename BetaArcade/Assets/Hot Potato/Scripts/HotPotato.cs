@@ -27,12 +27,17 @@ public class HotPotato : MonoBehaviour
     void Start()
     {
 
+        Invoke("LateStart", 0.1f);
+        InvokeRepeating("BombTimer", 0, 1);
+    }
+    void LateStart()
+    {
         roundText = GameObject.Find("RoundText").GetComponent<TextMeshProUGUI>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         currentBombTimer = maxBombTimer;
-        for (int i = 0; i < players.Count; ++i)
+        for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
         {
-            int randomBombPick = Random.Range(0, players.Count);
+            int randomBombPick = Random.Range(0, gameManager.GetPlayerCount());
             if (!players[randomBombPick].GetComponent<PlayerHotPotato>().HasBomb())
             {
                 players[randomBombPick].GetComponent<PlayerHotPotato>().SetHasBomb(true);
@@ -43,7 +48,6 @@ public class HotPotato : MonoBehaviour
         currentRound++;
         maxRound = gameManager.GetNumberOfRounds();
         roundText.text = "Round: 1 of " + maxRound;
-        InvokeRepeating("BombTimer", 0, 1);
     }
     void BombTimer()
     {
@@ -60,10 +64,10 @@ public class HotPotato : MonoBehaviour
         }
         if (!endGameMode)
         {
-            if (increaseInactivePlayers >= 3)
+            if (increaseInactivePlayers >= gameManager.GetPlayerCount()-1)
             {
                 StartCoroutine(ResetRoundCoroutine());
-                for (int i = 0; i < players.Count; ++i)
+                for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
                 {
                     if (players[i].gameObject.activeSelf)
                     {
@@ -90,7 +94,7 @@ public class HotPotato : MonoBehaviour
                 }
             }
             ResetBomb();
-            for (int i = 0; i < players.Count; ++i)
+            for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
             {
                 if (players[i].GetComponent<PlayerHotPotato>().HasBomb())
                 {
@@ -122,7 +126,7 @@ public class HotPotato : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         ResetRound();
-        for (int i = 0; i < players.Count; ++i)
+        for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
         {
             if (players[i].gameObject.activeSelf)
             {
@@ -139,7 +143,7 @@ public class HotPotato : MonoBehaviour
     {
         if (currentBombTimer <= 0)
         {
-            for (int i = 0; i < players.Count; ++i)
+            for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
             {
                 if (players[i].GetComponent<PlayerHotPotato>().HasBomb())
                 {
@@ -160,7 +164,7 @@ public class HotPotato : MonoBehaviour
     }
     void SwitchPlayer()
     {
-        for (int i = 0; i < players.Count; ++i)
+        for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
         {
             int randomIndex = Random.Range(0, players.Count);
             if (players[randomIndex].gameObject.activeSelf)

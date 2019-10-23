@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < playerTotal; ++i)
             {
                 CreatePlayerUI();
+
                 
                 //Hides ui for the main menu
                 /*
