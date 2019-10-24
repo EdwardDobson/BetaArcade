@@ -15,6 +15,12 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody rb;
     private bool isGrounded;
     private bool hasDashed;
+    private bool hasPushed = false;
+    [SerializeField]
+    float shoveForce = 0;
+    [SerializeField]
+    float shoveRadius = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +50,13 @@ public class PlayerMove : MonoBehaviour
         rb.AddForce(movement * speed);
 
         Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
-
+        if(Input.GetButton("Shove" +ID) && !hasPushed)
+        {
+            hasPushed = true;
+            Debug.Log("Shoved");
+            Push();
+            StartCoroutine(ResetShove());
+        }
         if (lookDir.magnitude > 0.5)
         {
             Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
@@ -56,12 +68,31 @@ public class PlayerMove : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         hasDashed = false;
     }
+    IEnumerator ResetShove()
+    {
+        yield return new WaitForSeconds(0.5f);
+        hasPushed = false;
+    }
+    void Push()
+    {
+        Vector3 pushPos = transform.GetChild(1).position;
+        Collider[] colliders = Physics.OverlapBox(pushPos, transform.localScale/4);
+        foreach(Collider hit in colliders)
+        {
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+            if(rb != null)
+            {
+                rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 3.0f);
+            }
+        }
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Ground")
         {
             isGrounded = true;
         }
+     
     }
     private void OnCollisionExit(Collision collision)
     {

@@ -8,6 +8,7 @@ public class ScoreManager : MonoBehaviour
     TextMeshProUGUI winText;
     TextMeshProUGUI inPointText;
     TextMeshProUGUI roundText;
+    TextMeshProUGUI timerText;
     public int maxScore;
     bool resetPoints = false;
     bool canGainPoints = true;
@@ -31,13 +32,16 @@ public class ScoreManager : MonoBehaviour
     int maxRound = 0;
     GameManager gameManager;
     bool endGameMode = false;
-  
+    GameObject PlayerUI;
+    int stopTimerDecreaase;
     // Start is called before the first frame update
     void Start()
     {
-
+        stopTimerDecreaase = 1;
+        PlayerUI = GameObject.Find("PlayerUI").transform.GetChild(1).gameObject;
         point = GetComponent<PointMove>();
         roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
+        timerText = GameObject.Find("timerText").GetComponent<TextMeshProUGUI>();
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
         winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
         inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
@@ -46,29 +50,42 @@ public class ScoreManager : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         roundText.text = "Round: 1 of " + maxRound;
         currentRound++;
+        foreach (Transform t in PlayerUI.transform)
+        {
+            t.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: 0";
+        }
+        timerText.text = "Time: " + gameManager.GetTimer();
+        InvokeRepeating("DecreaseTimerKoth", 0, stopTimerDecreaase);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(canGainPoints && currentRound <= maxRound && !endGameMode)
+        if (canGainPoints && currentRound <= maxRound && !endGameMode)
         {
             AddScore();
+            AddScoreOutOfTime();
+            
         }
-        if(currentRound > maxRound)
+        if (currentRound > maxRound)
         {
             inPointText.text = "";
             roundText.text = "";
             endGameMode = true;
         }
-        foreach(Transform child in KOTHPlayerSpawner.GetPlayerHolderTransform())
+        foreach (Transform child in KOTHPlayerSpawner.GetPlayerHolderTransform())
         {
-            if(!child.gameObject.activeSelf)
+            if (!child.gameObject.activeSelf)
             {
                 StartCoroutine(RespawnPlayer(child));
             }
         }
 
+    }
+    void DecreaseTimerKoth()
+    {
+        gameManager.DecreaseTimer();
+        timerText.text = "Time: " + gameManager.GetTimer();
     }
     IEnumerator RespawnPlayer(Transform _child)
     {
@@ -91,9 +108,111 @@ public class ScoreManager : MonoBehaviour
             _child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[3].position;
         }
     }
+    void AddScoreOutOfTime()
+    {
+        if (gameManager.GetTimer() <= 0)
+        {
+
+            ResetScorePlayers(0, 1, 2, 3);
+            ResetScorePlayers(1, 0, 2, 3);
+            ResetScorePlayers(2, 1, 0, 3);
+            ResetScorePlayers(3, 1, 2, 0);
+
+            currentRound++;
+            roundText.text = "Round: " + currentRound + " of " + maxRound;
+            gameManager.SetTimer(10);
+            resetPoints = true;
+            ResetPoints();
+            stopTimerDecreaase = 0;
+        }
+    }
+    void ResetScorePlayers(int _id, int _id2, int _id3, int _id4)
+    {
+        if (gameManager.GetPlayerCount() == 2)
+        {
+            if (otherPlayers[_id].GetComponent<PointCollide>().GetScore() > otherPlayers[_id2].GetComponent<PointCollide>().GetScore())
+            {
+                if (_id == 0)
+                {
+                    gameManager.SetPlayerOneScore(1);
+                }
+                if (_id == 1)
+                {
+                    gameManager.SetPlayerTwoScore(1);
+                }
+                if (_id == 2)
+                {
+                    gameManager.SetPlayerThreeScore(1);
+                }
+                if (_id == 3)
+                {
+                    gameManager.SetPlayerFourScore(1);
+                }
+                winText.text = otherPlayers[_id].tag + " wins the round";
+            }
+            if (otherPlayers[_id].GetComponent<PointCollide>().GetScore() == otherPlayers[_id2].GetComponent<PointCollide>().GetScore())
+            {
+                winText.text = "Draw ";
+            }
+        }
+        if (gameManager.GetPlayerCount() == 3)
+        {
+            if (otherPlayers[_id].GetComponent<PointCollide>().GetScore() > otherPlayers[_id2].GetComponent<PointCollide>().GetScore() && otherPlayers[_id].GetComponent<PointCollide>().GetScore() > otherPlayers[_id3].GetComponent<PointCollide>().GetScore())
+            {
+                if (_id == 0)
+                {
+                    gameManager.SetPlayerOneScore(1);
+                }
+                if (_id == 1)
+                {
+                    gameManager.SetPlayerTwoScore(1);
+                }
+                if (_id == 2)
+                {
+                    gameManager.SetPlayerThreeScore(1);
+                }
+                if (_id == 3)
+                {
+                    gameManager.SetPlayerFourScore(1);
+                }
+                winText.text = otherPlayers[_id].tag + " wins the round";
+            }
+            if (otherPlayers[_id].GetComponent<PointCollide>().GetScore() == otherPlayers[_id2].GetComponent<PointCollide>().GetScore() && otherPlayers[_id].GetComponent<PointCollide>().GetScore() == otherPlayers[_id3].GetComponent<PointCollide>().GetScore())
+            {
+                winText.text = "Draw ";
+            }
+        }
+        if (gameManager.GetPlayerCount() == 4)
+        {
+            if (otherPlayers[_id].GetComponent<PointCollide>().GetScore() > otherPlayers[_id2].GetComponent<PointCollide>().GetScore() && otherPlayers[_id].GetComponent<PointCollide>().GetScore() > otherPlayers[_id3].GetComponent<PointCollide>().GetScore() && otherPlayers[_id].GetComponent<PointCollide>().GetScore() > otherPlayers[_id4].GetComponent<PointCollide>().GetScore())
+            {
+                if (_id == 0)
+                {
+                    gameManager.SetPlayerOneScore(1);
+                }
+                if (_id == 1)
+                {
+                    gameManager.SetPlayerTwoScore(1);
+                }
+                if (_id == 2)
+                {
+                    gameManager.SetPlayerThreeScore(1);
+                }
+                if (_id == 3)
+                {
+                    gameManager.SetPlayerFourScore(1);
+                }
+                winText.text = otherPlayers[_id].tag + " wins the round";
+            }
+            if (otherPlayers[_id].GetComponent<PointCollide>().GetScore() == otherPlayers[_id2].GetComponent<PointCollide>().GetScore() && otherPlayers[_id].GetComponent<PointCollide>().GetScore() == otherPlayers[_id3].GetComponent<PointCollide>().GetScore() && otherPlayers[_id].GetComponent<PointCollide>().GetScore() == otherPlayers[_id4].GetComponent<PointCollide>().GetScore())
+            {
+                winText.text = "Draw ";
+            }
+        }
+
+    }
     void AddScore()
     {
-       
         for (int i = 0; i < otherPlayers.Count; ++i)//Used to check if any other player is in the zone
         {
             if (inPointCount <= 1 && otherPlayers[i].GetComponent<PointCollide>().GetScore() != maxScore)
@@ -119,7 +238,7 @@ public class ScoreManager : MonoBehaviour
             }
             if (otherPlayers[i].GetComponent<PointCollide>().GetScore() >= maxScore)
             {
-                if(otherPlayers[i].tag == "Player1")
+                if (otherPlayers[i].tag == "Player1")
                 {
                     gameManager.SetPlayerOneScore(1);
                 }
@@ -138,10 +257,16 @@ public class ScoreManager : MonoBehaviour
                 winText.text = otherPlayers[i].tag + " wins the round";
                 currentRound++;
                 roundText.text = "Round: " + currentRound + " of " + maxRound;
-             
+
                 resetPoints = true;
             }
         }
+        ResetPoints();
+
+
+    }
+    void ResetPoints()
+    {
         if (resetPoints == true)
         {
             for (int i = 0; i < otherPlayers.Count; i++)
@@ -152,7 +277,7 @@ public class ScoreManager : MonoBehaviour
                 canGainPoints = false;
                 otherPlayers[i].transform.position = KOTHPlayerSpawner.SpawnPoints[i].position;
                 inPointText.text = "";
-                foreach(Transform child in KOTHPlayerSpawner.GetPlayerHolderTransform())
+                foreach (Transform child in KOTHPlayerSpawner.GetPlayerHolderTransform())
                 {
                     if (!otherPlayers[i].activeSelf)
                     {
@@ -181,7 +306,7 @@ public class ScoreManager : MonoBehaviour
         {
             otherPlayers[i].GetComponent<Rigidbody>().mass = 1;
         }
-
+        stopTimerDecreaase = 1;
     }
     private void OnTriggerExit(Collider other)
     {
@@ -192,20 +317,24 @@ public class ScoreManager : MonoBehaviour
         if (other.gameObject.tag == "Player1")
         {
             inPointCount--;
+            inPointText.text = "";
         }
         if (other.gameObject.tag == "Player2")
         {
             inPointCount--;
+            inPointText.text = "";
         }
         if (other.gameObject.tag == "Player3")
         {
             inPointCount--;
+            inPointText.text = "";
         }
         if (other.gameObject.tag == "Player4")
         {
             inPointCount--;
+            inPointText.text = "";
         }
- 
+
     }
 
     private void OnTriggerEnter(Collider other)

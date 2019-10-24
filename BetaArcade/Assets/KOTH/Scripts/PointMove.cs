@@ -21,7 +21,7 @@ public class PointMove : MonoBehaviour
     {
        
         previousPos = transform;
-        InvokeRepeating("MovePoint", 1, movePointSpeed);
+        InvokeRepeating("MovePoint", 5, movePointSpeed);
         pointsHolder = GameObject.Find("Points");
         for(int i =0; i< pointAmount; ++i)
         {

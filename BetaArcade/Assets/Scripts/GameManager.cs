@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     int numberOfRounds = 2;//Set in lobby menu
     int playerTotal = 4;
     int playerCount = 0;
+    [SerializeField]
+    int timer;
     GameObject winScreen;
 
     #region Scores
@@ -69,6 +71,18 @@ public class GameManager : MonoBehaviour
     public int GetPlayerCount()
     {
         return playerCount;
+    }
+    public int GetTimer()
+    {
+        return timer;
+    }
+    public void SetTimer(int _timer)
+    {
+        timer = _timer;
+    }
+    public void DecreaseTimer()
+    {
+        timer--;
     }
     public void CreatePlayerUI()
     {
