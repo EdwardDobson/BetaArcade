@@ -4,19 +4,38 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    [SerializeField] public float AmmoSpeed = 100.0f;
+    private float AmmoSpeed = 40.0f;
+    [SerializeField] public float BulletDelay = 2.0f;
+
+    float tempTimer = 0.0f;
 
     public GameObject AmmoPrefab;
     public Transform ShootingPoint;
+    private PlayerMove m_PlayerMoveScript;
 
-    void Update()
+    void Start()
     {
-        if (Input.GetButtonDown("Fire1"))
+        tempTimer = BulletDelay + 0.1f;
+        m_PlayerMoveScript = gameObject.transform.parent.parent.GetComponent<PlayerMove>();
+    }
+
+    void FixedUpdate()
+    {
+        if (Input.GetAxis("RT" + m_PlayerMoveScript.ID) > 0.1 && tempTimer>BulletDelay)
         {
-            GameObject BulletInstance = Instantiate(AmmoPrefab, transform.position, Quaternion.identity);
-            Rigidbody BulletRigidbodyInstance = BulletInstance.GetComponent<Rigidbody>();
-            BulletRigidbodyInstance.AddForce(ShootingPoint.forward * AmmoSpeed);
-            Debug.Log("i shoudve worked");
+            tempTimer = 0.0f;
+            ShootPaintballGun();
         }
+        tempTimer += Time.deltaTime;
+    }
+
+    void ShootPaintballGun()
+    {
+        GameObject BulletInstance = Instantiate(AmmoPrefab, ShootingPoint.position, Quaternion.identity);
+        Rigidbody BulletRigidbodyInstance = BulletInstance.GetComponent<Rigidbody>();
+        BulletRigidbodyInstance.velocity = ShootingPoint.forward * AmmoSpeed;
+     
     }
 }
+
+
