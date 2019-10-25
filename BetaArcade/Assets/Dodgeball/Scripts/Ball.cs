@@ -11,20 +11,16 @@ public class Ball : MonoBehaviour
     public GameObject Player3;
     public GameObject Player4;
 
+    Dodgeball_PlayerSpawner DodgballPlayerSpawner;
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "Player1" || col.gameObject.tag == "Player2" || col.gameObject.tag == "Player3" || col.gameObject.tag == "Player4")
+        if (col.gameObject == Player1 || col.gameObject == Player2 || col.gameObject == Player3 || col.gameObject == Player4)
         {
             if (IsActive) // if the player doesn't have anything
                 col.gameObject.SetActive(false);
             Debug.Log("Player Down");
+            DodgballPlayerSpawner.DecreasePlayerCount();
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

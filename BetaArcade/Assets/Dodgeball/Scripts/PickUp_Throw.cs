@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickUp_Throw : MonoBehaviour
 {
-    public float speed = 10;
+    public float speed = 20;
     public bool canHold = true;
     public GameObject Ball;
     public Transform guide;
@@ -15,6 +15,7 @@ public class PickUp_Throw : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1") && !ivepressedabutton)
         {
+            Debug.Log("PressedButton");
             ivepressedabutton = true;
             if (!canHold)
                 ThrowOrDrop();
@@ -42,7 +43,7 @@ public class PickUp_Throw : MonoBehaviour
 
     private void Pickup()
     {
-        if (!Ball) //If we don' have a ball
+        if (!Ball) //If we don't have a ball
             return;
         //We set the object parent to our guide empty object i.e become it's child
         Ball.transform.SetParent(guide);

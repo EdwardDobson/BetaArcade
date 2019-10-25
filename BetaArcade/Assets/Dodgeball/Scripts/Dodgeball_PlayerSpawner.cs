@@ -8,7 +8,9 @@ public class Dodgeball_PlayerSpawner : MonoBehaviour
     [SerializeField]
     public List<Transform> SpawnPoints = new List<Transform>();
     Win_Condition WinCondition;
-    private int playerCount = 0;
+
+    public int playerCount = 0;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -45,6 +47,10 @@ public class Dodgeball_PlayerSpawner : MonoBehaviour
         player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
         player.GetComponent<PlayerMove>().ID = playerCount;
         WinCondition.otherPlayers.Add(player);
+    }
+    public void DecreasePlayerCount()
+    {
+        playerCount--;
     }
     private Color PlayerIDToColor(int id)
     {
