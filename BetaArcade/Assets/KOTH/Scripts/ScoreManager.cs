@@ -225,7 +225,7 @@ public class ScoreManager : MonoBehaviour
                     if (timer >= 1)
                     {
                         otherPlayers[i].GetComponent<PointCollide>().SetScore(scoreIncreaseValue);
-                        gameManager.PlayerUIs[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: " + otherPlayers[i].GetComponent<PointCollide>().GetScore();
+                        gameManager.PlayerPictures[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: " + otherPlayers[i].GetComponent<PointCollide>().GetScore();
                         scoreIncrease.Play();
                         timer = 0;
                     }
@@ -272,7 +272,7 @@ public class ScoreManager : MonoBehaviour
             for (int i = 0; i < otherPlayers.Count; i++)
             {
                 otherPlayers[i].GetComponent<PointCollide>().ResetScore(0);
-                gameManager.PlayerUIs[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: 0";
+                gameManager.PlayerPictures[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: 0";
                 resetPointsCounter++;
                 canGainPoints = false;
                 otherPlayers[i].transform.position = KOTHPlayerSpawner.SpawnPoints[i].position;

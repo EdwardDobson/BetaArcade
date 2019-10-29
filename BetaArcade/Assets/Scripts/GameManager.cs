@@ -9,9 +9,13 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     List<int> levelPlaylist = new List<int>();
     [SerializeField]
+    List<string> levelPlaylistNames = new List<string>();
+    [SerializeField]
     public List<Transform> Portraits = new List<Transform>();
-    public List<GameObject> PlayerUIs = new List<GameObject>();
-    public GameObject PlayerUI;
+    public List<GameObject> PlayerPictures = new List<GameObject>();
+    public GameObject PlayerPicture;
+    public TextMeshProUGUI gameModeList;
+    GameObject PlayerUI;
     int currentSceneID = 0;//Represents the element id
     int numberOfRounds = 2;//Set in lobby menu
     int playerTotal = 4;
@@ -19,7 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     int timer;
     GameObject winScreen;
-
+    [SerializeField]
+    int levelNameIndex = -1;
     #region Scores
     //Manage your own rounds within your game scene then when somebody wins the round add to these values
     [SerializeField]
@@ -34,9 +39,10 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        PlayerUI = GameObject.Find("PlayerUI");
         winScreen = transform.GetChild(0).gameObject;
-        if(playerCount < 4)
+        gameModeList.text = "Game Modes \n";
+        if (playerCount < 4)
         {
             for (int i = 0; i < playerTotal; ++i)
             {
@@ -58,15 +64,39 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(winScreen.activeSelf)
+        if(SceneManager.GetActiveScene().buildIndex <= 1)
         {
-            if(Input.GetButtonDown("Jump1"))
+            PlayerUI.transform.GetChild(1).gameObject.SetActive(false);
+         
+        }
+        if (winScreen.activeSelf)
+        {
+            PlayerUI.transform.GetChild(1).gameObject.SetActive(false);
+            if (Input.GetButtonDown("Jump1"))
             {
                 LoadLevel();
                 winScreen.SetActive(false);
-
             }
         }
+    }
+    public void RemoveLevel(string _name)
+    {
+        for(int i=0; i < levelPlaylistNames.Count; ++i)
+        {
+            if(levelPlaylistNames[i] == _name)
+            {
+                levelPlaylistNames.RemoveAt(i);
+                levelPlaylist.RemoveAt(i);
+                levelNameIndex--;
+                gameModeList.text = gameModeList.text.Replace("\n" + _name, "");
+                
+            }
+        }
+  
+    }
+    public void Quit()
+    {
+        Application.Quit();
     }
     public int GetPlayerCount()
     {
@@ -86,7 +116,7 @@ public class GameManager : MonoBehaviour
     }
     public void CreatePlayerUI()
     {
-        GameObject playerUI = Instantiate(PlayerUI);
+        GameObject playerUI = Instantiate(PlayerPicture);
         if (playerCount == 0)
         {
             playerUI.GetComponent<Image>().color = Color.red;
@@ -117,17 +147,23 @@ public class GameManager : MonoBehaviour
         playerUI.transform.GetChild(2).GetComponent<Image>().color = new Color(1, 1, 1, 0);
    
         playerUI.transform.SetParent(GameObject.Find("PlayerUI").transform.GetChild(1).transform);
-        PlayerUIs.Add(playerUI);
+        PlayerPictures.Add(playerUI);
     }
-    public void CreatePlaylist(int _levelID)//Used to create the playlist of levels
+    public void AddToPlayListName(string _levelName)
+    {
+        levelPlaylistNames.Add(_levelName);
+        gameModeList.text += levelPlaylistNames[levelNameIndex] + "\n";
+    }
+    public void AddToPlaylist(int _levelID)//Used to create the playlist of levels
     {
         levelPlaylist.Add(_levelID);
+        levelNameIndex++;
     }
     public void CreateRandomPlayList()
     {
         int sceneCount = SceneManager.sceneCountInBuildSettings;
-     
-        for(int i = 0; i< sceneCount; ++i)
+
+        for (int i = 0; i< sceneCount; ++i)
         {
             int random = Random.Range(2, sceneCount);//dont include 1 or 0 that will be the main menu and splash screen
             levelPlaylist.Add(random);
@@ -135,13 +171,31 @@ public class GameManager : MonoBehaviour
     }
     public void RandomPlaylistOrder()
     {
+       StartCoroutine(RandomPlaylist());
+    }
+    IEnumerator RandomPlaylist()
+    {
+        yield return new WaitForSeconds(0.5f);
         for (int i = 0; i < levelPlaylist.Count; ++i)
         {
             int temp = levelPlaylist[i];
             int randomIndex = Random.Range(0, levelPlaylist.Count);
             levelPlaylist[i] = levelPlaylist[randomIndex];
             levelPlaylist[randomIndex] = temp;
+            string temp2 = levelPlaylistNames[i];
+            levelPlaylistNames[i] = levelPlaylistNames[randomIndex];
+            levelPlaylistNames[randomIndex] = temp2;
+            gameModeList.text = gameModeList.text.Replace(gameModeList.text, "Game Modes \n");
+            ResetGameModeText();
         }
+    }
+   public void ResetGameModeText()
+    {
+        for(int i =0; i< levelPlaylistNames.Count; ++i)
+        {
+            gameModeList.text += levelPlaylistNames[i] + "\n";
+        }
+       
     }
     public void LoadLevel()
     {
