@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
             PlayerUI.transform.GetChild(1).gameObject.SetActive(false);
          
         }
+        else PlayerUI.transform.GetChild(1).gameObject.SetActive(true);
         if (winScreen.activeSelf)
         {
             PlayerUI.transform.GetChild(1).gameObject.SetActive(false);
