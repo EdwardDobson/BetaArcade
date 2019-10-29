@@ -24,14 +24,16 @@ public class HotPotato : MonoBehaviour
     [SerializeField]
     int maxRound;
     bool endGameMode = false;
+    TextMeshProUGUI bombTimerText;
     void Start()
     {
-
         Invoke("LateStart", 0.1f);
         InvokeRepeating("BombTimer", 0, 1);
+        bombTimerText = GameObject.Find("BombTimer").GetComponent<TextMeshProUGUI>();
     }
     void LateStart()
     {
+    
         roundText = GameObject.Find("RoundText").GetComponent<TextMeshProUGUI>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         currentBombTimer = maxBombTimer;
@@ -64,6 +66,7 @@ public class HotPotato : MonoBehaviour
         }
         if (!endGameMode)
         {
+            bombTimerText.text = "Bomb Timer: " + currentBombTimer;
             if (increaseInactivePlayers >= gameManager.GetPlayerCount()-1)
             {
                 StartCoroutine(ResetRoundCoroutine());
