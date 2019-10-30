@@ -29,7 +29,11 @@ public class HazardSpawner : MonoBehaviour
 	float timeDelay = 0.0f; //time delay of spawning next bomb
 	Vector3 spawnPosition;
 
-	public GameObject Object;
+	[SerializeField]
+	private int objectId = 0; //determines which object can be placed, every object ID has equal weighting
+
+	[SerializeField]
+	List<GameObject> Objects = new List<GameObject>();
 	// Start is called before the first frame update
 	private void Awake()
 	{
@@ -40,12 +44,13 @@ public class HazardSpawner : MonoBehaviour
 	{
 		while(true)
 		{
+			objectId = Random.Range(0, Objects.Count);
 			posX = Random.Range(minX, maxX);
 			posY = Random.Range(minY, maxY);
 			posZ = Random.Range(minZ, maxZ);
 			timeDelay = Random.Range(minTime, maxTime);
 			spawnPosition = new Vector3(posX, posY, posZ);
-			GameObject clone = Instantiate(Object, spawnPosition, Quaternion.identity);
+			GameObject clone = Instantiate(Objects[objectId], spawnPosition, Quaternion.identity);
 			clone.transform.SetParent(transform);
 			yield return new WaitForSeconds(timeDelay);
 		}

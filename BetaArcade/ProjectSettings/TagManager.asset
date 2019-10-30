@@ -11,6 +11,7 @@ TagManager:
   - Player3
   - Player4
   - Player1
+  - Explosion
   layers:
   - Default
   - TransparentFX
@@ -18,32 +19,32 @@ TagManager:
   - 
   - Water
   - UI
-  -
-  -
+  - 
+  - 
   - PostProcessing
   - Paint
   - PaintIgnore
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
+  - ExplosionIgnore
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
