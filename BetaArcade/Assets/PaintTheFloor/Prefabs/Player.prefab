@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 180372121496383598}
   - component: {fileID: 180372121496383585}
   - component: {fileID: 180372121496383584}
-  - component: {fileID: 180372121496383587}
   - component: {fileID: 180372121496383589}
   - component: {fileID: 180372121496383599}
   - component: {fileID: 180372121496383586}
   - component: {fileID: 6759975089403006251}
+  - component: {fileID: 4414072047867457315}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -83,19 +83,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &180372121496383587
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180372121496383588}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &180372121496383589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1
+  shoveForce: 0
+  shoveRadius: 0
 --- !u!54 &180372121496383599
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -124,7 +113,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!114 &180372121496383586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +227,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!136 &4414072047867457315
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180372121496383588}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &180372122729042358
 GameObject:
   m_ObjectHideFlags: 0
