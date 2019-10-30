@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Ground
   - Point
+  - Bomb
+  - Player2
+  - Player3
+  - Player4
+  - Player1
   layers:
   - Default
   - TransparentFX
@@ -13,32 +18,32 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  -
+  -
   - PostProcessing
   - Paint
   - PaintIgnore
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
   m_SortingLayers:
   - name: Default
     uniqueID: 0
