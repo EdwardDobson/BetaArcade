@@ -200,7 +200,7 @@ public class GameManager : MonoBehaviour
 
     public void CreateRandomPlayList()
     {
-        if (playerTotal > 1)
+        if (playerTotal > 1 && numberOfRounds > 0)
         {
             int sceneCount = SceneManager.sceneCountInBuildSettings;
             for (int i = 0; i < sceneCount; ++i)
@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour
     }
     public void LoadLevel()
     {
-        if (levelPlaylist.Count >= 1 && playerTotal > 1)
+        if (levelPlaylist.Count >= 1 && playerTotal > 1 && numberOfRounds > 0)
         {
             StartCoroutine(LoadAsync());
         }
@@ -254,6 +254,11 @@ public class GameManager : MonoBehaviour
         if (levelPlaylist.Count <= 0)
         {
             notEnoughText.text = "No gamemodes in playlist";
+            StartCoroutine(ResetNotEnoughText());
+        }
+        if (numberOfRounds <= 0)
+        {
+            notEnoughText.text = "Not enough rounds";
             StartCoroutine(ResetNotEnoughText());
         }
     }
