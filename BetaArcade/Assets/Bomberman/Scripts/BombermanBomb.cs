@@ -9,9 +9,14 @@ public class BombermanBomb : MonoBehaviour
 	public GameObject explosionPrefab;
 	public LayerMask levelMask;
 	[SerializeField] private bool hasExploded = false;
-	// Start is called before the first frame update
-	void Start()
+    [SerializeField] private bool hasTriggered = false;
+    Collider thisCollider;
+    MeshRenderer thisRender;
+    // Start is called before the first frame update
+    void Start()
     {
+        thisRender = GetComponent<MeshRenderer>();
+        thisCollider = GetComponent<Collider>();
 		Invoke("Explode", fuse);
     }
 
@@ -19,6 +24,7 @@ public class BombermanBomb : MonoBehaviour
 	{
 		hasExploded = true;
 		Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        thisRender.enabled = false;
 		///makes the explosions in the cardinal directions
 		StartCoroutine(CreateExplosions(Vector3.forward));
 		StartCoroutine(CreateExplosions(Vector3.right));
@@ -27,18 +33,26 @@ public class BombermanBomb : MonoBehaviour
 		Destroy(this.gameObject, .2f);
 	}
 
-	public void OnTriggerEnter(Collider other)
+	public void OnCollisionEnter(Collision other)
 	{
 		Debug.Log("TriggerDetected");
-		if(!hasExploded && other.CompareTag("Explosion"))
+		if(!hasExploded && other.gameObject.tag == "Explosion")
 		{
 			Debug.Log("ExplosionDetected");
 			CancelInvoke("Explode");
 			Explode();
 		}
 	}
+    public void OnTriggerExit(Collider other)
+    {
+        if(!hasTriggered)
+        {
+            hasTriggered = true;
+            thisCollider.isTrigger = false;
+        }
+    }
 
-	private IEnumerator CreateExplosions(Vector3 direction)
+    private IEnumerator CreateExplosions(Vector3 direction)
 	{
 		///loop x times where x is the explosion range/power
 		for (int i = 0; i<3; i++)
