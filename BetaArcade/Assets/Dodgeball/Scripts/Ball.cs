@@ -7,10 +7,14 @@ public class Ball : MonoBehaviour
     public bool IsActive = false;
 
     Dodgeball_PlayerSpawner DodgeballPlayerSpawner;
+    //Win_Condition WC;
+
+    public int PlayersDown = 0;
 
     private void Start()
     {
         DodgeballPlayerSpawner = GameObject.Find("Spawner").GetComponent<Dodgeball_PlayerSpawner>();
+        //WC = GameObject.Find("Spawner").GetComponent<Win_Condition>();
     }
 
     void OnTriggerEnter(Collider col)
@@ -21,9 +25,15 @@ public class Ball : MonoBehaviour
             {
                 col.gameObject.SetActive(false);
                 IsActive = false;
+                PlayersDown++;
             }
             Debug.Log("Player Down");
-            DodgeballPlayerSpawner.DecreasePlayerCount();
         }
     }
+
+    public void BallThrown()
+    {
+        IsActive = true;
+    }
+
 }

@@ -54,10 +54,6 @@ public class Dodgeball_PlayerSpawner : MonoBehaviour
 
         WinCondition.otherPlayers.Add(player);
     }
-    public void DecreasePlayerCount()
-    {
-        playerCount--;
-    }
 
     private Color PlayerIDToColor(int id)
     {

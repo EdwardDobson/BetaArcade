@@ -6,7 +6,7 @@ public class PickUp_Throw : MonoBehaviour
 {
     public float speed = 20;
     public bool canHold = true;
-    public GameObject Ball;
+    public GameObject ChildBall;
     public Transform guide;
     private bool ivepressedabutton = false;
 
@@ -46,53 +46,52 @@ public class PickUp_Throw : MonoBehaviour
     {
         if (col.gameObject.tag == "Ball")
         {
-            if (!Ball) // if the player doesn't have anything
-                Ball = col.gameObject;
+            if (!ChildBall) // if the player doesn't have anything
+                ChildBall = col.gameObject;
         }
     }
 
     private void Pickup()
     {
-        if (!Ball) //If we don't have a ball
+        if (!ChildBall) //If we don't have a ball
             return;
         //We set the object parent to our guide empty object i.e become it's child
-        Ball.transform.SetParent(guide);
+        ChildBall.transform.SetParent(guide);
 
         //Set gravity to false while holding it
-        Ball.GetComponent<Rigidbody>().useGravity = false;
+        ChildBall.GetComponent<Rigidbody>().useGravity = false;
 
         //we apply the same rotation our main object (Camera) has.
-        Ball.transform.localRotation = transform.rotation;
+        ChildBall.transform.localRotation = transform.rotation;
 
         //We re-position the ball on our guide object
-        Ball.transform.position = guide.position;
+        ChildBall.transform.position = guide.position;
 
         //Ball.transform.localScale = ballScale;
 
         //Set the ball to be active
-        Ball.GetComponent<Ball>().IsActive = true;
-
         canHold = false;
     }
+
     private void ThrowOrDrop()
     {
-        if (!Ball)
+        if (!ChildBall)
             return;
+
+        ChildBall.GetComponent<Ball>().BallThrown();
+
         //Set our Gravity to true again.
-        Ball.GetComponent<Rigidbody>().useGravity = true;
+        ChildBall.GetComponent<Rigidbody>().useGravity = true;
+
         // we don't have anything to do with our ball anymore
-        Ball = null;
+        ChildBall = null;
         //Apply velocity on throwing
         guide.GetChild(0).gameObject.GetComponent<Rigidbody>().velocity = transform.forward * speed;
 
-       
-
-
         //Unparent the ball
         guide.GetChild(0).parent = null;
-        canHold = true;
 
-        //Ball.transform.localScale = ballScale;
+        canHold = true;
     }
 
 }
