@@ -77,7 +77,7 @@ public class PTFMovement : MonoBehaviour
     var paintBall = Instantiate(PaintBall);
     paintBall.GetComponent<PaintballScript>().Color = GetComponent<Renderer>().material.GetColor("_BaseColor");
     paintBall.transform.position = m_FirePoint.position;
-    paintBall.GetComponent<Rigidbody>().AddForce(m_FirePoint.forward * m_ShotPower, ForceMode.Impulse);
+        paintBall.GetComponent<Rigidbody>().AddForce(m_FirePoint.forward * m_ShotPower, ForceMode.Impulse);
     paintBall.transform.localScale *= ShotSize;
 
     GetComponent<AudioSource>().PlayOneShot(ShotSound);

@@ -8,7 +8,7 @@ public class IncreaseSpeed : MonoBehaviour
     {
     if(other.gameObject.tag == "Player")
       {
-      other.gameObject.GetComponent<PlayerMove>().IncreaseMovementSpeed(12.5f);
+      other.gameObject.GetComponent<PlayerMove>().IncreaseMovementSpeed();
       Destroy(gameObject);
       }
     }
