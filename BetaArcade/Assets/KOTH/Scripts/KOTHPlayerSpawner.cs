@@ -19,16 +19,25 @@ public class KOTHPlayerSpawner : MonoBehaviour
             playerHolder = GameObject.Find("PlayerHolder").transform;
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             scoreManager = GetComponent<ScoreManager>();
-            if (playerCount < gameManager.GetPlayerCount())
-            {
-                for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
-                {
-                    CreatePlayer();
-                }
-            }
-        
+
+        Invoke("LateStart", 0.1f);
+    
+
     }
-    // Update is called once per frame
+    private void LateStart()
+    {
+        if (playerCount < gameManager.GetPlayerCount())
+        {
+            for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
+            {
+                CreatePlayer();
+
+            }
+
+
+        }
+    }
+        // Update is called once per frame
     void Update()
     {
         

@@ -37,6 +37,8 @@ public class ScoreManager : MonoBehaviour
     bool endGameMode = false;
     GameObject PlayerUI;
     int stopTimerDecrease;
+    [SerializeField]
+    bool startGame;
     // Start is called before the first frame update
     void Start()
     {
@@ -64,7 +66,7 @@ public class ScoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameManager.GetStartGame() == true)
+        if(startGame == true)
         {
         
           
@@ -90,6 +92,14 @@ public class ScoreManager : MonoBehaviour
             DecreaseTimerKoth();
         }
 
+    }
+    public void SetStartGame(bool _state)
+    {
+        startGame = _state;
+    }
+    public bool GetStartGame()
+    {
+        return startGame;
     }
     void DecreaseTimerKoth()
     {

@@ -219,15 +219,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelPlaylist: 
+  levelPlaylistNames: []
   Portraits:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  PlayerUIs: []
-  PlayerUI: {fileID: 8834752589239295553, guid: ce74d4798a12166409ce90b72988b334,
+  PlayerPictures: []
+  PlayerPicture: {fileID: 8834752589239295553, guid: ce74d4798a12166409ce90b72988b334,
     type: 3}
+  gameModeList: {fileID: 0}
+  playerTotalText: {fileID: 0}
   timer: 300
+  levelNameIndex: -1
   playerOneScore: 0
   playerTwoScore: 0
   playerThreeScore: 0
