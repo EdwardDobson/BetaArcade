@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     GameObject winScreen;
     [SerializeField]
     int levelNameIndex = -1;
+    bool startGame;
     #region Scores
     //Manage your own rounds within your game scene then when somebody wins the round add to these values
     [SerializeField]
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
     {
         PlayerUI = GameObject.Find("PlayerUI");
         winScreen = transform.GetChild(0).gameObject;
-        gameModeList.text = "Game Modes \n";
+      //  gameModeList.text = "Game Modes \n";
         if (playerCount < 4)
         {
             for (int i = 0; i < playerTotal; ++i)
@@ -89,11 +90,19 @@ public class GameManager : MonoBehaviour
                 levelPlaylistNames.RemoveAt(i);
                 levelPlaylist.RemoveAt(i);
                 levelNameIndex--;
-                gameModeList.text = gameModeList.text.Replace("\n" + _name, "");
+              //  gameModeList.text = gameModeList.text.Replace("\n" + _name, "");
                 
             }
         }
   
+    }
+    public void SetStartGame(bool _state)
+    {
+        startGame = _state;
+    }
+    public bool GetStartGame()
+    {
+        return startGame;
     }
     public void Quit()
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
 public class ScoreManager : MonoBehaviour
 {
     TextMeshProUGUI winText;
@@ -14,6 +15,8 @@ public class ScoreManager : MonoBehaviour
     bool canGainPoints = true;
     int scoreIncreaseValue = 1;
     int resetPointsCounter;
+    [SerializeField]
+    float timerScore;
     [SerializeField]
     float timer;
     PointMove point;
@@ -33,11 +36,11 @@ public class ScoreManager : MonoBehaviour
     GameManager gameManager;
     bool endGameMode = false;
     GameObject PlayerUI;
-    int stopTimerDecreaase;
+    int stopTimerDecrease;
     // Start is called before the first frame update
     void Start()
     {
-        stopTimerDecreaase = 1;
+        stopTimerDecrease = 1;
         PlayerUI = GameObject.Find("PlayerUI").transform.GetChild(1).gameObject;
         point = GetComponent<PointMove>();
         roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
@@ -55,12 +58,16 @@ public class ScoreManager : MonoBehaviour
             t.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: 0";
         }
         timerText.text = "Time: " + gameManager.GetTimer();
-        InvokeRepeating("DecreaseTimerKoth", 0, stopTimerDecreaase);
+     
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(gameManager.GetStartGame() == true)
+        {
+        
+          
         if (canGainPoints && currentRound <= maxRound && !endGameMode)
         {
             AddScore();
@@ -80,12 +87,20 @@ public class ScoreManager : MonoBehaviour
                 StartCoroutine(RespawnPlayer(child));
             }
         }
+            DecreaseTimerKoth();
+        }
 
     }
     void DecreaseTimerKoth()
     {
-        gameManager.DecreaseTimer();
-        timerText.text = "Time: " + gameManager.GetTimer();
+        timerScore -= Time.deltaTime;
+        if(timerScore <= 0)
+        {
+            gameManager.DecreaseTimer();
+            timerText.text = "Time: " + gameManager.GetTimer();
+            timerScore = 1;
+        }
+     
     }
     IEnumerator RespawnPlayer(Transform _child)
     {
@@ -123,7 +138,7 @@ public class ScoreManager : MonoBehaviour
             gameManager.SetTimer(10);
             resetPoints = true;
             ResetPoints();
-            stopTimerDecreaase = 0;
+            stopTimerDecrease = 0;
         }
     }
     void ResetScorePlayers(int _id, int _id2, int _id3, int _id4)
@@ -213,6 +228,7 @@ public class ScoreManager : MonoBehaviour
     }
     void AddScore()
     {
+       
         for (int i = 0; i < otherPlayers.Count; ++i)//Used to check if any other player is in the zone
         {
             if (inPointCount <= 1 && otherPlayers[i].GetComponent<PointCollide>().GetScore() != maxScore)
@@ -306,7 +322,7 @@ public class ScoreManager : MonoBehaviour
         {
             otherPlayers[i].GetComponent<Rigidbody>().mass = 1;
         }
-        stopTimerDecreaase = 1;
+        stopTimerDecrease = 1;
     }
     private void OnTriggerExit(Collider other)
     {

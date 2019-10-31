@@ -16,12 +16,15 @@ public class PointMove : MonoBehaviour
     [SerializeField]
     int movePointSpeed = 0;
     bool moved;
+    [SerializeField]
+    float timer;
+    GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
-       
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         previousPos = transform;
-        InvokeRepeating("MovePoint", 5, movePointSpeed);
+        //InvokeRepeating("MovePoint", 5, movePointSpeed);
         pointsHolder = GameObject.Find("Points");
         for(int i =0; i< pointAmount; ++i)
         {
@@ -34,18 +37,28 @@ public class PointMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(points.Count <=0)
+       if(gameManager.GetStartGame() == true)
         {
-            for (int i = 0; i < pointAmount; ++i)
+            if (points.Count <= 0)
             {
-                points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
+                for (int i = 0; i < pointAmount; ++i)
+                {
+                    points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
+                }
+
             }
-            
+            MovePoint();
         }
+      
     }
    public void MovePoint()
     {
-        if(!moved)
+        timer -= Time.deltaTime;
+        if(timer <= 0)
+        {
+
+            timer = 1;
+        if (!moved)
         {
             for (int i = 0; i < 1; ++i)
             {
@@ -57,6 +70,7 @@ public class PointMove : MonoBehaviour
                 moveText.text = "Point has moved!";
                 StartCoroutine(HideText());
             }
+        }
         }
     }
     IEnumerator HideText()
