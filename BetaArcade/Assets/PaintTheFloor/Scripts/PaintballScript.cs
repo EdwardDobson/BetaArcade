@@ -5,16 +5,16 @@ using UnityEngine;
 public class PaintballScript : MonoBehaviour
   {
   public Color Color;
-  private void OnCollisionEnter(Collision collision)
+  private void OnTriggerEnter(Collider other)
     {
     var color = gameObject.GetComponent<Renderer>().material.GetColor("_BaseColor");
 
-    var renderer = collision.gameObject.GetComponent<Renderer>();
-    if(renderer != null)
+    var renderer = other.gameObject.GetComponent<Renderer>();
+    if (renderer != null)
       {
       GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-      
-      foreach(var player in players)
+
+      foreach (var player in players)
         {
         if (player.GetComponent<Renderer>().material.GetColor("_BaseColor") == renderer.material.GetColor("_BaseColor"))
           player.GetComponent<PTFMovement>().Score--;

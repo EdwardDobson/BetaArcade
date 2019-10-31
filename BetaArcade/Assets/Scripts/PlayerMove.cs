@@ -6,6 +6,7 @@ public class PlayerMove : MonoBehaviour
   {
   public int ID;
 
+  private float originalSpeed = 8.0f;
   private float speed = 8.0f;
   private float jumpSpeed = 80.0f;
   private float rotationSpeed = 12.5f;
@@ -100,5 +101,16 @@ public class PlayerMove : MonoBehaviour
       {
       isGrounded = false;
       }
+    }
+
+  public void IncreaseMovementSpeed(float newSpeed)
+    {
+    speed = newSpeed;
+    StartCoroutine(SpeedReset(5));
+    }
+  IEnumerator SpeedReset(float time)
+    {
+    yield return new WaitForSeconds(time);
+    speed = originalSpeed;
     }
   }
