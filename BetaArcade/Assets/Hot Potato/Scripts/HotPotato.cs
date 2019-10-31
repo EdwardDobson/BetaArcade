@@ -30,12 +30,13 @@ public class HotPotato : MonoBehaviour
         Invoke("LateStart", 0.1f);
         InvokeRepeating("BombTimer", 0, 1);
         bombTimerText = GameObject.Find("BombTimer").GetComponent<TextMeshProUGUI>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     void LateStart()
     {
     
         roundText = GameObject.Find("RoundText").GetComponent<TextMeshProUGUI>();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+   
         currentBombTimer = maxBombTimer;
         for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
         {
