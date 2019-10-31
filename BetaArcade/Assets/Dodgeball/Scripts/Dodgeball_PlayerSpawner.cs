@@ -26,6 +26,7 @@ public class Dodgeball_PlayerSpawner : MonoBehaviour
     public void CreatePlayer()
     {
         GameObject player = Instantiate(Player);
+
         if (playerCount == 0)
         {
             player.tag = "Player1";
@@ -42,16 +43,22 @@ public class Dodgeball_PlayerSpawner : MonoBehaviour
         {
             player.tag = "Player4";
         }
+
         player.transform.position = SpawnPoints[playerCount].position;
+
         playerCount++;
+
         player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
+
         player.GetComponent<PlayerMove>().ID = playerCount;
+
         WinCondition.otherPlayers.Add(player);
     }
     public void DecreasePlayerCount()
     {
         playerCount--;
     }
+
     private Color PlayerIDToColor(int id)
     {
         switch (id)

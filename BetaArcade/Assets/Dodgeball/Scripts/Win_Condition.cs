@@ -67,84 +67,91 @@ public class Win_Condition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        point = GetComponent<PointMove>();
-        roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
-        scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
-        winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
-        inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
+        //point = GetComponent<PointMove>();
+        //roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
+        //scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
+        //winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
+        //inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
         DodgballPlayerSpawner = GetComponent<Dodgeball_PlayerSpawner>();
         maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        roundText.text = "Round: 1 of " + maxRound;
+        //roundText.text = "Round: 1 of " + maxRound;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (canGainPoints && currentRound <= maxRound && !endGameMode)
-        {
-            AddScore();
-        }
         if (currentRound > maxRound)
         {
-            inPointText.text = "";
-            roundText.text = "";
-            endGameMode = true;
+            //inPointText.text = "";
+            //roundText.text = "";
+            //endGameMode = true;
+        }
+        timer += Time.deltaTime;
+        if (timer >= 1)
+        {
+            //otherPlayers[i].GetComponent<PointCollide>().SetScore(scoreIncreaseValue);
+            //gameManager.PlayerUIs[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: " + otherPlayers[i].GetComponent<PointCollide>().GetScore();
+            //scoreIncrease.Play();
+            timer = 0;
         }
     }
-    void AddScore()
+    void AddScore() //call in ball i.e if otherplayers <=1 Win_condition.AddScore
     {
         switch (WinConType)
         {
             case (WinConditionType.eLastManStanding):
                 {
-                    for (int i = 0; i < otherPlayers.Count; ++i)//Used to check if any other player is in the zone
+                    if (DodgballPlayerSpawner.playerCount <= 1) // A Check
                     {
-                        if (DodgballPlayerSpawner.playerCount <= 1 && otherPlayers[i].GetComponent<PointCollide>().GetScore() != maxScore)
+                        Debug.Log("Passed Check");
+                        for (int i = 0; i < otherPlayers.Count; i++)
                         {
-                            inPointText.text = otherPlayers[i].tag + " is the last alive";
-                            point.gameObject.GetComponent<MeshRenderer>().material = otherPlayers[i].GetComponent<PointCollide>().pointMat;
-                            timer += Time.deltaTime;
-                            if (timer >= 1)
+                            if (otherPlayers[i].activeSelf)
                             {
-                                otherPlayers[i].GetComponent<PointCollide>().SetScore(scoreIncreaseValue);
-                                gameManager.PlayerUIs[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: " + otherPlayers[i].GetComponent<PointCollide>().GetScore();
-                                scoreIncrease.Play();
-                                timer = 0;
+                                //inPointText.text = otherPlayers[i].tag + " is the last alive";
+                                //point.gameObject.GetComponent<MeshRenderer>().material = otherPlayers[i].GetComponent<PointCollide>().pointMat;
+                                if (otherPlayers[i].tag == "Player1")
+                                {
+                                    //gameManager.SetPlayerOneScore(1);
+                                    playerOneInGameScore++;
+                                    NextRound();
+                                }
+                                if (otherPlayers[i].tag == "Player2")
+                                {
+                                    //gameManager.SetPlayerTwoScore(1);
+                                    playerTwoInGameScore++;
+                                    NextRound();
+                                }
+                                if (otherPlayers[i].tag == "Player3")
+                                {
+                                    //gameManager.SetPlayerThreeScore(1);
+                                    playerThreeInGameScore++;
+                                    NextRound();
+                                }
+                                if (otherPlayers[i].tag == "Player4")
+                                {
+                                    //gameManager.SetPlayerFourScore(1);
+                                    playerFourInGameScore++;
+                                    NextRound();
+                                }
                             }
                         }
 
-                        if (otherPlayers[i].GetComponent<PointCollide>().GetScore() >= maxScore)
-                        {
-                            if (otherPlayers[i].tag == "Player1")
-                            {
-                                gameManager.SetPlayerOneScore(1);
-                                playerOneInGameScore++;
-                            }
-                            if (otherPlayers[i].tag == "Player2")
-                            {
-                                gameManager.SetPlayerTwoScore(1);
-                                playerTwoInGameScore++;
-                            }
-                            if (otherPlayers[i].tag == "Player3")
-                            {
-                                gameManager.SetPlayerThreeScore(1);
-                                playerThreeInGameScore++;
-                            }
-                            if (otherPlayers[i].tag == "Player4")
-                            {
-                                gameManager.SetPlayerFourScore(1);
-                                playerFourInGameScore++;
-                            }
-                            winText.text = otherPlayers[i].tag + " wins the round";
-                            currentRound++;
-                            roundText.text = "Round: " + currentRound + " of " + maxRound;
-                            resetPoints = true;
-                        }
                     }
                 }
             break;
 
+        }
+    }
+
+    void NextRound()
+    {
+        currentRound++;
+        for (int i = 0; i < otherPlayers.Count; i++)
+        {
+            otherPlayers[i].transform.position = DodgballPlayerSpawner.SpawnPoints[DodgballPlayerSpawner.playerCount].position;
+            otherPlayers[i].SetActive(true);
         }
     }
 }

@@ -10,12 +10,23 @@ public class PickUp_Throw : MonoBehaviour
     public Transform guide;
     private bool ivepressedabutton = false;
 
+    private Vector3 ballScale;
+
+    public int id;
+    PlayerMove PM;
+
+    private void Start()
+    {
+        PM = GetComponent<PlayerMove>();
+        id = PM.ID;
+
+        ballScale = new Vector3(0.5f, 0.5f, 0.5f);
+    }
+
     void Update()
     {
-
-        if (Input.GetButtonDown("Fire1") && !ivepressedabutton)
+        if (Input.GetButtonDown("Y" + id) && !ivepressedabutton)
         {
-            Debug.Log("PressedButton");
             ivepressedabutton = true;
             if (!canHold)
                 ThrowOrDrop();
@@ -24,7 +35,7 @@ public class PickUp_Throw : MonoBehaviour
                 Pickup();
             }
         }
-        if (Input.GetButtonUp("Fire1"))
+        if (Input.GetButtonUp("Y" + id))
         {
             ivepressedabutton = false;
         }
@@ -37,7 +48,6 @@ public class PickUp_Throw : MonoBehaviour
         {
             if (!Ball) // if the player doesn't have anything
                 Ball = col.gameObject;
-            Debug.Log("Touched Ball");
         }
     }
 
@@ -47,14 +57,21 @@ public class PickUp_Throw : MonoBehaviour
             return;
         //We set the object parent to our guide empty object i.e become it's child
         Ball.transform.SetParent(guide);
+
         //Set gravity to false while holding it
         Ball.GetComponent<Rigidbody>().useGravity = false;
+
         //we apply the same rotation our main object (Camera) has.
         Ball.transform.localRotation = transform.rotation;
+
         //We re-position the ball on our guide object
         Ball.transform.position = guide.position;
+
+        //Ball.transform.localScale = ballScale;
+
         //Set the ball to be active
         Ball.GetComponent<Ball>().IsActive = true;
+
         canHold = false;
     }
     private void ThrowOrDrop()
@@ -67,9 +84,15 @@ public class PickUp_Throw : MonoBehaviour
         Ball = null;
         //Apply velocity on throwing
         guide.GetChild(0).gameObject.GetComponent<Rigidbody>().velocity = transform.forward * speed;
+
+       
+
+
         //Unparent the ball
         guide.GetChild(0).parent = null;
         canHold = true;
+
+        //Ball.transform.localScale = ballScale;
     }
 
 }

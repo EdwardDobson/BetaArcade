@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     int playerTotal = 4;
     int playerCount = 0;
     GameObject winScreen;
+
     #region Scores
     //Manage your own rounds within your game scene then when somebody wins the round add to these values
     [SerializeField]
@@ -31,12 +32,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        winScreen = transform.GetChild(0).gameObject;
+        //winScreen = transform.GetChild(0).gameObject;
         if(playerCount < 4)
         {
             for (int i = 0; i < playerTotal; ++i)
             {
-                CreatePlayerUI();
+                //CreatePlayerUI();
                 
                 //Hides ui for the main menu
                 /*
@@ -53,16 +54,16 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(winScreen.activeSelf)
-        {
-            if(Input.GetButtonDown("Jump1"))
-            {
-                LoadLevel();
-                winScreen.SetActive(false);
-
-            }
-        }
+        //if(winScreen.activeSelf)
+        //{
+        //    if(Input.GetButtonDown("Jump1"))
+        //    {
+        //        LoadLevel();
+        //        winScreen.SetActive(false);
+        //    }
+        //}
     }
+    /*
     public void CreatePlayerUI()
     {
         GameObject playerUI = Instantiate(PlayerUI);
@@ -147,9 +148,8 @@ public class GameManager : MonoBehaviour
             child.gameObject.SetActive(true);
             }
         }
-        */
     }
-  
+          */
     #region ScoreSetters
     public void SetPlayerOneScore(int _set)
     {

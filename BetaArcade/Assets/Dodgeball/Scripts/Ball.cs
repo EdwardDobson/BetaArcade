@@ -6,21 +6,24 @@ public class Ball : MonoBehaviour
 {
     public bool IsActive = false;
 
-    public GameObject Player1;
-    public GameObject Player2;
-    public GameObject Player3;
-    public GameObject Player4;
+    Dodgeball_PlayerSpawner DodgeballPlayerSpawner;
 
-    Dodgeball_PlayerSpawner DodgballPlayerSpawner;
+    private void Start()
+    {
+        DodgeballPlayerSpawner = GameObject.Find("Spawner").GetComponent<Dodgeball_PlayerSpawner>();
+    }
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject == Player1 || col.gameObject == Player2 || col.gameObject == Player3 || col.gameObject == Player4)
+        if (col.gameObject.tag == "Player1" || col.gameObject.tag == "Player2" || col.gameObject.tag == "Player3" || col.gameObject.tag == "Player4")
         {
             if (IsActive) // if the player doesn't have anything
+            {
                 col.gameObject.SetActive(false);
+                IsActive = false;
+            }
             Debug.Log("Player Down");
-            DodgballPlayerSpawner.DecreasePlayerCount();
+            DodgeballPlayerSpawner.DecreasePlayerCount();
         }
     }
 }
