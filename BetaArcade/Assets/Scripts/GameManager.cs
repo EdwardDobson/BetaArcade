@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     TextMeshProUGUI nextLevelButtonText;
     [SerializeField]
     List<TextMeshProUGUI> endGameModeScoreTexts = new List<TextMeshProUGUI>();
+    bool shouldLoad = true;
     #region Scores
     //Manage your own rounds within your game scene then when somebody wins the round add to these values
     [SerializeField]
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour
         playerTotalText.text = "Player Total: " + playerTotal;
         winScreen = transform.GetChild(0).gameObject;
         gameModeList.text = "Game Modes \n";
-        nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
 
 
     }
@@ -209,7 +210,7 @@ public class GameManager : MonoBehaviour
         playerCount++;
         playerUI.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(2).GetComponent<Image>().color = new Color(1, 1, 1, 0);
-
+        playerUI.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         playerUI.transform.SetParent(GameObject.Find("PlayerUI").transform.GetChild(1).transform);
         PlayerPictures.Add(playerUI);
     }
@@ -275,6 +276,10 @@ public class GameManager : MonoBehaviour
     }
     public void LoadLevel()
     {
+        if(shouldLoad == true)
+        {
+
+            shouldLoad = false;
         if (currentSceneID < levelPlaylist.Count)
         {
             if (levelPlaylist.Count >= 1 && playerTotal > 1 && numberOfRounds > 0)
@@ -300,6 +305,7 @@ public class GameManager : MonoBehaviour
         if (currentSceneID >= levelPlaylist.Count)
         {
             StartCoroutine(LoadMainMenu());
+        }
         }
     }
     IEnumerator ResetNotEnoughText()
@@ -367,6 +373,7 @@ public class GameManager : MonoBehaviour
                 yield return null;
             }
             transform.GetChild(0).gameObject.SetActive(false);
+            shouldLoad = true;
         }
     }
     IEnumerator LoadAsync()
@@ -378,6 +385,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         transform.GetChild(0).gameObject.SetActive(false);
+        shouldLoad = true;
         //Used to reactive the player uis in the main menu
         /* 
         foreach (Transform child in GameObject.Find("PlayerUI").transform.GetChild(1).transform)

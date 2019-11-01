@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.EventSystems;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -64,7 +64,7 @@ public class ScoreManager : MonoBehaviour
             t.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: 0";
         }
         timerText.text = "Time: " + gameManager.GetTimer();
-  
+
         scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
         scoreToWinText.text = "Score to win: " + maxScore;
     }
@@ -72,30 +72,32 @@ public class ScoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(startGame == true)
-        { 
-        if (canGainPoints && currentRound <= maxRound && !endGameMode)
+        if (startGame == true)
         {
-            AddScore();
-            AddScoreOutOfTime();
-        }
-        if (currentRound > maxRound)
-        {
-            inPointText.text = "";
-            roundText.text = "";
-            timerText.text = "";
-            winText.text = "";
-            endGameMode = true;
-            gameManager.transform.GetChild(0).gameObject.SetActive(true);
-            startGame = false;
-        }
-        foreach (Transform child in KOTHPlayerSpawner.GetPlayerHolderTransform())
-        {
-            if (!child.gameObject.activeSelf)
+            if (canGainPoints && currentRound <= maxRound && !endGameMode)
             {
-                StartCoroutine(RespawnPlayer(child));
+                AddScore();
+                AddScoreOutOfTime();
             }
-        }
+            if (currentRound > maxRound)
+            {
+                inPointText.text = "";
+                roundText.text = "";
+                timerText.text = "";
+                winText.text = "";
+                endGameMode = true;
+
+                gameManager.transform.GetChild(0).gameObject.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(GameObject.Find("Next Level"));
+                startGame = false;
+            }
+            foreach (Transform child in KOTHPlayerSpawner.GetPlayerHolderTransform())
+            {
+                if (!child.gameObject.activeSelf)
+                {
+                    StartCoroutine(RespawnPlayer(child));
+                }
+            }
             DecreaseTimerKoth();
         }
 
@@ -111,13 +113,13 @@ public class ScoreManager : MonoBehaviour
     void DecreaseTimerKoth()
     {
         timerScore -= Time.deltaTime;
-        if(timerScore <= 0)
+        if (timerScore <= 0)
         {
             gameManager.DecreaseTimer();
             timerText.text = "Time: " + gameManager.GetTimer();
             timerScore = 1;
         }
-     
+
     }
     IEnumerator RespawnPlayer(Transform _child)
     {
@@ -245,7 +247,7 @@ public class ScoreManager : MonoBehaviour
     }
     void AddScore()
     {
-       
+
         for (int i = 0; i < otherPlayers.Count; ++i)//Used to check if any other player is in the zone
         {
             if (inPointCount <= 1 && otherPlayers[i].GetComponent<PointCollide>().GetScore() != maxScore)
@@ -399,22 +401,22 @@ public class ScoreManager : MonoBehaviour
     }
     public void IncreaseScoreToWin()
     {
-        if(maxScore < 1000)
+        if (maxScore < 1000)
         {
             maxScore += 5;
             scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
             scoreToWinText.text = "Score to win: " + maxScore;
         }
-       
+
     }
     public void DecreaseScoreToWin()
     {
-        if(maxScore > 5)
+        if (maxScore > 5)
         {
             maxScore -= 5;
             scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
             scoreToWinText.text = "Score to win: " + maxScore;
         }
-       
+
     }
 }

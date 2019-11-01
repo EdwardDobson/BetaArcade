@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.EventSystems;
 public class HotPotato : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -75,6 +75,7 @@ public class HotPotato : MonoBehaviour
                 roundText.text = "";
                 currentRound = maxRound;
                 gameManager.transform.GetChild(0).gameObject.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(GameObject.Find("Next Level"));
 
             }
             if (!endGameMode)
