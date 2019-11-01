@@ -65,29 +65,29 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-            if(playerTotal >= 2)
-            {
-                endGameModeScoreTexts[0].text = "Player One \n Total Rounds \n" + playerOneScore;
-                endGameModeScoreTexts[1].text = "Player Two \n Total Rounds \n" + playerTwoScore;
-            }
-            if (playerTotal >= 3)
-            {
-                endGameModeScoreTexts[2].text = "Player Three \nTotal Rounds \n" + playerThreeScore;
-            }
-            if (playerTotal >= 4)
-            {
-                endGameModeScoreTexts[3].text = "Player Four \n Total Rounds \n" + playerFourScore;
-            }
-                
-        
+
+        if (playerTotal >= 2)
+        {
+            endGameModeScoreTexts[0].text = "Player One \n Total Rounds \n" + playerOneScore;
+            endGameModeScoreTexts[1].text = "Player Two \n Total Rounds \n" + playerTwoScore;
+        }
+        if (playerTotal >= 3)
+        {
+            endGameModeScoreTexts[2].text = "Player Three \nTotal Rounds \n" + playerThreeScore;
+        }
+        if (playerTotal >= 4)
+        {
+            endGameModeScoreTexts[3].text = "Player Four \n Total Rounds \n" + playerFourScore;
+        }
+
+
         if (SceneManager.GetActiveScene().buildIndex <= 1)
         {
             PlayerUI = GameObject.Find("PlayerUI");
             PlayerUI.transform.GetChild(1).gameObject.SetActive(false);
         }
         else PlayerUI.transform.GetChild(1).gameObject.SetActive(true);
-        if (currentSceneID == levelPlaylist.Count-1)
+        if (currentSceneID == levelPlaylist.Count - 1)
         {
             nextLevelButtonText.text = "Return to Menu";
         }
@@ -297,7 +297,7 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(ResetNotEnoughText());
             }
         }
-        if(currentSceneID >= levelPlaylist.Count)
+        if (currentSceneID >= levelPlaylist.Count)
         {
             StartCoroutine(LoadMainMenu());
         }
@@ -310,7 +310,7 @@ public class GameManager : MonoBehaviour
     }
     public void ChangeTutorialScreen(string _gameName)
     {
-        if(_gameName == "King Of The Hill")
+        if (_gameName == "King Of The Hill")
         {
             title.text = _gameName;
             howToPlayText.text = "-Enter the zone to gain points. \n" + "-Shove other players out of the zone to stop them contesting.\n" + "-Highest points wins the round when the timer hits zero.\n" + "-Each round gains you a point to the overall score.";
@@ -350,7 +350,7 @@ public class GameManager : MonoBehaviour
             title.text = _gameName;
             howToPlayText.text = "-Move around and try to hit other players with your trail. \n" + "-Watch out you can hit yourself with your own trail.\n" + "-Last man standing gains a point.";
         }
-        if(_gameName == "Whack-A-Mole")
+        if (_gameName == "Whack-A-Mole")
         {
             title.text = _gameName;
             howToPlayText.text = "-Move your circle around and press A to hit the moles. \n" + "-Highest mole eliminations wins the round and gains a point.\n";
@@ -358,15 +358,15 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator LoadMainMenu()
     {
-        if(currentSceneID >= levelPlaylist.Count)
+        if (currentSceneID >= levelPlaylist.Count)
         {
-        AsyncOperation aysncLoad = SceneManager.LoadSceneAsync("MainMenu");
-        currentSceneID = 0;
-        while (!aysncLoad.isDone)
-        {
-            yield return null;
-        }
-            
+            AsyncOperation aysncLoad = SceneManager.LoadSceneAsync("MainMenu");
+            currentSceneID = 0;
+            while (!aysncLoad.isDone)
+            {
+                yield return null;
+            }
+            transform.GetChild(0).gameObject.SetActive(false);
         }
     }
     IEnumerator LoadAsync()
@@ -377,7 +377,7 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
-       
+        transform.GetChild(0).gameObject.SetActive(false);
         //Used to reactive the player uis in the main menu
         /* 
         foreach (Transform child in GameObject.Find("PlayerUI").transform.GetChild(1).transform)
@@ -416,14 +416,17 @@ public class GameManager : MonoBehaviour
     public void IncreaseNumberOfRounds()
     {
         numberOfRounds++;
-        roundCountText.text = "Round Total: " + numberOfRounds;
-        roundCountText2.text = "Round Total: " + numberOfRounds;
+        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
     public void DecreaseNumberOfRounds()
     {
-        numberOfRounds--;
-        roundCountText.text = "Round Total: " + numberOfRounds;
-        roundCountText2.text = "Round Total: " + numberOfRounds;
+        if (numberOfRounds > 1)
+        {
+            numberOfRounds--;
+        }
+        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
     public int GetNumberOfRounds()//Used at the start of your scene to set your own max round value or to just use 
     {

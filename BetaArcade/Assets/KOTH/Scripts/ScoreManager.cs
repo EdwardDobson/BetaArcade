@@ -10,6 +10,8 @@ public class ScoreManager : MonoBehaviour
     TextMeshProUGUI inPointText;
     TextMeshProUGUI roundText;
     TextMeshProUGUI timerText;
+    TextMeshProUGUI scoreToWinText;
+    TextMeshProUGUI scoreToWinTextTutorialText;
     public int maxScore;
     bool resetPoints = false;
     bool canGainPoints = true;
@@ -36,7 +38,7 @@ public class ScoreManager : MonoBehaviour
     GameManager gameManager;
     bool endGameMode = false;
     GameObject PlayerUI;
-    int stopTimerDecrease;
+    int stopTimerDecrease = 0;
     [SerializeField]
     bool startGame;
     // Start is called before the first frame update
@@ -47,9 +49,11 @@ public class ScoreManager : MonoBehaviour
         point = GetComponent<PointMove>();
         roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
         timerText = GameObject.Find("timerText").GetComponent<TextMeshProUGUI>();
-        scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
         winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
+        scoreToWinText = GameObject.Find("ScoreToWinText").GetComponent<TextMeshProUGUI>();
         inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
+        scoreToWinTextTutorialText = GameObject.Find("ScoreIncreaseText").GetComponent<TextMeshProUGUI>();
+        scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
         KOTHPlayerSpawner = GetComponent<KOTHPlayerSpawner>();
         maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -60,27 +64,30 @@ public class ScoreManager : MonoBehaviour
             t.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: 0";
         }
         timerText.text = "Time: " + gameManager.GetTimer();
-     
+  
+        scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
+        scoreToWinText.text = "Score to win: " + maxScore;
     }
 
     // Update is called once per frame
     void Update()
     {
         if(startGame == true)
-        {
-        
-          
+        { 
         if (canGainPoints && currentRound <= maxRound && !endGameMode)
         {
             AddScore();
             AddScoreOutOfTime();
-            
         }
         if (currentRound > maxRound)
         {
             inPointText.text = "";
             roundText.text = "";
+            timerText.text = "";
+            winText.text = "";
             endGameMode = true;
+            gameManager.transform.GetChild(0).gameObject.SetActive(true);
+            startGame = false;
         }
         foreach (Transform child in KOTHPlayerSpawner.GetPlayerHolderTransform())
         {
@@ -389,5 +396,25 @@ public class ScoreManager : MonoBehaviour
     public void SetresetPoints(bool _reset)
     {
         resetPoints = _reset;
+    }
+    public void IncreaseScoreToWin()
+    {
+        if(maxScore < 1000)
+        {
+            maxScore += 5;
+            scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
+            scoreToWinText.text = "Score to win: " + maxScore;
+        }
+       
+    }
+    public void DecreaseScoreToWin()
+    {
+        if(maxScore > 5)
+        {
+            maxScore -= 5;
+            scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
+            scoreToWinText.text = "Score to win: " + maxScore;
+        }
+       
     }
 }

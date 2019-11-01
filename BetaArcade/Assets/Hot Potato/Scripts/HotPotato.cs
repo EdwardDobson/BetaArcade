@@ -10,6 +10,7 @@ public class HotPotato : MonoBehaviour
     public int maxBombTimer;
     [SerializeField]
     int currentBombTimer;
+    float timer = 1;
     #endregion
     #region PassBomb
     [SerializeField]
@@ -24,19 +25,20 @@ public class HotPotato : MonoBehaviour
     [SerializeField]
     int maxRound;
     bool endGameMode = false;
+    bool startGame = false;
     TextMeshProUGUI bombTimerText;
     void Start()
     {
         Invoke("LateStart", 0.1f);
-        InvokeRepeating("BombTimer", 0, 1);
+
         bombTimerText = GameObject.Find("BombTimer").GetComponent<TextMeshProUGUI>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+  
     }
     void LateStart()
     {
     
         roundText = GameObject.Find("RoundText").GetComponent<TextMeshProUGUI>();
-   
         currentBombTimer = maxBombTimer;
         for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
         {
@@ -54,61 +56,72 @@ public class HotPotato : MonoBehaviour
     }
     void BombTimer()
     {
-        currentBombTimer--;
+        timer -= Time.deltaTime;
+        if(timer <= 0)
+        {
+            timer = 1;
+            currentBombTimer--;
+            bombTimerText.text = "Bomb Timer: " + currentBombTimer;
+        }
     }
     // Update is called once per frame
     void Update()
     {
-        if (currentRound > maxRound)
+        if (startGame == true)
         {
-            endGameMode = true;
-            roundText.text = "";
-            currentRound = maxRound;
-        }
-        if (!endGameMode)
-        {
-            bombTimerText.text = "Bomb Timer: " + currentBombTimer;
-            if (increaseInactivePlayers >= gameManager.GetPlayerCount()-1)
+            if (currentRound > maxRound)
             {
-                StartCoroutine(ResetRoundCoroutine());
+                endGameMode = true;
+                roundText.text = "";
+                currentRound = maxRound;
+                gameManager.transform.GetChild(0).gameObject.SetActive(true);
+
+            }
+            if (!endGameMode)
+            {
+                BombTimer();
+                bombTimerText.text = "Bomb Timer: " + currentBombTimer;
+                if (increaseInactivePlayers >= gameManager.GetPlayerCount() - 1)
+                {
+                    StartCoroutine(ResetRoundCoroutine());
+                    for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
+                    {
+                        if (players[i].gameObject.activeSelf)
+                        {
+                            if (players[i].tag == "Player1")
+                            {
+                                gameManager.SetPlayerOneScore(1);
+                            }
+                            if (players[i].tag == "Player2")
+                            {
+                                gameManager.SetPlayerTwoScore(1);
+                            }
+                            if (players[i].tag == "Player3")
+                            {
+                                gameManager.SetPlayerThreeScore(1);
+                            }
+                            if (players[i].tag == "Player4")
+                            {
+                                gameManager.SetPlayerFourScore(1);
+                            }
+                            increaseInactivePlayers = 0;
+                            currentRound++;
+                        }
+                    }
+                }
+                ResetBomb();
                 for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
                 {
-                    if (players[i].gameObject.activeSelf)
+                    if (players[i].GetComponent<PlayerHotPotato>().HasBomb())
                     {
-                        if (players[i].tag == "Player1")
-                        {
-                            gameManager.SetPlayerOneScore(1);
-                        }
-                        if (players[i].tag == "Player2")
-                        {
-                            gameManager.SetPlayerTwoScore(1);
-                        }
-                        if (players[i].tag == "Player3")
-                        {
-                            gameManager.SetPlayerThreeScore(1);
-                        }
-                        if (players[i].tag == "Player4")
-                        {
-                            gameManager.SetPlayerFourScore(1);
-                        }
-                        increaseInactivePlayers = 0;
-                        currentRound++;
+                        gameManager.PlayerPictures[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "has the bomb";
+                    }
+                    if (!players[i].GetComponent<PlayerHotPotato>().HasBomb())
+                    {
+                        gameManager.PlayerPictures[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "";
                     }
 
                 }
-            }
-            ResetBomb();
-            for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
-            {
-                if (players[i].GetComponent<PlayerHotPotato>().HasBomb())
-                {
-                    gameManager.PlayerPictures[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "has the bomb";
-                }
-                if (!players[i].GetComponent<PlayerHotPotato>().HasBomb())
-                {
-                    gameManager.PlayerPictures[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "";
-                }
-
             }
         }
     }
@@ -182,5 +195,9 @@ public class HotPotato : MonoBehaviour
             }
         }
 
+    }
+    public void StartGame(bool _state)
+    {
+        startGame = _state;
     }
 }
