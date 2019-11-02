@@ -15,6 +15,7 @@ public class PTFLevelManager : MonoBehaviour
     Physics.IgnoreLayerCollision(9, 10);
 
     #region Level Generation
+    var levelParent = new GameObject("levelParent");
     for (int i = 0; i <= maxX; i++)
       {
       for (int y = 0; y <= maxY; y++)
@@ -22,6 +23,7 @@ public class PTFLevelManager : MonoBehaviour
         var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         cube.transform.position = new Vector3(i - (maxX / 2), 0, y - (maxY / 2));
         cube.transform.localScale = new Vector3(1, 0.2f, 1);
+        cube.transform.SetParent(levelParent.transform);
         }
       }
     #endregion
@@ -43,26 +45,7 @@ public class PTFLevelManager : MonoBehaviour
     var player = Instantiate(Player);
     player.transform.position = new Vector3(5 * playerCount, .8f, 0);
     playerCount++;
-    player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
+    player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(playerCount));
     player.GetComponent<PlayerMove>().ID = playerCount;
-    }
-
-  private Color PlayerIDToColor(int id)
-    {
-    switch (id)
-      {
-      case 1:
-        return Color.red;
-      case 2:
-        return Color.yellow;
-      case 3:
-        return Color.green;
-      case 4:
-        return Color.blue;
-      default:
-        Debug.LogError("Player has no ID");
-        break;
-      }
-    return Color.clear;
     }
   }
