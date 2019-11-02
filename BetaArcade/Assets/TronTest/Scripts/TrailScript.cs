@@ -12,7 +12,7 @@ public class TrailScript : MonoBehaviour
     }
   IEnumerator EnableAfterSpawn()
     {
-    yield return new WaitForSeconds(.2f);
+    yield return new WaitForSeconds(.05f);
     GetComponent<BoxCollider>().enabled = true;
     }
   private void OnTriggerEnter(Collider other)
