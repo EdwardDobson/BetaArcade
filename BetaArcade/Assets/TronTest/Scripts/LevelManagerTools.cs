@@ -22,4 +22,20 @@ public static class LevelManagerTools
       }
     return Color.clear;
     }
+  public static int GetPlayerID(GameObject playerObject)
+    {
+    if (playerObject != null)
+      {
+      if (playerObject.GetComponent<PlayerMove>() != null)
+        {
+        return playerObject.GetComponent<PlayerMove>().ID;
+        }
+      else if (playerObject.GetComponent<PlayerManager>() != null)
+        {
+        return playerObject.GetComponent<PlayerMove>().ID;
+        }
+      return -1;
+      }
+    return -1;
+    }
   }
