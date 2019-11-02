@@ -72,6 +72,12 @@ public class PlayerManager : MonoBehaviour
     Destroy(gameObject);
     }
 
+  public void SetWinner()
+    {
+    m_IsDead = true;
+    // TODO?
+    }
+
   IEnumerator DeleteAfterTime(GameObject trail)
     {
     yield return new WaitForSeconds(m_TrailTime);
@@ -88,10 +94,10 @@ public class PlayerManager : MonoBehaviour
 
   IEnumerator SpeedupPowerup()
     {
-    m_OriginalSpeed *= 2;
+    m_OriginalSpeed *= 1.25f;
     m_Speed = m_OriginalSpeed;
     yield return new WaitForSeconds(5);
-    m_OriginalSpeed /= 2;
+    m_OriginalSpeed /= 1.25f;
     m_Speed = m_OriginalSpeed;
     }
   Vector3 DirectionToVector3(Direction dir)
