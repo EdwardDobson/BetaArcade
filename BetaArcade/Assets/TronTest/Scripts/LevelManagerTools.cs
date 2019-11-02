@@ -32,7 +32,7 @@ public static class LevelManagerTools
         }
       else if (playerObject.GetComponent<PlayerManager>() != null)
         {
-        return playerObject.GetComponent<PlayerMove>().ID;
+        return playerObject.GetComponent<PlayerManager>().ID;
         }
       return -1;
       }
