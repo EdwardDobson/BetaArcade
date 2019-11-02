@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
   private Rigidbody m_Rb;
   [SerializeField]
   private Direction m_Direction;
+  private float m_OriginalSpeed = 0.2f;
   private float m_Speed = 0.2f;
   private bool m_IsDead;
   private float m_TrailTime = 2f;
@@ -35,6 +36,7 @@ public class PlayerManager : MonoBehaviour
       m_Direction = Direction.Down;
     else if (v > .75f && m_Direction != Direction.Down)
       m_Direction = Direction.Up;
+
     }
 
   void LateUpdate()
@@ -47,7 +49,12 @@ public class PlayerManager : MonoBehaviour
       trail.transform.SetParent(m_TrailParent.transform);
       trail.GetComponent<Renderer>().material.SetColor("_BaseColor", GetComponent<Renderer>().material.GetColor("_BaseColor"));
       trailScript.ID = ID;
-      m_Rb.MovePosition(transform.position + DirectionToVector3(m_Direction));
+
+      if(Input.GetButton("Dash" + ID))
+        m_Rb.MovePosition(transform.position + (DirectionToVector3(m_Direction) * 2));
+      else
+        m_Rb.MovePosition(transform.position + DirectionToVector3(m_Direction));
+
       //transform.position += DirectionToVector3(m_Direction);
       transform.eulerAngles = new Vector3(0, 90 * (int)m_Direction, 0);
       StartCoroutine(DeleteAfterTime(trail));
@@ -69,6 +76,23 @@ public class PlayerManager : MonoBehaviour
     {
     yield return new WaitForSeconds(m_TrailTime);
     Destroy(trail);
+    }
+  private void OnCollisionEnter(Collision collision)
+    {
+    Die();
+    }
+  public void Speedup()
+    {
+    StartCoroutine(SpeedupPowerup());
+    }
+
+  IEnumerator SpeedupPowerup()
+    {
+    m_OriginalSpeed *= 2;
+    m_Speed = m_OriginalSpeed;
+    yield return new WaitForSeconds(5);
+    m_OriginalSpeed /= 2;
+    m_Speed = m_OriginalSpeed;
     }
   Vector3 DirectionToVector3(Direction dir)
     {
