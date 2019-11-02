@@ -182,6 +182,7 @@ public class GameManager : MonoBehaviour
     public void CreatePlayerUI()
     {
         GameObject playerUI = Instantiate(PlayerPicture);
+      
         if (playerCount == 0)
         {
             playerUI.GetComponent<Image>().color = Color.red;
@@ -208,8 +209,12 @@ public class GameManager : MonoBehaviour
         }
         playerUI.transform.position = Portraits[playerCount].position;
         playerCount++;
+        playerUI.name = "PlayerPicture" + playerCount;
         playerUI.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(2).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        playerUI.transform.GetChild(3).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        playerUI.transform.GetChild(4).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        playerUI.transform.GetChild(5).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         playerUI.transform.SetParent(GameObject.Find("PlayerUI").transform.GetChild(1).transform);
         PlayerPictures.Add(playerUI);

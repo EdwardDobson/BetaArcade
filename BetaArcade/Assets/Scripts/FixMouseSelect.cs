@@ -11,6 +11,7 @@ public class FixMouseSelect : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        /*
 		if(EventSystem.current.currentSelectedGameObject == null)
         {
             EventSystem.current.SetSelectedGameObject(m_lastSelect);
@@ -19,5 +20,6 @@ public class FixMouseSelect : MonoBehaviour {
         {
             m_lastSelect = EventSystem.current.currentSelectedGameObject;
         }
+        */
 	}
 }

@@ -45,24 +45,10 @@ public class KOTHPlayerSpawner : MonoBehaviour
     public void CreatePlayer()
     {
         GameObject player = Instantiate(Player);
-        if (playerCount == 0)
-        {
-            player.tag = "Player1";
-        }
-        if (playerCount == 1)
-        {
-            player.tag = "Player2";
-        }
-        if (playerCount == 2)
-        {
-            player.tag = "Player3";
-        }
-        if (playerCount == 3)
-        {
-            player.tag = "Player4";
-        }
+   
         player.transform.position = SpawnPoints[playerCount].position;
         playerCount++;
+        player.tag = "Player"+playerCount;
         player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
         player.GetComponent<PlayerMove>().ID = playerCount;
         player.transform.SetParent(playerHolder);
