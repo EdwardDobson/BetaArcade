@@ -540,15 +540,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerUI
       objectReference: {fileID: 0}
-    - target: {fileID: 1904072788413748593, guid: 70d7be3f7de8417458a62ced6bff2451,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 340
-      objectReference: {fileID: 0}
     - target: {fileID: 1904072787001764856, guid: 70d7be3f7de8417458a62ced6bff2451,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 690
+      objectReference: {fileID: 0}
+    - target: {fileID: 1904072788413748593, guid: 70d7be3f7de8417458a62ced6bff2451,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 340
       objectReference: {fileID: 0}
     - target: {fileID: 1904072788171852054, guid: 70d7be3f7de8417458a62ced6bff2451,
         type: 3}
@@ -1475,6 +1475,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPicture
       objectReference: {fileID: 0}
+    - target: {fileID: 8834752589239295553, guid: ce74d4798a12166409ce90b72988b334,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2424597075238834035, guid: ce74d4798a12166409ce90b72988b334,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1583,12 +1588,12 @@ PrefabInstance:
     - target: {fileID: 2325064746080650419, guid: ce74d4798a12166409ce90b72988b334,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2325064746080650419, guid: ce74d4798a12166409ce90b72988b334,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce74d4798a12166409ce90b72988b334, type: 3}
