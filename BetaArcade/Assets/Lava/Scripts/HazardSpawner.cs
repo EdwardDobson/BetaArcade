@@ -34,6 +34,8 @@ public class HazardSpawner : MonoBehaviour
 
 	[SerializeField]
 	List<GameObject> Objects = new List<GameObject>();
+	[SerializeField]
+	bool isRounding = false;
 	// Start is called before the first frame update
 	private void Awake()
 	{
@@ -48,6 +50,12 @@ public class HazardSpawner : MonoBehaviour
 			posX = Random.Range(minX, maxX);
 			posY = Random.Range(minY, maxY);
 			posZ = Random.Range(minZ, maxZ);
+			if(isRounding)
+			{
+				posX = Mathf.RoundToInt(posX) + 0.5f;
+				posY = Mathf.RoundToInt(posY);
+				posZ = Mathf.RoundToInt(posZ) + 0.5f;
+			}
 			timeDelay = Random.Range(minTime, maxTime);
 			spawnPosition = new Vector3(posX, posY, posZ);
 			GameObject clone = Instantiate(Objects[objectId], spawnPosition, Quaternion.identity);

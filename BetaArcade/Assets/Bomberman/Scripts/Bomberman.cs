@@ -8,10 +8,14 @@ public class Bomberman : MonoBehaviour
 	PlayerMove player;
 	public Transform myTransform;
 	public bool isDead = false;
+	[SerializeField]
+	float baseCooldown = 1.5f;
+	float cooldown = 0.0f;
 
 	//add global reference here
 	void Start()
 	{
+		cooldown = baseCooldown;
 		player = GetComponent<PlayerMove>();
 	}
 
@@ -34,13 +38,13 @@ public class Bomberman : MonoBehaviour
 	{
 		if (bombPrefab)
 		{
-			Instantiate(bombPrefab, new Vector3(Mathf.RoundToInt(myTransform.position.x), Mathf.RoundToInt(myTransform.position.y), Mathf.RoundToInt(myTransform.position.z)), bombPrefab.transform.rotation);
+			Instantiate(bombPrefab, new Vector3(Mathf.RoundToInt(myTransform.position.x) + 0.5f, Mathf.RoundToInt(myTransform.position.y), Mathf.RoundToInt(myTransform.position.z) + 0.5f), bombPrefab.transform.rotation);
 		}
 	}
 
 	void Update()
 	{
-		if (Input.GetButtonDown("Jump" + player.ID))
+		if (Input.GetButtonDown("Jump" + player.ID) && cooldown <= 0)
 		{
 			DropBomb();
 		}
