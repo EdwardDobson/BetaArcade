@@ -545,11 +545,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 340
       objectReference: {fileID: 0}
-    - target: {fileID: 1904072787001764856, guid: 70d7be3f7de8417458a62ced6bff2451,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 690
-      objectReference: {fileID: 0}
     - target: {fileID: 1904072788171852054, guid: 70d7be3f7de8417458a62ced6bff2451,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -654,6 +649,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1904072787001764856, guid: 70d7be3f7de8417458a62ced6bff2451,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 690
       objectReference: {fileID: 0}
     - target: {fileID: 1904072787774284052, guid: 70d7be3f7de8417458a62ced6bff2451,
         type: 3}
@@ -832,7 +832,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   volumeAnchorOverride: {fileID: 0}
-  antialiasing: 2
+  antialiasing: 0
   dithering: 1
   stopNaNs: 0
   physicalParameters:
