@@ -133,6 +133,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     public void ResetPlayerCount()
     {
         playerTotal = 0;
@@ -182,7 +183,7 @@ public class GameManager : MonoBehaviour
     public void CreatePlayerUI()
     {
         GameObject playerUI = Instantiate(PlayerPicture);
-      
+
         if (playerCount == 0)
         {
             playerUI.GetComponent<Image>().color = Color.red;
@@ -281,37 +282,43 @@ public class GameManager : MonoBehaviour
     }
     public void LoadLevel()
     {
-        if(shouldLoad == true)
-        {
-
-            shouldLoad = false;
         if (currentSceneID < levelPlaylist.Count)
         {
-            if (levelPlaylist.Count >= 1 && playerTotal > 1 && numberOfRounds > 0)
+            if (shouldLoad == true)
             {
-                StartCoroutine(LoadAsync());
-            }
-            if (playerTotal < 2)
-            {
-                notEnoughText.text = "Not enough players";
-                StartCoroutine(ResetNotEnoughText());
-            }
-            if (levelPlaylist.Count <= 0)
-            {
-                notEnoughText.text = "No gamemodes in playlist";
-                StartCoroutine(ResetNotEnoughText());
-            }
-            if (numberOfRounds <= 0)
-            {
-                notEnoughText.text = "Not enough rounds";
-                StartCoroutine(ResetNotEnoughText());
+
+                shouldLoad = false;
+                if (levelPlaylist.Count >= 1 && playerTotal > 1 && numberOfRounds > 0)
+                {
+                    StartCoroutine(LoadAsync());
+
+                }
+
+                if (playerTotal < 2)
+                {
+                    notEnoughText.text = "Not enough players";
+                    StartCoroutine(ResetNotEnoughText());
+                    shouldLoad = true;
+                }
+                if (levelPlaylist.Count <= 0)
+                {
+                    notEnoughText.text = "No gamemodes in playlist";
+                    StartCoroutine(ResetNotEnoughText());
+                    shouldLoad = true;
+                }
+                if (numberOfRounds <= 0)
+                {
+                    notEnoughText.text = "Not enough rounds";
+                    StartCoroutine(ResetNotEnoughText());
+                    shouldLoad = true;
+                }
             }
         }
-        if (currentSceneID >= levelPlaylist.Count)
-        {
-            StartCoroutine(LoadMainMenu());
-        }
-        }
+            if (currentSceneID >= levelPlaylist.Count)
+            {
+                StartCoroutine(LoadMainMenu());
+            }
+        
     }
     IEnumerator ResetNotEnoughText()
     {
@@ -425,6 +432,8 @@ public class GameManager : MonoBehaviour
     public void SetNumberOfRounds(int _set)//Set in lobby menu
     {
         numberOfRounds = _set;
+        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
     public void IncreaseNumberOfRounds()
     {
