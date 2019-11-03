@@ -214,7 +214,7 @@ public class GameManager : MonoBehaviour
         playerUI.transform.GetChild(3).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(4).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(5).GetComponent<Image>().color = new Color(1, 1, 1, 0);
-        playerUI.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        playerUI.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
         playerUI.transform.SetParent(GameObject.Find("PlayerUI").transform.GetChild(1).transform);
         PlayerPictures.Add(playerUI);
     }
