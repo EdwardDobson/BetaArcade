@@ -25,7 +25,6 @@ public class HOTPotatoSpawner : MonoBehaviour
             for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
             {
                 CreatePlayer();
-                Debug.Log("asd");
             }
 
         }

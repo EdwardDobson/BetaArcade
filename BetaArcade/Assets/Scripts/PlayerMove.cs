@@ -1,16 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerMove : MonoBehaviour
 {
     public int ID;
 
-    private float speed = 20.0f;
-    private float jumpSpeed = 80.0f;
+    private float originalSpeed = 15f;
+    private float speed = 15f;
+    private float maxSpeed = 5f;
+    private float jumpSpeed = 180.0f;
     private float rotationSpeed = 12.5f;
     private float dashSpeed = 8.0f;
-    private Vector3 moveDirection = Vector3.zero;
     private Vector3 movement;
     private Rigidbody rb;
     private bool isGrounded;
@@ -20,6 +21,8 @@ public class PlayerMove : MonoBehaviour
     float shoveForce = 0;
     [SerializeField]
     float shoveRadius = 0;
+    int bigJumps = 0;
+    int powerUpCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -27,30 +30,56 @@ public class PlayerMove : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void Update()
     {
         if (isGrounded)
         {
-            if (Input.GetButton("Jump" + ID))
+            if (Input.GetButtonDown("Jump" + ID))
             {
-                rb.AddForce(Vector3.up * jumpSpeed);
+                if (bigJumps > 0)
+                {
+                    rb.AddForce(Vector3.up * jumpSpeed * 2f);
+                    bigJumps--;
+                }
+                else if (bigJumps <= 0)
+                {
 
+                    rb.AddForce(Vector3.up * jumpSpeed);
+                    GameObject Clone = GameObject.Find("PlayerPicture" + ID);
+                    foreach (Transform t in Clone.transform)
+                    {
+                        if (t.name == "PUJump")
+                        {
+                            t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
+                        }
+
+                    }
+                }
             }
-            if (Input.GetButton("Dash" + ID) && !hasDashed)
+            if (Input.GetButtonDown("Dash" + ID) && !hasDashed)
             {
                 rb.AddForce(movement * dashSpeed, ForceMode.Impulse);
                 hasDashed = true;
                 StartCoroutine(ResetDash());
             }
         }
-        float moveHorizontal = Input.GetAxis("Horizontal" + ID);
-        float moveVertical = Input.GetAxis("Vertical" + ID);
+
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        float moveHorizontal = Input.GetAxisRaw("Horizontal" + ID);
+        float moveVertical = Input.GetAxisRaw("Vertical" + ID);
         movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        rb.AddForce(movement * speed);
+        rb.AddForce(new Vector3(moveHorizontal * speed, 0, moveVertical * speed));
+        //if(rb.velocity.sqrMagnitude < maxSpeed)
+        //rb.AddForce(Time.deltaTime * movement.x * speed, 0, Time.deltaTime * movement.z * speed, ForceMode.VelocityChange);
+        if (Mathf.Abs(rb.velocity.z) > maxSpeed || Mathf.Abs(rb.velocity.x) > maxSpeed)
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
 
         Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
-        if(Input.GetButton("Shove" +ID) && !hasPushed)
+        if (Input.GetButton("Shove" + ID) && !hasPushed)
         {
             hasPushed = true;
             Debug.Log("Shoved");
@@ -76,11 +105,11 @@ public class PlayerMove : MonoBehaviour
     void Push()
     {
         Vector3 pushPos = transform.GetChild(1).position;
-        Collider[] colliders = Physics.OverlapBox(pushPos, transform.localScale/4);
-        foreach(Collider hit in colliders)
+        Collider[] colliders = Physics.OverlapBox(pushPos, transform.localScale / 4);
+        foreach (Collider hit in colliders)
         {
             Rigidbody rb = hit.GetComponent<Rigidbody>();
-            if(rb != null)
+            if (rb != null)
             {
                 rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 3.0f);
             }
@@ -92,7 +121,7 @@ public class PlayerMove : MonoBehaviour
         {
             isGrounded = true;
         }
-     
+
     }
     private void OnCollisionExit(Collision collision)
     {
@@ -100,5 +129,42 @@ public class PlayerMove : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    public void IncreaseMovementSpeed()
+    {
+        speed = (speed * 1.5f);
+        StartCoroutine(SpeedReset(5));
+    }
+    IEnumerator SpeedReset(float time)
+    {
+        yield return new WaitForSeconds(time);
+        GameObject Clone = GameObject.Find("PlayerPicture" + ID);
+        foreach (Transform t in Clone.transform.transform)
+        {
+            if (t.name == "PUSpeedup")
+            {
+                t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
+            }
+
+        }
+        speed = originalSpeed;
+    }
+
+    public void AddBigJumps(int count)
+    {
+        bigJumps += count;
+    }
+    public void IncreasePowerUpCount(int _count)
+    {
+        powerUpCount++;
+    }
+    public void DecreasePowerUpCount(int _count)
+    {
+        powerUpCount--;
+    }
+    public int GetPowerUpCount()
+    {
+        return powerUpCount;
     }
 }
