@@ -131,6 +131,8 @@ public class HotPotato : MonoBehaviour
         foreach (Transform t in transform)
         {
             t.gameObject.SetActive(true);
+            t.gameObject.transform.position = GetComponent<HOTPotatoSpawner>().SpawnPoints[t.GetComponent<PlayerMove>().ID-1].transform.position;
+
 
             roundText.text = "Round: " + currentRound + " of " + maxRound;
             currentBombTimer = maxBombTimer;
