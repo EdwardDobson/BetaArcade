@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
   private enum Direction { Up, Right, Down, Left};
 
   public GameObject TrailObject;
+  public GameObject Explosion;
   public int ID;
 
   private Rigidbody m_Rb;
@@ -68,6 +69,9 @@ public class PlayerManager : MonoBehaviour
     #region DeathFade
     //StopAllCoroutines();
     #endregion
+
+    var exp = Instantiate(Explosion);
+    exp.transform.position = transform.position;
     Destroy(m_TrailParent);
     Destroy(gameObject);
     }
