@@ -155,8 +155,10 @@ public class Win_Condition : MonoBehaviour
         currentRound++;
         for (int i = 0; i < otherPlayers.Count; i++)
         {
+            int SpawnPoint = 1;
             otherPlayers[i].SetActive(true);
-            otherPlayers[i].transform.position = DodgballPlayerSpawner.SpawnPoints[DodgballPlayerSpawner.playerCount].position;
+            otherPlayers[i].transform.position = DodgballPlayerSpawner.SpawnPoints[SpawnPoint].position;
+            SpawnPoint++;
         }
     }
 }

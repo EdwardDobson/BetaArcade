@@ -20,7 +20,7 @@ public class PickUp_Throw : MonoBehaviour
         PM = GetComponent<PlayerMove>();
         id = PM.ID;
 
-        ballScale = new Vector3(0.5f, 0.5f, 0.5f);
+        ballScale = new Vector3(1f, 1f, 1f);
     }
 
     void Update()
@@ -67,7 +67,7 @@ public class PickUp_Throw : MonoBehaviour
         //We re-position the ball on our guide object
         ChildBall.transform.position = guide.position;
 
-        //Ball.transform.localScale = ballScale;
+        ChildBall.transform.localScale = ballScale;
 
         //Set the ball to be active
         canHold = false;
