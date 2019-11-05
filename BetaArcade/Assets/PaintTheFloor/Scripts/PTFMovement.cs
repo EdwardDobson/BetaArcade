@@ -111,11 +111,14 @@ public class PTFMovement : MonoBehaviour
     {
     yield return new WaitForSeconds(5);
     GameObject Clone = GameObject.Find("PlayerPicture" + m_PlayerMoveScript.ID);
-    foreach (Transform t in Clone.transform.transform)
+    if(Clone != null)
       {
-      if (t.name == "PUShotsize")
+      foreach (Transform t in Clone.transform.transform)
         {
-        t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
+        if (t.name == "PUShotsize")
+          {
+          t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
+          }
         }
       }
     m_PlayerMoveScript.DecreasePowerUpCount(1);
