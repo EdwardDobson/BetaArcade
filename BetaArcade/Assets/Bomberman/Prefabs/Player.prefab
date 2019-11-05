@@ -168,10 +168,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 459b26b19ee4f70438f755e2c9914a11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 8803401641697793902, guid: 0481709e086a0ff409c8b2c20aca74bc, type: 3}
   bombPrefab: {fileID: 2771977596041176808, guid: 513910e29fb0f124fa084622f22b3089,
     type: 3}
   myTransform: {fileID: 6718330864816921272}
   isDead: 0
+  baseCooldown: 1.5
 --- !u!1 &8037719633880033467
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bomberman : MonoBehaviour
 {
+	public BombermanRoundManager manager;
 	public GameObject bombPrefab;
 	PlayerMove player;
 	public Transform myTransform;
@@ -30,6 +31,7 @@ public class Bomberman : MonoBehaviour
 	private void PlayerDied() //will probably need player id from global or something
 	{
 		isDead = true;
+		manager.PlayerDown();
 		//global point allocation
 		gameObject.SetActive(false);
 	}
@@ -46,6 +48,7 @@ public class Bomberman : MonoBehaviour
 	{
 		if (Input.GetButtonDown("Jump" + player.ID) && cooldown <= 0)
 		{
+			Debug.Log("Bomb button got");
 			DropBomb();
 		}
 	}

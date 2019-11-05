@@ -27,10 +27,12 @@ public class BombermanRoundManager : MonoBehaviour
     {
 		roundTimer = baseRoundTimer;
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-		roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
-		timerText = GameObject.Find("timerText").GetComponent<TextMeshProUGUI>();
+		roundText = GameObject.Find("RoundText").GetComponent<TextMeshProUGUI>();
+		timerText = GameObject.Find("TimerText").GetComponent<TextMeshProUGUI>();
+		eliminationText = GameObject.Find("EliminationText").GetComponent<TextMeshProUGUI>();
 		roundMax = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
 		remainingPlayers = GameObject.Find("GameManager").GetComponent<GameManager>().GetPlayerCount();
+		roundText.text = "Round " + currentRound + " / " + gameManager.GetNumberOfRounds();
 	}
 	void Restart()
 	{
@@ -40,15 +42,17 @@ public class BombermanRoundManager : MonoBehaviour
 	}
 	private void FixedUpdate()
 	{
-		if(remainingPlayers>1 && !isVictory)
+		if(!isVictory)
 		{
 			roundTimer -= Time.deltaTime;
 			timerText.text = "Time: " + roundTimer;
-			if (roundTimer <= 0.0f)
-			{
-				timerText.text = "Time Up!";
-				Restart();
-			}
+		}
+		
+		if (roundTimer <= 0.0f && !isVictory)
+		{
+			isVictory = true;
+			timerText.text = "Time Up!";
+			Restart();
 		}
 	}
 	void Draw()
@@ -66,7 +70,8 @@ public class BombermanRoundManager : MonoBehaviour
 	public void PlayerDown()
 	{
 		eliminationText.text = "Player defeated!";
-		Invoke("CleanEliminationText", 3.5f);
+		StartCoroutine(FadeInText(eliminationText, 4.0f));
+		
 		remainingPlayers--;
 		if(remainingPlayers==1)
 		{
@@ -77,9 +82,23 @@ public class BombermanRoundManager : MonoBehaviour
 			Draw();
 		}
 	}
-	void CleanEliminationText()
+	IEnumerator FadeInText(TextMeshProUGUI text, float time)
 	{
+		while (text.color.a<1)
+		{
+			text.color -= new Color(text.color.r, text.color.g, text.color.b, text.color.a + (Time.deltaTime / time));
+		}
+		StartCoroutine(FadeOutText(eliminationText, 4.0f));
+		yield return null;
+	}
+	IEnumerator FadeOutText(TextMeshProUGUI text, float time)
+	{
+		while(text.color.a>1)
+		{
+			text.color -= new Color(text.color.r, text.color.g, text.color.b, text.color.a-(Time.deltaTime / time));
+		}
 		eliminationText.text = "";
+		yield return null;
 	}
 	// Update is called once per frame
 	void Update()
