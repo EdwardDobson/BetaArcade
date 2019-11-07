@@ -92,7 +92,8 @@ GameObject:
   - component: {fileID: 1871915840430736553}
   - component: {fileID: 1871915840430736547}
   - component: {fileID: 2754867962190961647}
-  - component: {fileID: 3352129449751275611}
+  - component: {fileID: 9072594410979842442}
+  - component: {fileID: 1214251735707876312}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -205,19 +206,40 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &3352129449751275611
-BoxCollider:
+--- !u!114 &9072594410979842442
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871915840430736552}
-  m_Material: {fileID: 13400000, guid: 415cb74cb3a3b274ea4752e93c5f04c6, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ee6f2d0c1f64e4f86b66ed40f9174e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hammer: {fileID: 4423457795886397766}
+  CanSwing: 1
+  Score: 0
+--- !u!95 &1214251735707876312
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871915840430736552}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3df72b060ce7a4b42a8cb0c871ab5481, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4423457795886397766
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4423457795886397766}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.1, z: 0.25}
+  m_LocalPosition: {x: 0.5, y: 0.100000024, z: 0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7822666007660795833}
@@ -261,6 +283,7 @@ GameObject:
   - component: {fileID: 5865392104865921116}
   - component: {fileID: 3910179850453356593}
   - component: {fileID: 240613998997595654}
+  - component: {fileID: 4002257466930605479}
   m_Layer: 10
   m_Name: HammerHead
   m_TagString: Untagged
@@ -335,8 +358,20 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8114664173469343062}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 0.1}
+  m_Center: {x: 0, y: 0, z: 0.45}
+--- !u!114 &4002257466930605479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8114664173469343062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a5de853e498f2c4f9c26fef1d11683a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

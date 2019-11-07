@@ -3,50 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WAMLevelManager : MonoBehaviour
-{
-    public GameObject PlayerPrefab;
-    public GameObject MolePrefab;
+  {
+  public GameObject PlayerPrefab;
+  public GameObject MolePrefab;
+  public int MoleCount = 0;
 
-    private int m_PlayerCount = 0;
-    private List<GameObject> m_SpawnPoints = new List<GameObject>();
-    private int m_MaxMoles = 5;
-    private int m_MoleCount = 0;
+  private int m_PlayerCount = 0;
+  private List<GameObject> m_SpawnPoints = new List<GameObject>();
+  private int m_MaxMoles = 5;
+  private bool m_CanSpawnMole = true;
+
+  private System.Random m_Rand = new System.Random(System.DateTime.Now.Millisecond);
 
     private void Start()
     {
-        var spawnPointsParent = GameObject.Find("SpawnPoints");
-        foreach(Transform spawnPoint in spawnPointsParent.transform)
-        {
-            m_SpawnPoints.Add(spawnPoint.gameObject);
-        }
-        CreatePlayer();
-        Physics.IgnoreLayerCollision(11, 12);
+    var spawnPointsParent = GameObject.Find("SpawnPoints");
+    foreach (Transform spawnPoint in spawnPointsParent.transform)
+      {
+      m_SpawnPoints.Add(spawnPoint.gameObject);
+      }
+    CreatePlayer();
+    Physics.IgnoreLayerCollision(11, 12);
     }
 
-    private void FixedUpdate()
+  private void FixedUpdate()
     {
-        if (m_MoleCount < m_MaxMoles)
-        {
-            CreateMole();
-        }
+    if (MoleCount < m_MaxMoles && m_CanSpawnMole)
+      {
+      CreateMole();
+      StartCoroutine(SpawnDelay());
+      }
     }
 
-    private void CreatePlayer()
+  private void CreatePlayer()
     {
-        var player = Instantiate(PlayerPrefab);
-        m_PlayerCount++;
-        player.tag = "Player" + m_PlayerCount;
-        player.GetComponent<PlayerMove>().ID = m_PlayerCount;
-        player.transform.position = m_SpawnPoints[m_PlayerCount - 1].transform.position; // new Vector3(0, 1, 0); // TODO set position different for different players (maybe have spawn points)
+    var player = Instantiate(PlayerPrefab);
+    m_PlayerCount++;
+    player.tag = "Player" + m_PlayerCount;
+    player.GetComponent<PlayerMove>().ID = m_PlayerCount;
+    player.transform.position = m_SpawnPoints[m_PlayerCount - 1].transform.position;
     }
-    private void CreateMole()
+  private void CreateMole()
     {
-        System.Random rand = new System.Random(System.DateTime.Now.Millisecond);
-        var x = rand.Next(0, 20) - 10;
-        var z = rand.Next(0, 20) - 10;
-        var mole = Instantiate(MolePrefab);
-        mole.name = "Mole";
-        mole.transform.position = new Vector3(x, -0.5f, z);
-        m_MoleCount++;
+    var x = m_Rand.Next(0, 18) - 9;
+    var z = m_Rand.Next(0, 18) - 9;
+    var mole = Instantiate(MolePrefab);
+    mole.name = "Mole";
+    mole.transform.position = new Vector3(x, -0.5f, z);
+    MoleCount++;
     }
-}
+
+  private IEnumerator SpawnDelay()
+    {
+    m_CanSpawnMole = false;
+    yield return new WaitForSeconds(m_Rand.Next(20, 200) / 100.0f);
+    m_CanSpawnMole = true;
+    }
+  }

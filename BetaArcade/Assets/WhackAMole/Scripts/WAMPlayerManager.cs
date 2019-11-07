@@ -5,18 +5,21 @@ using UnityEngine;
 public class WAMPlayerManager : MonoBehaviour
   {
   public GameObject Hammer;
+  public bool CanSwing = true;
+  public int Score = 0;
 
   private int m_ID;
-  private float m_SwingCooldownTime = 5f;
-  private bool m_CanSwing = true;
+  private float m_SwingCooldownTime = 1f;
+  private Animator m_Animator;
   private void Start()
     {
     m_ID = LevelManagerTools.GetPlayerID(gameObject);
+    m_Animator = GetComponent<Animator>();
     }
 
   private void Update()
     {
-    if(Input.GetAxis("RT" + m_ID) != 0 && m_CanSwing)
+    if(Input.GetAxis("RT" + m_ID) != 0 && CanSwing)
       {
       StartCoroutine(SwingHammer());
       }
@@ -24,9 +27,9 @@ public class WAMPlayerManager : MonoBehaviour
 
   private IEnumerator SwingHammer()
     {
-    // TODO swing
-    m_CanSwing = false;
+    CanSwing = false;
+    m_Animator.SetTrigger("CanSwing");
     yield return new WaitForSeconds(m_SwingCooldownTime);
-    m_CanSwing = true;
+    CanSwing = true;
     }
   }

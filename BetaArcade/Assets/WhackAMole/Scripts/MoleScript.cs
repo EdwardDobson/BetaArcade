@@ -3,28 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoleScript : MonoBehaviour
-{
-    private bool m_IsAlive = true;
-    private void Start()
+  {
+  private System.Random m_Random = new System.Random(System.DateTime.Now.Millisecond);
+  private void Start()
     {
-        StartCoroutine(AliveTime());
+    GetComponent<Animator>().speed = m_Random.Next(50, 100) / 100.0f;
+    GetComponent<Animator>().SetTrigger("ComeUp");
+    StartCoroutine(AliveTime());
     }
 
-    private void Update()
+  IEnumerator AliveTime()
     {
-        if (m_IsAlive)
-        {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, .5f, transform.position.z), Time.deltaTime);
-        }
-        else
-        {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, -.5f, transform.position.z), Time.deltaTime * 2);
-        }
+    yield return new WaitForSeconds(m_Random.Next(50, 500) / 100.0f);
+    GetComponent<Animator>().SetTrigger("ComeDown");
     }
 
-    IEnumerator AliveTime()
+  public void Destroy()
     {
-        yield return new WaitForSeconds(5);
-        m_IsAlive = false;
+    GameObject.Find("LevelManager").GetComponent<WAMLevelManager>().MoleCount--;
+    Destroy(gameObject);
     }
-}
+  }
