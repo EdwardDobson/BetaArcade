@@ -28,13 +28,18 @@ public class GameManager : MonoBehaviour
     GameObject PlayerUI;
     [SerializeField]
     int currentSceneID = -1;//Represents the element id
-    int numberOfRounds = 0;//Set in lobby menu
+    int numberOfRounds = 1;//Set in lobby menu
     int playerTotal = 2;
     int playerCount = 0;
     [SerializeField]
     int timer;
     GameObject winScreen;
-
+    [SerializeField]
+    int levelNameIndex = -1;
+    TextMeshProUGUI nextLevelButtonText;
+    [SerializeField]
+    List<TextMeshProUGUI> endGameModeScoreTexts = new List<TextMeshProUGUI>();
+    bool shouldLoad = true;
     #region Scores
     //Manage your own rounds within your game scene then when somebody wins the round add to these values
     [SerializeField]
@@ -54,6 +59,8 @@ public class GameManager : MonoBehaviour
         winScreen = transform.GetChild(0).gameObject;
         gameModeList.text = "Game Modes \n";
         nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
 
     // Update is called once per frame
@@ -129,7 +136,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetPlayerCount()
     {
-        playerTotal = 0;
+        playerTotal = 2;
         playerTotalText.text = "Player Total: " + playerTotal;
         playerTotalText2.text = "Player Total: " + playerTotal;
     }
@@ -321,10 +328,10 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-            if (currentSceneID >= levelPlaylist.Count)
-            {
-                StartCoroutine(LoadMainMenu());
-            }
+        if (currentSceneID >= levelPlaylist.Count)
+        {
+            StartCoroutine(LoadMainMenu());
+        }
 
     }
     IEnumerator ResetNotEnoughText()
@@ -353,7 +360,7 @@ public class GameManager : MonoBehaviour
         if (_gameName == "Paint The Floor")
         {
             title.text = _gameName;
-            howToPlayText.text = "-Use your sludge gun to paint the floor in your sludge and gain points from it. \n" + "-Watch out for others players sludge it can slow you down and get rid of your sludge. \n" + "-Highest points wins the round when the timer hits zero.\n" + "-Each round gains you a point to the overall score.";
+            howToPlayText.text = "-Use your sludge gun to paint the floor in your sludge and gain points from it. \n" + "-Use your sludge to slow other players. \n" + "-Highest points wins the round when the timer hits zero.\n" + "-Each round gains you a point to the overall score.";
         }
         if (_gameName == "Paintball Tag")
         {
@@ -406,7 +413,7 @@ public class GameManager : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
         shouldLoad = true;
         //Used to reactive the player uis in the main menu
-        /*
+        /* 
         foreach (Transform child in GameObject.Find("PlayerUI").transform.GetChild(1).transform)
         {
             for(int i = 0; i< playerTotal; ++i)
@@ -415,6 +422,7 @@ public class GameManager : MonoBehaviour
             child.gameObject.SetActive(true);
             }
         }
+        */
     }
 
     #region ScoreSetters
@@ -456,7 +464,7 @@ public class GameManager : MonoBehaviour
         roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
         roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
-    public int GetNumberOfRounds()//Used at the start of your scene to set your own max round value or to just use
+    public int GetNumberOfRounds()//Used at the start of your scene to set your own max round value or to just use 
     {
         return numberOfRounds;
     }
