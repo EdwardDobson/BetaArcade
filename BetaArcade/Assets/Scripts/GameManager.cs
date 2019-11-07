@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     GameObject PlayerUI;
     [SerializeField]
     int currentSceneID = -1;//Represents the element id
-    int numberOfRounds = 0;//Set in lobby menu
+    int numberOfRounds = 1;//Set in lobby menu
     int playerTotal = 2;
     int playerCount = 0;
     [SerializeField]
@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour
         winScreen = transform.GetChild(0).gameObject;
         gameModeList.text = "Game Modes \n";
         nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
 
     // Update is called once per frame
@@ -134,7 +136,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetPlayerCount()
     {
-        playerTotal = 0;
+        playerTotal = 2;
         playerTotalText.text = "Player Total: " + playerTotal;
         playerTotalText2.text = "Player Total: " + playerTotal;
     }
@@ -358,7 +360,7 @@ public class GameManager : MonoBehaviour
         if (_gameName == "Paint The Floor")
         {
             title.text = _gameName;
-            howToPlayText.text = "-Use your sludge gun to paint the floor in your sludge and gain points from it. \n" + "-Watch out for others players sludge it can slow you down and get rid of your sludge. \n" + "-Highest points wins the round when the timer hits zero.\n" + "-Each round gains you a point to the overall score.";
+            howToPlayText.text = "-Use your sludge gun to paint the floor in your sludge and gain points from it. \n" + "-Use your sludge to slow other players. \n" + "-Highest points wins the round when the timer hits zero.\n" + "-Each round gains you a point to the overall score.";
         }
         if (_gameName == "Paintball Tag")
         {

@@ -53,7 +53,7 @@ public class ScoreManager : MonoBehaviour
         winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
         scoreToWinText = GameObject.Find("ScoreToWinText").GetComponent<TextMeshProUGUI>();
         inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
-        scoreToWinTextTutorialText = GameObject.Find("ScoreIncreaseText").GetComponent<TextMeshProUGUI>();
+        scoreToWinTextTutorialText = GameObject.Find("ScoreToWin").GetComponent<TextMeshProUGUI>();
         timerTextTutorialText = GameObject.Find("RoundTimerText").GetComponent<TextMeshProUGUI>();
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
         KOTHPlayerSpawner = GetComponent<KOTHPlayerSpawner>();
