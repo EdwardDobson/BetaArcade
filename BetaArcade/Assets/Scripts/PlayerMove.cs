@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class PlayerMove : MonoBehaviour
-{
-    public int ID;
+  {
+  public int ID;
 
     private float originalSpeed = 15f;
     private float speed = 15f;
@@ -37,38 +37,39 @@ public class PlayerMove : MonoBehaviour
         dashSlider = GameObject.Find("PlayerPicture"+ID).transform.GetChild(7).GetComponent<Slider>();
     }
 
-    private void Update()
+  private void Update()
     {
-        if (isGrounded)
+    if (isGrounded)
+      {
+      if (Input.GetButtonDown("Jump" + ID))
         {
-            if (Input.GetButtonDown("Jump" + ID))
-            {
-                if (bigJumps > 0)
-                {
-                    rb.AddForce(Vector3.up * jumpSpeed * 2f);
-                    bigJumps--;
-                }
-                else if (bigJumps <= 0)
-                {
+        if (bigJumps > 0)
+          {
+          rb.AddForce(Vector3.up * jumpSpeed * 2f);
+          bigJumps--;
+          }
+        else if (bigJumps <= 0)
+          {
 
-                    rb.AddForce(Vector3.up * jumpSpeed);
-                    GameObject Clone = GameObject.Find("PlayerPicture" + ID);
-                    foreach (Transform t in Clone.transform)
-                    {
-                        if (t.name == "PUJump")
-                        {
-                            t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
-                        }
-
-                    }
-                }
-            }
-            if (Input.GetButtonDown("Dash" + ID) && !hasDashed)
+          rb.AddForce(Vector3.up * jumpSpeed);
+          GameObject Clone = GameObject.Find("PlayerPicture" + ID);
+          if(Clone != null)
             {
-                rb.AddForce(movement * dashSpeed, ForceMode.Impulse);
-                hasDashed = true;
-                StartCoroutine(ResetDash());
+            foreach (Transform t in Clone.transform)
+              {
+              if (t.name == "PUJump")
+                {
+                t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
+                }
+              }
             }
+          }
+        }
+      if (Input.GetButtonDown("Dash" + ID) && !hasDashed)
+        {
+        rb.AddForce(movement * dashSpeed, ForceMode.Impulse);
+        hasDashed = true;
+        StartCoroutine(ResetDash());
         }
         if(hasDashed)
         {
@@ -81,115 +82,118 @@ public class PlayerMove : MonoBehaviour
             shoveTimer -= Time.deltaTime;
             shoveSlider.value = shoveTimer;
         }
-     
-       
+
+
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+  // Update is called once per frame
+  void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxisRaw("Horizontal" + ID);
-        float moveVertical = Input.GetAxisRaw("Vertical" + ID);
-        movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        rb.AddForce(new Vector3(moveHorizontal * speed, 0, moveVertical * speed));
-        //if(rb.velocity.sqrMagnitude < maxSpeed)
-        //rb.AddForce(Time.deltaTime * movement.x * speed, 0, Time.deltaTime * movement.z * speed, ForceMode.VelocityChange);
-        if (Mathf.Abs(rb.velocity.z) > maxSpeed || Mathf.Abs(rb.velocity.x) > maxSpeed)
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+    float moveHorizontal = Input.GetAxisRaw("Horizontal" + ID);
+    float moveVertical = Input.GetAxisRaw("Vertical" + ID);
+    movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+    rb.AddForce(new Vector3(moveHorizontal * speed, 0, moveVertical * speed));
+    //if(rb.velocity.sqrMagnitude < maxSpeed)
+    //rb.AddForce(Time.deltaTime * movement.x * speed, 0, Time.deltaTime * movement.z * speed, ForceMode.VelocityChange);
+    if (Mathf.Abs(rb.velocity.z) > maxSpeed || Mathf.Abs(rb.velocity.x) > maxSpeed)
+      rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
 
-        Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
-        if (Input.GetButton("Shove" + ID) && !hasPushed)
-        {
-            hasPushed = true;
-            Debug.Log("Shoved");
-            Push();
-            StartCoroutine(ResetShove());
-        }
-        if (lookDir.magnitude > 0.5)
-        {
-            Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
-        }
+    Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
+    if (Input.GetButton("Shove" + ID) && !hasPushed)
+      {
+      hasPushed = true;
+      Debug.Log("Shoved");
+      Push();
+      StartCoroutine(ResetShove());
+      }
+    if (lookDir.magnitude > 0.5)
+      {
+      Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
+      transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
+      }
     }
-    IEnumerator ResetDash()
+  IEnumerator ResetDash()
     {
-       
+
         yield return new WaitForSeconds(0.5f);
         hasDashed = false;
         dashTimer = 0.5f;
         dashSlider.value = dashTimer;
     }
-    IEnumerator ResetShove()
+  IEnumerator ResetShove()
     {
-    
+
         yield return new WaitForSeconds(0.5f);
         hasPushed = false;
         shoveTimer = 0.5f;
         shoveSlider.value = shoveTimer;
     }
-    void Push()
+  void Push()
     {
-        Vector3 pushPos = transform.GetChild(1).position;
-        Collider[] colliders = Physics.OverlapBox(pushPos, transform.localScale / 4);
-        foreach (Collider hit in colliders)
+    Vector3 pushPos = transform.GetChild(1).position;
+    Collider[] colliders = Physics.OverlapBox(pushPos, transform.localScale / 4);
+    foreach (Collider hit in colliders)
+      {
+      Rigidbody rb = hit.GetComponent<Rigidbody>();
+      if (rb != null)
         {
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 3.0f);
-            }
+        rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 3.0f);
         }
+      }
     }
-    private void OnCollisionEnter(Collision collision)
+  private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground")
-        {
-            isGrounded = true;
-        }
+    if (collision.gameObject.tag == "Ground")
+      {
+      isGrounded = true;
+      }
 
     }
-    private void OnCollisionExit(Collision collision)
+  private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground")
+    if (collision.gameObject.tag == "Ground")
+      {
+      isGrounded = false;
+      }
+    }
+
+  public void IncreaseMovementSpeed()
+    {
+    speed = (speed * 1.5f);
+    StartCoroutine(SpeedReset(5));
+    }
+  IEnumerator SpeedReset(float time)
+    {
+    yield return new WaitForSeconds(time);
+    GameObject Clone = GameObject.Find("PlayerPicture" + ID);
+    if(Clone != null)
+      {
+      foreach (Transform t in Clone.transform.transform)
         {
-            isGrounded = false;
-        }
-    }
-
-    public void IncreaseMovementSpeed()
-    {
-        speed = (speed * 1.5f);
-        StartCoroutine(SpeedReset(5));
-    }
-    IEnumerator SpeedReset(float time)
-    {
-        yield return new WaitForSeconds(time);
-        GameObject Clone = GameObject.Find("PlayerPicture" + ID);
-        foreach (Transform t in Clone.transform.transform)
-        {
-            if (t.name == "PUSpeedup")
-            {
-                t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
-            }
+        if (t.name == "PUSpeedup")
+          {
+          t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
+          }
 
         }
-        speed = originalSpeed;
+      }
+    speed = originalSpeed;
     }
 
-    public void AddBigJumps(int count)
+  public void AddBigJumps(int count)
     {
-        bigJumps += count;
+    bigJumps += count;
     }
-    public void IncreasePowerUpCount(int _count)
+  public void IncreasePowerUpCount(int _count)
     {
-        powerUpCount++;
+    powerUpCount++;
     }
-    public void DecreasePowerUpCount(int _count)
+  public void DecreasePowerUpCount(int _count)
     {
-        powerUpCount--;
+    powerUpCount--;
     }
-    public int GetPowerUpCount()
+  public int GetPowerUpCount()
     {
-        return powerUpCount;
+    return powerUpCount;
     }
-}
+  }
