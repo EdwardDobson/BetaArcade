@@ -7,7 +7,7 @@ public class HotPotato : MonoBehaviour
 {
     // Start is called before the first frame update
     #region Bomb
-    public int maxBombTimer;
+    public int maxBombTimer = 5;
     [SerializeField]
     int currentBombTimer;
     float timer = 1;
@@ -20,6 +20,7 @@ public class HotPotato : MonoBehaviour
     [SerializeField]
     int increaseInactivePlayers;
     TextMeshProUGUI roundText;
+    public TextMeshProUGUI bombTimerTitle;
     [SerializeField]
     int currentRound = 0;
     [SerializeField]
@@ -29,15 +30,14 @@ public class HotPotato : MonoBehaviour
     TextMeshProUGUI bombTimerText;
     void Start()
     {
+        maxBombTimer = 5;
         Invoke("LateStart", 0.1f);
-
         bombTimerText = GameObject.Find("BombTimer").GetComponent<TextMeshProUGUI>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-  
+        bombTimerTitle.text = "Bomb Timer: " + maxBombTimer;
     }
     void LateStart()
     {
-    
         roundText = GameObject.Find("RoundText").GetComponent<TextMeshProUGUI>();
         currentBombTimer = maxBombTimer;
         for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
@@ -57,7 +57,7 @@ public class HotPotato : MonoBehaviour
     void BombTimer()
     {
         timer -= Time.deltaTime;
-        if(timer <= 0)
+        if (timer <= 0)
         {
             timer = 1;
             currentBombTimer--;
@@ -131,7 +131,7 @@ public class HotPotato : MonoBehaviour
         foreach (Transform t in transform)
         {
             t.gameObject.SetActive(true);
-
+            t.gameObject.transform.position = GetComponent<HOTPotatoSpawner>().SpawnPoints[t.GetComponent<PlayerMove>().ID - 1].transform.position;
             roundText.text = "Round: " + currentRound + " of " + maxRound;
             currentBombTimer = maxBombTimer;
             t.GetComponent<PlayerHotPotato>().SetCanTakeBomb(true);
@@ -200,5 +200,25 @@ public class HotPotato : MonoBehaviour
     public void StartGame(bool _state)
     {
         startGame = _state;
+    }
+    public void IncreaseBombTimer(int _timer)
+    {
+        if (maxBombTimer < 1000)
+        {
+            maxBombTimer += _timer;
+            bombTimerTitle.text = "Bomb Timer: " + maxBombTimer;
+        }
+    }
+    public void DecreaseBombTimer(int _timer)
+    {
+        if (maxBombTimer > 5)
+        {
+            maxBombTimer -= _timer;
+            bombTimerTitle.text = "Bomb Timer: " + maxBombTimer;
+        }
+    }
+    public void SetCurrentBombTimer()
+    {
+        currentBombTimer = maxBombTimer;
     }
 }

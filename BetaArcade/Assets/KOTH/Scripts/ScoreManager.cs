@@ -146,12 +146,10 @@ public class ScoreManager : MonoBehaviour
     {
         if (gameManager.GetTimer() <= 0)
         {
-
             ResetScorePlayers(0, 1, 2, 3);
             ResetScorePlayers(1, 0, 2, 3);
             ResetScorePlayers(2, 1, 0, 3);
             ResetScorePlayers(3, 1, 2, 0);
-
             currentRound++;
             roundText.text = "Round: " + currentRound + " of " + maxRound;
             gameManager.SetTimer(10);
@@ -247,7 +245,6 @@ public class ScoreManager : MonoBehaviour
     }
     void AddScore()
     {
-
         for (int i = 0; i < otherPlayers.Count; ++i)//Used to check if any other player is in the zone
         {
             if (inPointCount <= 1 && otherPlayers[i].GetComponent<PointCollide>().GetScore() != maxScore)
@@ -297,8 +294,6 @@ public class ScoreManager : MonoBehaviour
             }
         }
         ResetPoints();
-
-
     }
     void ResetPoints()
     {
