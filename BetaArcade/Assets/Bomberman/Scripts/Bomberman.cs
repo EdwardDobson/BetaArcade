@@ -46,7 +46,8 @@ public class Bomberman : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetButtonDown("Jump" + player.ID) && cooldown <= 0)
+        cooldown -= Time.deltaTime;
+		if (Input.GetButtonDown("Jump"+player.ID) && cooldown <= 0)
 		{
 			Debug.Log("Bomb button got");
 			DropBomb();

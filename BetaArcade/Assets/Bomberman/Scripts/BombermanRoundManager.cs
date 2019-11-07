@@ -33,6 +33,7 @@ public class BombermanRoundManager : MonoBehaviour
 		roundMax = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
 		remainingPlayers = GameObject.Find("GameManager").GetComponent<GameManager>().GetPlayerCount();
 		roundText.text = "Round " + currentRound + " / " + gameManager.GetNumberOfRounds();
+        eliminationText.alpha = 0;
 	}
 	void Restart()
 	{
@@ -45,7 +46,8 @@ public class BombermanRoundManager : MonoBehaviour
 		if(!isVictory)
 		{
 			roundTimer -= Time.deltaTime;
-			timerText.text = "Time: " + roundTimer;
+            int tempRoundTimer = Mathf.RoundToInt(roundTimer);
+			timerText.text = "Time: " + tempRoundTimer;
 		}
 		
 		if (roundTimer <= 0.0f && !isVictory)
@@ -69,10 +71,9 @@ public class BombermanRoundManager : MonoBehaviour
 	}
 	public void PlayerDown()
 	{
-		eliminationText.text = "Player defeated!";
 		StartCoroutine(FadeInText(eliminationText, 4.0f));
-		
-		remainingPlayers--;
+        eliminationText.text = "Player defeated!";
+        remainingPlayers--;
 		if(remainingPlayers==1)
 		{
 			Victory();
@@ -90,6 +91,7 @@ public class BombermanRoundManager : MonoBehaviour
 		}
 		StartCoroutine(FadeOutText(eliminationText, 4.0f));
 		yield return null;
+
 	}
 	IEnumerator FadeOutText(TextMeshProUGUI text, float time)
 	{
