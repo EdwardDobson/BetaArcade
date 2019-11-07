@@ -9,6 +9,7 @@ public class SelectTutorialStart : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        eventSystem = EventSystem.current;
         eventSystem.SetSelectedGameObject(startButton);
     }
 
