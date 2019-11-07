@@ -178,6 +178,10 @@ public class GameManager : MonoBehaviour
     {
         timer--;
     }
+    public void IncreaseTimer()
+    {
+        timer++;
+    }
     public void CreatePlayerUI()
     {
         GameObject playerUI = Instantiate(PlayerPicture);
@@ -186,26 +190,35 @@ public class GameManager : MonoBehaviour
         {
             playerUI.GetComponent<Image>().color = Color.red;
             playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 0.3f);
+            playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 0.3f);
             playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.red;
+            playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.red;
         }
         if (playerCount == 1)
         {
             playerUI.GetComponent<Image>().color = Color.yellow;
             playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 0, 0.3f);
+            playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 0.3f);
             playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.yellow;
+            playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.yellow;
         }
         if (playerCount == 2)
         {
             playerUI.GetComponent<Image>().color = Color.green;
-            playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 0.3f);
+            playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 0.3f);
+            playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 0.3f);
             playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.green;
+            playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.green;
         }
         if (playerCount == 3)
         {
             playerUI.GetComponent<Image>().color = Color.blue;
             playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 0.3f);
+            playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 0.3f);
             playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.blue;
+            playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.blue;
         }
+  
         playerUI.transform.position = Portraits[playerCount].position;
         playerCount++;
         playerUI.name = "PlayerPicture" + playerCount;
@@ -214,6 +227,7 @@ public class GameManager : MonoBehaviour
         playerUI.transform.GetChild(3).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(4).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(5).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+
         playerUI.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
         playerUI.transform.SetParent(GameObject.Find("PlayerUI").transform.GetChild(1).transform);
         PlayerPictures.Add(playerUI);

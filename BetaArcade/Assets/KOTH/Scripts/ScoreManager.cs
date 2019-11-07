@@ -414,4 +414,12 @@ public class ScoreManager : MonoBehaviour
         }
 
     }
+    public void IncreaseTimer()
+    {
+        gameManager.IncreaseTimer();
+    }
+    public void DecreaseTimer()
+    {
+        gameManager.DecreaseTimer();
+    }
 }

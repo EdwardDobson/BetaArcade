@@ -23,11 +23,18 @@ public class PlayerMove : MonoBehaviour
     float shoveRadius = 0;
     int bigJumps = 0;
     int powerUpCount = 0;
-
+    [SerializeField]
+    float dashTimer = 0.5f;
+    [SerializeField]
+    float shoveTimer = 0.5f;
+    Slider dashSlider;
+    Slider shoveSlider;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        shoveSlider = GameObject.Find("PlayerPicture"+ID).transform.GetChild(0).GetComponent<Slider>();
+        dashSlider = GameObject.Find("PlayerPicture"+ID).transform.GetChild(7).GetComponent<Slider>();
     }
 
     private void Update()
@@ -63,7 +70,19 @@ public class PlayerMove : MonoBehaviour
                 StartCoroutine(ResetDash());
             }
         }
+        if(hasDashed)
+        {
+            dashTimer -= Time.deltaTime;
+            dashSlider.value = dashTimer;
 
+        }
+        if(hasPushed)
+        {
+            shoveTimer -= Time.deltaTime;
+            shoveSlider.value = shoveTimer;
+        }
+     
+       
     }
 
     // Update is called once per frame
@@ -94,13 +113,19 @@ public class PlayerMove : MonoBehaviour
     }
     IEnumerator ResetDash()
     {
+       
         yield return new WaitForSeconds(0.5f);
         hasDashed = false;
+        dashTimer = 0.5f;
+        dashSlider.value = dashTimer;
     }
     IEnumerator ResetShove()
     {
+    
         yield return new WaitForSeconds(0.5f);
         hasPushed = false;
+        shoveTimer = 0.5f;
+        shoveSlider.value = shoveTimer;
     }
     void Push()
     {
