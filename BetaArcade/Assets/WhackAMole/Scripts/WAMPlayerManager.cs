@@ -25,6 +25,9 @@ public class WAMPlayerManager : MonoBehaviour
       }
     }
 
+  public void DisableHammerCollider() => Hammer.GetComponentInChildren<BoxCollider>().enabled = false;
+  public void EnableHammerCollider() => Hammer.GetComponentInChildren<BoxCollider>().enabled = true;
+
   private IEnumerator SwingHammer()
     {
     CanSwing = false;
