@@ -6,6 +6,7 @@ public class PickUp_Throw : MonoBehaviour
 {
     public float speed = 20;
     public bool canHold = true;
+    public bool PickedUpBall = false;
     public GameObject ChildBall;
     public Transform guide;
     private bool ivepressedabutton = false;
@@ -19,8 +20,6 @@ public class PickUp_Throw : MonoBehaviour
     {
         PM = GetComponent<PlayerMove>();
         id = PM.ID;
-
-        ballScale = new Vector3(1f, 1f, 1f);
     }
 
     void Update()
@@ -39,7 +38,13 @@ public class PickUp_Throw : MonoBehaviour
         {
             ivepressedabutton = false;
         }
-        //Ball.transform.position = guide.position; //Moves the ball if you can't hold the ball
+
+        if (PickedUpBall == true)
+        {
+                    //We re-position the ball on our guide object
+            ChildBall.transform.position = guide.position;
+        }
+
     }
 
     void OnTriggerEnter(Collider col)
@@ -55,19 +60,18 @@ public class PickUp_Throw : MonoBehaviour
     {
         if (!ChildBall) //If we don't have a ball
             return;
+
+        PickedUpBall = true;
         //We set the object parent to our guide empty object i.e become it's child
         ChildBall.transform.SetParent(guide);
 
         //Set gravity to false while holding it
         ChildBall.GetComponent<Rigidbody>().useGravity = false;
 
+        ChildBall.GetComponent<Rigidbody>().velocity = new Vector3(0f,0f,0f);
+
         //we apply the same rotation our main object (Camera) has.
-        ChildBall.transform.localRotation = transform.rotation;
-
-        //We re-position the ball on our guide object
-        ChildBall.transform.position = guide.position;
-
-        ChildBall.transform.localScale = ballScale;
+        ChildBall.transform.localRotation = this.transform.rotation;
 
         //Set the ball to be active
         canHold = false;
@@ -90,6 +94,8 @@ public class PickUp_Throw : MonoBehaviour
 
         //Unparent the ball
         guide.GetChild(0).parent = null;
+
+        PickedUpBall = false;
 
         canHold = true;
     }
