@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 9193375228868836194}
   - component: {fileID: 9193375228868836195}
   - component: {fileID: 9193375228868836192}
-  - component: {fileID: 9193375228868836193}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Bomb
@@ -92,18 +91,3 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &9193375228868836193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9193375228868836190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75dce085536eadf4cae16fd389e11be5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxBombTimer: 5
-  players:
-  - {fileID: 0}
