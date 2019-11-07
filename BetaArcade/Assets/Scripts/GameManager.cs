@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     int currentSceneID = -1;//Represents the element id
     int numberOfRounds = 0;//Set in lobby menu
-    int playerTotal = 0;
+    int playerTotal = 2;
     int playerCount = 0;
     [SerializeField]
     int timer;
@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
     }
     public void DecreasePlayerCount()
     {
-        if (playerTotal > 1)
+        if (playerTotal > 2)
         {
             playerTotal--;
             playerTotalText.text = "Player Total: " + playerTotal;
@@ -174,13 +174,13 @@ public class GameManager : MonoBehaviour
     {
         timer = _timer;
     }
-    public void DecreaseTimer()
+    public void DecreaseTimer(int _decrease)
     {
-        timer--;
+        timer -= _decrease;
     }
-    public void IncreaseTimer()
+    public void IncreaseTimer(int _increase)
     {
-        timer++;
+        timer += _increase;
     }
     public void CreatePlayerUI()
     {
