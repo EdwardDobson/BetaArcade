@@ -46,7 +46,6 @@ public class HotPotato : MonoBehaviour
             if (!players[randomBombPick].GetComponent<PlayerHotPotato>().HasBomb())
             {
                 players[randomBombPick].GetComponent<PlayerHotPotato>().SetHasBomb(true);
-
                 break;
             }
         }
@@ -116,6 +115,7 @@ public class HotPotato : MonoBehaviour
                     if (players[i].GetComponent<PlayerHotPotato>().HasBomb())
                     {
                         gameManager.PlayerPictures[i].transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "has the bomb";
+                      
                     }
                     if (!players[i].GetComponent<PlayerHotPotato>().HasBomb())
                     {

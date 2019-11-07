@@ -12,6 +12,7 @@ public class ScoreManager : MonoBehaviour
     TextMeshProUGUI timerText;
     TextMeshProUGUI scoreToWinText;
     TextMeshProUGUI scoreToWinTextTutorialText;
+    TextMeshProUGUI timerTextTutorialText;
     public int maxScore;
     bool resetPoints = false;
     bool canGainPoints = true;
@@ -52,7 +53,8 @@ public class ScoreManager : MonoBehaviour
         winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
         scoreToWinText = GameObject.Find("ScoreToWinText").GetComponent<TextMeshProUGUI>();
         inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
-        scoreToWinTextTutorialText = GameObject.Find("ScoreIncreaseText").GetComponent<TextMeshProUGUI>();
+        scoreToWinTextTutorialText = GameObject.Find("ScoreToWin").GetComponent<TextMeshProUGUI>();
+        timerTextTutorialText = GameObject.Find("RoundTimerText").GetComponent<TextMeshProUGUI>();
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
         KOTHPlayerSpawner = GetComponent<KOTHPlayerSpawner>();
         maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
@@ -64,7 +66,7 @@ public class ScoreManager : MonoBehaviour
             t.GetChild(6).GetComponent<TextMeshProUGUI>().text = "Score: 0";
         }
         timerText.text = "Time: " + gameManager.GetTimer();
-
+        timerTextTutorialText.text =  "Round Time: " + gameManager.GetTimer();
         scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
         scoreToWinText.text = "Score to win: " + maxScore;
     }
@@ -115,7 +117,7 @@ public class ScoreManager : MonoBehaviour
         timerScore -= Time.deltaTime;
         if (timerScore <= 0)
         {
-            gameManager.DecreaseTimer();
+            gameManager.DecreaseTimer(1);
             timerText.text = "Time: " + gameManager.GetTimer();
             timerScore = 1;
         }
@@ -413,5 +415,19 @@ public class ScoreManager : MonoBehaviour
             scoreToWinText.text = "Score to win: " + maxScore;
         }
 
+    }
+    public void IncreaseTimer()
+    {
+        gameManager.IncreaseTimer(5);
+        timerTextTutorialText.text = "Round Time: " + gameManager.GetTimer();
+    }
+    public void DecreaseTimer()
+    {
+        if (gameManager.GetTimer() > 60)
+        {
+            gameManager.DecreaseTimer(5);
+            timerTextTutorialText.text = "Round Time: " + gameManager.GetTimer();
+        }
+    
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -25,6 +26,11 @@ public class LevelManager : MonoBehaviour
         {
         CreatePlayer();
         }
+      }
+    GameObject[] players = GameObject.FindObjectsOfType(typeof(GameObject)).Where(x => (x as GameObject).tag.Contains("Player")).Select(x => x as GameObject).ToArray();
+    if (players.Length == 1)
+      {
+      players.ElementAt(0).GetComponent<PlayerManager>().SetWinner();
       }
     }
 

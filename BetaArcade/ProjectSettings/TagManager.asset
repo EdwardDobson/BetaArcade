@@ -11,11 +11,12 @@ TagManager:
   - Player3
   - Player4
   - Player1
+  - Ball
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  -
   - Water
   - UI
   -
@@ -23,8 +24,8 @@ TagManager:
   - PostProcessing
   - Paint
   - PaintIgnore
-  -
-  -
+  - IgnoreLevel
+  - Level
   -
   -
   -
