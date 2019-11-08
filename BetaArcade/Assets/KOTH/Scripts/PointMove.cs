@@ -71,8 +71,7 @@ public class PointMove : MonoBehaviour
                 points.RemoveAt(pointID);
                 moved = true;
                 moveText.text = "Point has moved!";
-                StartCoroutine(HideText());
-                    Debug.Log("hi");
+                    StartCoroutine(HideText());
             }
         }
         }
