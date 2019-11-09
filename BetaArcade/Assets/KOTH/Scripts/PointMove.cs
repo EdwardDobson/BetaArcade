@@ -16,6 +16,8 @@ public class PointMove : MonoBehaviour
     bool moved;
     [SerializeField]
     float timer;
+    [SerializeField]
+    float maxtimer;
     GameManager gameManager;
     ScoreManager scoreManager;
     // Start is called before the first frame update
@@ -32,6 +34,7 @@ public class PointMove : MonoBehaviour
             transform.position = pointsHolder.GetComponent<Transform>().GetChild(0).position;
         }
         moveText = GameObject.Find("MoveText").GetComponent<TextMeshProUGUI>();
+        timer = maxtimer;
     }
 
     // Update is called once per frame
@@ -57,7 +60,7 @@ public class PointMove : MonoBehaviour
         if(timer <= 0)
         {
 
-            timer = 10;
+            timer = maxtimer;
         if (!moved)
         {
             for (int i = 0; i < 1; ++i)
@@ -68,7 +71,7 @@ public class PointMove : MonoBehaviour
                 points.RemoveAt(pointID);
                 moved = true;
                 moveText.text = "Point has moved!";
-                StartCoroutine(HideText());
+                    StartCoroutine(HideText());
             }
         }
         }

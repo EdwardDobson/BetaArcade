@@ -15,14 +15,10 @@ public class KOTHPlayerSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
-            playerHolder = GameObject.Find("PlayerHolder").transform;
-            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            scoreManager = GetComponent<ScoreManager>();
-
+        playerHolder = GameObject.Find("PlayerHolder").transform;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        scoreManager = GetComponent<ScoreManager>();
         Invoke("LateStart", 0.1f);
-    
-
     }
     private void LateStart()
     {
@@ -31,24 +27,19 @@ public class KOTHPlayerSpawner : MonoBehaviour
             for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
             {
                 CreatePlayer();
-
             }
-
-
         }
     }
-        // Update is called once per frame
+    // Update is called once per frame
     void Update()
     {
-        
     }
     public void CreatePlayer()
     {
         GameObject player = Instantiate(Player);
-   
         player.transform.position = SpawnPoints[playerCount].position;
         playerCount++;
-        player.tag = "Player"+playerCount;
+        player.tag = "Player" + playerCount;
         player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
         player.GetComponent<PlayerMove>().ID = playerCount;
         player.transform.SetParent(playerHolder);

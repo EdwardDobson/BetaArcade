@@ -28,8 +28,8 @@ public class GameManager : MonoBehaviour
     GameObject PlayerUI;
     [SerializeField]
     int currentSceneID = -1;//Represents the element id
-    int numberOfRounds = 0;//Set in lobby menu
-    int playerTotal = 0;
+    int numberOfRounds = 1;//Set in lobby menu
+    int playerTotal = 2;
     int playerCount = 0;
     [SerializeField]
     int timer;
@@ -59,8 +59,8 @@ public class GameManager : MonoBehaviour
         winScreen = transform.GetChild(0).gameObject;
         gameModeList.text = "Game Modes \n";
         nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
-
-
+        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
 
     // Update is called once per frame
@@ -133,9 +133,10 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     public void ResetPlayerCount()
     {
-        playerTotal = 0;
+        playerTotal = 2;
         playerTotalText.text = "Player Total: " + playerTotal;
         playerTotalText2.text = "Player Total: " + playerTotal;
     }
@@ -151,7 +152,7 @@ public class GameManager : MonoBehaviour
     }
     public void DecreasePlayerCount()
     {
-        if (playerTotal > 1)
+        if (playerTotal > 2)
         {
             playerTotal--;
             playerTotalText.text = "Player Total: " + playerTotal;
@@ -175,38 +176,51 @@ public class GameManager : MonoBehaviour
     {
         timer = _timer;
     }
-    public void DecreaseTimer()
+    public void DecreaseTimer(int _decrease)
     {
-        timer--;
+        timer -= _decrease;
+    }
+    public void IncreaseTimer(int _increase)
+    {
+        timer += _increase;
     }
     public void CreatePlayerUI()
     {
         GameObject playerUI = Instantiate(PlayerPicture);
-      
+
         if (playerCount == 0)
         {
             playerUI.GetComponent<Image>().color = Color.red;
             playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 0.3f);
+            playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 0.3f);
             playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.red;
+            playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.red;
         }
         if (playerCount == 1)
         {
             playerUI.GetComponent<Image>().color = Color.yellow;
             playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 0, 0.3f);
+            playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 0.3f);
             playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.yellow;
+            playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.yellow;
         }
         if (playerCount == 2)
         {
             playerUI.GetComponent<Image>().color = Color.green;
-            playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 0.3f);
+            playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 0.3f);
+            playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 0.3f);
             playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.green;
+            playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.green;
         }
         if (playerCount == 3)
         {
             playerUI.GetComponent<Image>().color = Color.blue;
             playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 0.3f);
+            playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 0.3f);
             playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.blue;
+            playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.blue;
         }
+
         playerUI.transform.position = Portraits[playerCount].position;
         playerCount++;
         playerUI.name = "PlayerPicture" + playerCount;
@@ -215,7 +229,8 @@ public class GameManager : MonoBehaviour
         playerUI.transform.GetChild(3).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(4).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(5).GetComponent<Image>().color = new Color(1, 1, 1, 0);
-        playerUI.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
+        playerUI.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
         playerUI.transform.SetParent(GameObject.Find("PlayerUI").transform.GetChild(1).transform);
         PlayerPictures.Add(playerUI);
     }
@@ -281,37 +296,43 @@ public class GameManager : MonoBehaviour
     }
     public void LoadLevel()
     {
-        if(shouldLoad == true)
-        {
-
-            shouldLoad = false;
         if (currentSceneID < levelPlaylist.Count)
         {
-            if (levelPlaylist.Count >= 1 && playerTotal > 1 && numberOfRounds > 0)
+            if (shouldLoad == true)
             {
-                StartCoroutine(LoadAsync());
-            }
-            if (playerTotal < 2)
-            {
-                notEnoughText.text = "Not enough players";
-                StartCoroutine(ResetNotEnoughText());
-            }
-            if (levelPlaylist.Count <= 0)
-            {
-                notEnoughText.text = "No gamemodes in playlist";
-                StartCoroutine(ResetNotEnoughText());
-            }
-            if (numberOfRounds <= 0)
-            {
-                notEnoughText.text = "Not enough rounds";
-                StartCoroutine(ResetNotEnoughText());
+
+                shouldLoad = false;
+                if (levelPlaylist.Count >= 1 && playerTotal > 1 && numberOfRounds > 0)
+                {
+                    StartCoroutine(LoadAsync());
+
+                }
+
+                if (playerTotal < 2)
+                {
+                    notEnoughText.text = "Not enough players";
+                    StartCoroutine(ResetNotEnoughText());
+                    shouldLoad = true;
+                }
+                if (levelPlaylist.Count <= 0)
+                {
+                    notEnoughText.text = "No gamemodes in playlist";
+                    StartCoroutine(ResetNotEnoughText());
+                    shouldLoad = true;
+                }
+                if (numberOfRounds <= 0)
+                {
+                    notEnoughText.text = "Not enough rounds";
+                    StartCoroutine(ResetNotEnoughText());
+                    shouldLoad = true;
+                }
             }
         }
         if (currentSceneID >= levelPlaylist.Count)
         {
             StartCoroutine(LoadMainMenu());
         }
-        }
+
     }
     IEnumerator ResetNotEnoughText()
     {
@@ -339,7 +360,7 @@ public class GameManager : MonoBehaviour
         if (_gameName == "Paint The Floor")
         {
             title.text = _gameName;
-            howToPlayText.text = "-Use your sludge gun to paint the floor in your sludge and gain points from it. \n" + "-Watch out for others players sludge it can slow you down and get rid of your sludge. \n" + "-Highest points wins the round when the timer hits zero.\n" + "-Each round gains you a point to the overall score.";
+            howToPlayText.text = "-Use your sludge gun to paint the floor in your sludge and gain points from it. \n" + "-Use your sludge to slow other players. \n" + "-Highest points wins the round when the timer hits zero.\n" + "-Each round gains you a point to the overall score.";
         }
         if (_gameName == "Paintball Tag")
         {
@@ -425,6 +446,8 @@ public class GameManager : MonoBehaviour
     public void SetNumberOfRounds(int _set)//Set in lobby menu
     {
         numberOfRounds = _set;
+        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
     public void IncreaseNumberOfRounds()
     {

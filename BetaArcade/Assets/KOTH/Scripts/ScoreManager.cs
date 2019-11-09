@@ -12,6 +12,7 @@ public class ScoreManager : MonoBehaviour
     TextMeshProUGUI timerText;
     TextMeshProUGUI scoreToWinText;
     TextMeshProUGUI scoreToWinTextTutorialText;
+    TextMeshProUGUI timerTextTutorialText;
     public int maxScore;
     bool resetPoints = false;
     bool canGainPoints = true;
@@ -52,7 +53,8 @@ public class ScoreManager : MonoBehaviour
         winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
         scoreToWinText = GameObject.Find("ScoreToWinText").GetComponent<TextMeshProUGUI>();
         inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
-        scoreToWinTextTutorialText = GameObject.Find("ScoreIncreaseText").GetComponent<TextMeshProUGUI>();
+        scoreToWinTextTutorialText = GameObject.Find("ScoreToWin").GetComponent<TextMeshProUGUI>();
+        timerTextTutorialText = GameObject.Find("RoundTimerText").GetComponent<TextMeshProUGUI>();
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
         KOTHPlayerSpawner = GetComponent<KOTHPlayerSpawner>();
         maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
@@ -61,10 +63,10 @@ public class ScoreManager : MonoBehaviour
         currentRound++;
         foreach (Transform t in PlayerUI.transform)
         {
-            t.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: 0";
+            t.GetChild(6).GetComponent<TextMeshProUGUI>().text = "Score: 0";
         }
         timerText.text = "Time: " + gameManager.GetTimer();
-
+        timerTextTutorialText.text =  "Round Time: " + gameManager.GetTimer();
         scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
         scoreToWinText.text = "Score to win: " + maxScore;
     }
@@ -115,7 +117,7 @@ public class ScoreManager : MonoBehaviour
         timerScore -= Time.deltaTime;
         if (timerScore <= 0)
         {
-            gameManager.DecreaseTimer();
+            gameManager.DecreaseTimer(1);
             timerText.text = "Time: " + gameManager.GetTimer();
             timerScore = 1;
         }
@@ -146,12 +148,10 @@ public class ScoreManager : MonoBehaviour
     {
         if (gameManager.GetTimer() <= 0)
         {
-
             ResetScorePlayers(0, 1, 2, 3);
             ResetScorePlayers(1, 0, 2, 3);
             ResetScorePlayers(2, 1, 0, 3);
             ResetScorePlayers(3, 1, 2, 0);
-
             currentRound++;
             roundText.text = "Round: " + currentRound + " of " + maxRound;
             gameManager.SetTimer(10);
@@ -247,7 +247,6 @@ public class ScoreManager : MonoBehaviour
     }
     void AddScore()
     {
-
         for (int i = 0; i < otherPlayers.Count; ++i)//Used to check if any other player is in the zone
         {
             if (inPointCount <= 1 && otherPlayers[i].GetComponent<PointCollide>().GetScore() != maxScore)
@@ -260,7 +259,7 @@ public class ScoreManager : MonoBehaviour
                     if (timer >= 1)
                     {
                         otherPlayers[i].GetComponent<PointCollide>().SetScore(scoreIncreaseValue);
-                        gameManager.PlayerPictures[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: " + otherPlayers[i].GetComponent<PointCollide>().GetScore();
+                        gameManager.PlayerPictures[i].transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "Score: " + otherPlayers[i].GetComponent<PointCollide>().GetScore();
                         scoreIncrease.Play();
                         timer = 0;
                     }
@@ -297,8 +296,6 @@ public class ScoreManager : MonoBehaviour
             }
         }
         ResetPoints();
-
-
     }
     void ResetPoints()
     {
@@ -307,7 +304,7 @@ public class ScoreManager : MonoBehaviour
             for (int i = 0; i < otherPlayers.Count; i++)
             {
                 otherPlayers[i].GetComponent<PointCollide>().ResetScore(0);
-                gameManager.PlayerPictures[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: 0";
+                gameManager.PlayerPictures[i].transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "Score: 0";
                 resetPointsCounter++;
                 canGainPoints = false;
                 otherPlayers[i].transform.position = KOTHPlayerSpawner.SpawnPoints[i].position;
@@ -418,5 +415,19 @@ public class ScoreManager : MonoBehaviour
             scoreToWinText.text = "Score to win: " + maxScore;
         }
 
+    }
+    public void IncreaseTimer()
+    {
+        gameManager.IncreaseTimer(5);
+        timerTextTutorialText.text = "Round Time: " + gameManager.GetTimer();
+    }
+    public void DecreaseTimer()
+    {
+        if (gameManager.GetTimer() > 60)
+        {
+            gameManager.DecreaseTimer(5);
+            timerTextTutorialText.text = "Round Time: " + gameManager.GetTimer();
+        }
+    
     }
 }
