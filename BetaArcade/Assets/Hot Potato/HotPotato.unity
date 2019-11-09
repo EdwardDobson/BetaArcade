@@ -4753,6 +4753,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TutorialScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 999156319483211858, guid: 6331a96de362ed74abf9ba70955a9ec5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 828783530783092785, guid: 6331a96de362ed74abf9ba70955a9ec5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5002,30 +5007,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3467482405218832534, guid: 440e68893eb290f4ca679ed8e91b2027,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: b8a9fb11cfc933243a857d72a90706fa,
-        type: 2}
-    - target: {fileID: 3467482405218832534, guid: 440e68893eb290f4ca679ed8e91b2027,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -5083396099698329416, guid: b8a9fb11cfc933243a857d72a90706fa,
-        type: 2}
-    - target: {fileID: 3467482405637714377, guid: 440e68893eb290f4ca679ed8e91b2027,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: b8a9fb11cfc933243a857d72a90706fa,
-        type: 2}
-    - target: {fileID: 3467482405637714377, guid: 440e68893eb290f4ca679ed8e91b2027,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -5083396099698329416, guid: b8a9fb11cfc933243a857d72a90706fa,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 440e68893eb290f4ca679ed8e91b2027, type: 3}
 --- !u!1001 &5602540473612120257

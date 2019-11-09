@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     int playerCount = 0;
     [SerializeField]
     int timer;
+    [SerializeField]
+    int oldtimer;
     GameObject winScreen;
     [SerializeField]
     int levelNameIndex = -1;
@@ -187,6 +189,15 @@ public class GameManager : MonoBehaviour
     public void IncreaseTimer(int _increase)
     {
         timer += _increase;
+        oldtimer = timer;
+    }
+    public int GetOldTimer()
+    {
+        return oldtimer;
+    }
+    public void SetOldTimer()
+    {
+        oldtimer = timer;
     }
     public void CreatePlayerUI()
     {
