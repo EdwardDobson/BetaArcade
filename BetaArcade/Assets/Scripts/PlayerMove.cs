@@ -33,12 +33,16 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        Invoke("LateStart", 0.1f);
+    }
+    void LateStart()
+    {
         shoveSlider = GameObject.Find("PlayerPicture" + ID).transform.GetChild(0).GetComponent<Slider>();
         dashSlider = GameObject.Find("PlayerPicture" + ID).transform.GetChild(7).GetComponent<Slider>();
     }
-
     private void Update()
     {
+     
         if (isGrounded)
         {
             if (Input.GetButtonDown("Jump" + ID))

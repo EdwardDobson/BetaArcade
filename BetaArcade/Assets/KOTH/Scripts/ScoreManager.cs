@@ -61,16 +61,15 @@ public class ScoreManager : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         roundText.text = "Round: 1 of " + maxRound;
         currentRound++;
-        foreach (Transform t in PlayerUI.transform)
-        {
-            t.GetChild(6).GetComponent<TextMeshProUGUI>().text = "Score: 0";
-        }
         timerText.text = "Time: " + gameManager.GetTimer();
         timerTextTutorialText.text =  "Round Time: " + gameManager.GetTimer();
         scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
         scoreToWinText.text = "Score to win: " + maxScore;
+        foreach (Transform t in PlayerUI.transform)
+        {
+            t.GetChild(6).GetComponent<TextMeshProUGUI>().text = "Score: 0";
+        }
     }
-
     // Update is called once per frame
     void Update()
     {
