@@ -12,6 +12,7 @@ public class PlayerMove : MonoBehaviour
     private float jumpSpeed = 180.0f;
     private float rotationSpeed = 12.5f;
     private float dashSpeed = 8.0f;
+    private float distanceToGround;
     private Vector3 movement;
     private Rigidbody rb;
     private bool isFrozen = false;
@@ -35,6 +36,7 @@ public class PlayerMove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         Invoke("LateStart", 0.1f);
+        distanceToGround = GetComponent<Collider>().bounds.extents.y;
     }
     void LateStart()
     {
@@ -119,7 +121,8 @@ public class PlayerMove : MonoBehaviour
         Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
         transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
         }
-      }    
+      }
+    isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
     }
         IEnumerator ResetDash()
         {
@@ -149,21 +152,6 @@ public class PlayerMove : MonoBehaviour
                 {
                     rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 3.0f);
                 }
-            }
-        }
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.tag == "Ground")
-            {
-                isGrounded = true;
-            }
-
-        }
-        private void OnCollisionExit(Collision collision)
-        {
-            if (collision.gameObject.tag == "Ground")
-            {
-                isGrounded = false;
             }
         }
 

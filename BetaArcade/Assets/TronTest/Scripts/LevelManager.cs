@@ -58,7 +58,12 @@ public class LevelManager : MonoBehaviour
       m_Timer -= Time.deltaTime;
       if (m_Timer <= 0.0f)
         {
-        End();
+        m_CurrentRound++;
+        }
+
+      if(m_CurrentRound > m_MaxRounds)
+        {
+        
         }
       }
     else
@@ -66,6 +71,7 @@ public class LevelManager : MonoBehaviour
       if(CountdownTimer.Instance.Timeleft <= 0)
         {
         m_IsPaused = false;
+        m_CurrentRound++;
         }
       }
     }
