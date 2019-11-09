@@ -176,18 +176,6 @@ public class HotPotato : MonoBehaviour
         ResetRound();
    
         yield return new WaitForSeconds(3);
-        for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
-        {
-            if (players[i].gameObject.activeSelf)
-            {
-                if (!players[i].GetComponent<PlayerHotPotato>().HasBomb())
-                {
-                    Debug.Log("HAS BOMB");
-                    players[i].GetComponent<PlayerHotPotato>().SetHasBomb(true);
-                    break;
-                }
-            }
-        }
         canPassBomb = true;
     }
     void ResetBomb()

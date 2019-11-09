@@ -10,7 +10,10 @@ public class LevelManager : MonoBehaviour
   private int m_PlayerCount = 0;
   private float m_Timer;
   private float m_MaxTime = 90f;
+  private bool m_IsPaused = false;
   private GameObject[] players;
+  private int m_CurrentRound = 0;
+  private int m_MaxRounds = 1;
   public int TargetPlayers
     {
     set
@@ -26,8 +29,18 @@ public class LevelManager : MonoBehaviour
   void Start()
     {
     m_Timer = m_MaxTime;
-    TargetPlayers = 4;
+    var gameManager = GameObject.Find("GameManager") != null ? GameObject.Find("GameManager").GetComponent<GameManager>() : null;
+    TargetPlayers = 1;
+
+    if (gameManager != null)
+      {
+      TargetPlayers = gameManager.GetPlayerCount();
+      m_MaxRounds = gameManager.GetNumberOfRounds();
+      }
+
     players = GameObject.FindObjectsOfType(typeof(GameObject)).Where(x => (x as GameObject).tag.Contains("Player")).Select(x => x as GameObject).ToArray();
+    CountdownTimer.Instance.Run();
+    m_IsPaused = true;
     }
 
   private void Update()
@@ -45,10 +58,20 @@ public class LevelManager : MonoBehaviour
       players.First(x => x != null).GetComponent<PlayerManager>().SetWinner();
       }
 
-    m_Timer -= Time.deltaTime;
-    if(m_Timer <= 0.0f)
+    if (!m_IsPaused)
       {
-      End();
+      m_Timer -= Time.deltaTime;
+      if (m_Timer <= 0.0f)
+        {
+        End();
+        }
+      }
+    else
+      {
+      if(CountdownTimer.Instance.Timeleft <= 0)
+        {
+        m_IsPaused = false;
+        }
       }
     }
 

@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
     private float dashSpeed = 8.0f;
     private Vector3 movement;
     private Rigidbody rb;
-  private bool isFrozen = false;
+    private bool isFrozen = false;
     private bool isGrounded;
     private bool hasDashed;
     private bool hasPushed = false;
