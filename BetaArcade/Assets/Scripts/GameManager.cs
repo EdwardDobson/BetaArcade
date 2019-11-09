@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         playerTotalText.text = "Player Total: " + playerTotal;
         winScreen = transform.GetChild(0).gameObject;
         gameModeList.text = "Game Modes \n";
-        nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(5).GetChild(0).GetComponent<TextMeshProUGUI>();
         roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
         roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
@@ -80,17 +80,9 @@ public class GameManager : MonoBehaviour
         {
             endGameModeScoreTexts[3].text = "Player Four \n Total Rounds \n" + playerFourScore;
         }
-
-
-        if (SceneManager.GetActiveScene().buildIndex <= 1)
-        {
-            PlayerUI = GameObject.Find("PlayerUI");
-            PlayerUI.transform.GetChild(1).gameObject.SetActive(false);
-        }
-        else PlayerUI.transform.GetChild(1).gameObject.SetActive(true);
         if (currentSceneID == levelPlaylist.Count - 1)
         {
-            nextLevelButtonText.text = "Return to Menu";
+            nextLevelButtonText.text = "Go to finish";
         }
         else if (currentSceneID < levelPlaylist.Count)
         {
@@ -98,11 +90,23 @@ public class GameManager : MonoBehaviour
         }
         if (winScreen.activeSelf)
         {
-            PlayerUI.transform.GetChild(1).gameObject.SetActive(false);
+
             if (Input.GetButtonDown("Jump1"))
             {
                 LoadLevel();
                 winScreen.SetActive(false);
+            }
+            PlayerUI.transform.GetChild(1).gameObject.SetActive(false);
+        }
+        if (SceneManager.GetActiveScene().name != "MainMenu" && !winScreen.activeSelf)
+        {
+            PlayerUI.transform.GetChild(1).gameObject.SetActive(true);
+        }
+        if(SceneManager.GetActiveScene().name == "EndZone")
+        {
+            for(int i =0; i < playerTotal; ++i)
+            {
+                PlayerUI.transform.GetChild(1).GetChild(i).GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
             }
         }
     }
@@ -229,7 +233,7 @@ public class GameManager : MonoBehaviour
         playerUI.transform.GetChild(3).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(4).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(5).GetComponent<Image>().color = new Color(1, 1, 1, 0);
-
+        playerUI.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
         playerUI.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
         playerUI.transform.SetParent(GameObject.Find("PlayerUI").transform.GetChild(1).transform);
         PlayerPictures.Add(playerUI);
@@ -307,7 +311,6 @@ public class GameManager : MonoBehaviour
                     StartCoroutine(LoadAsync());
 
                 }
-
                 if (playerTotal < 2)
                 {
                     notEnoughText.text = "Not enough players";
@@ -390,9 +393,7 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator LoadMainMenu()
     {
-        if (currentSceneID >= levelPlaylist.Count)
-        {
-            AsyncOperation aysncLoad = SceneManager.LoadSceneAsync("MainMenu");
+            AsyncOperation aysncLoad = SceneManager.LoadSceneAsync("EndZone");
             currentSceneID = 0;
             while (!aysncLoad.isDone)
             {
@@ -400,18 +401,24 @@ public class GameManager : MonoBehaviour
             }
             transform.GetChild(0).gameObject.SetActive(false);
             shouldLoad = true;
-        }
+        PlayerUI = GameObject.Find("PlayerUI");
     }
     IEnumerator LoadAsync()
     {
         currentSceneID++;//Moves the list along ready for the next level
-        AsyncOperation aysncLoad = SceneManager.LoadSceneAsync(levelPlaylist[currentSceneID]);
-        while (!aysncLoad.isDone)
+        if(currentSceneID < levelPlaylist.Count)
         {
-            yield return null;
+            AsyncOperation aysncLoad = SceneManager.LoadSceneAsync(levelPlaylist[currentSceneID]);
+            while (!aysncLoad.isDone)
+            {
+                yield return null;
+            }
+            transform.GetChild(0).gameObject.SetActive(false);
+            shouldLoad = true;
+            PlayerUI = GameObject.Find("PlayerUI");
         }
-        transform.GetChild(0).gameObject.SetActive(false);
-        shouldLoad = true;
+      
+    
         //Used to reactive the player uis in the main menu
         /* 
         foreach (Transform child in GameObject.Find("PlayerUI").transform.GetChild(1).transform)
@@ -425,7 +432,7 @@ public class GameManager : MonoBehaviour
         */
     }
 
-    #region ScoreSetters
+    #region ScoreSetters&Getters
     public void SetPlayerOneScore(int _set)
     {
         playerOneScore += _set;
@@ -441,6 +448,22 @@ public class GameManager : MonoBehaviour
     public void SetPlayerFourScore(int _set)
     {
         playerFourScore += _set;
+    }
+    public int GetPlayerOneScore()
+    {
+        return playerOneScore;
+    }
+    public int GetPlayerTwoScore()
+    {
+        return playerTwoScore;
+    }
+    public int GetPlayerThreeScore()
+    {
+        return playerThreeScore;
+    }
+    public int GetPlayerFourScore()
+    {
+        return playerFourScore;
     }
     #endregion
     public void SetNumberOfRounds(int _set)//Set in lobby menu

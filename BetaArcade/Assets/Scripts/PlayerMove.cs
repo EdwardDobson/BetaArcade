@@ -33,21 +33,16 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        var playerPicture = GameObject.Find("PlayerPicture" + ID);
-        if (playerPicture != null && playerPicture.transform.childCount > 0)
-        {
-            shoveSlider = playerPicture.transform.GetChild(0).GetComponent<Slider>();
-            if (playerPicture.transform.childCount > 7)
-            {
-                dashSlider = playerPicture.transform.GetChild(7).GetComponent<Slider>();
-            }
-        }
-        
+        Invoke("LateStart", 0.1f);
     }
-
+    void LateStart()
+    {
+        shoveSlider = GameObject.Find("PlayerPicture" + ID).transform.GetChild(0).GetComponent<Slider>();
+        dashSlider = GameObject.Find("PlayerPicture" + ID).transform.GetChild(7).GetComponent<Slider>();
+    }
     private void Update()
     {
+
         if (isGrounded)
         {
             if (Input.GetButtonDown("Jump" + ID))
@@ -140,7 +135,8 @@ public class PlayerMove : MonoBehaviour
         }
         void Push()
         {
-            Vector3 pushPos = transform.GetChild(1).position;
+
+            Vector3 pushPos = transform.GetChild(0).GetChild(0).position;
             Collider[] colliders = Physics.OverlapBox(pushPos, transform.localScale / 4);
             foreach (Collider hit in colliders)
             {
