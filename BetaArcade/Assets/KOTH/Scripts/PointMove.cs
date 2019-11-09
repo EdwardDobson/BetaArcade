@@ -76,6 +76,10 @@ public class PointMove : MonoBehaviour
         }
         }
     }
+    public void ResetTimer()
+    {
+        timer = maxtimer;
+    }
     IEnumerator HideText()
     {
         yield return new WaitForSeconds(1);

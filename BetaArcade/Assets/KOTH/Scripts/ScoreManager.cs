@@ -13,9 +13,10 @@ public class ScoreManager : MonoBehaviour
     TextMeshProUGUI scoreToWinText;
     TextMeshProUGUI scoreToWinTextTutorialText;
     TextMeshProUGUI timerTextTutorialText;
+    TextMeshProUGUI startTimeText;
     public int maxScore;
     bool resetPoints = false;
-    bool canGainPoints = true;
+    bool canGainPoints = false;
     int scoreIncreaseValue = 1;
     int resetPointsCounter;
     [SerializeField]
@@ -42,6 +43,8 @@ public class ScoreManager : MonoBehaviour
     int stopTimerDecrease = 0;
     [SerializeField]
     bool startGame;
+    float startTime = 4;
+    bool gameStarted = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +59,7 @@ public class ScoreManager : MonoBehaviour
         scoreToWinTextTutorialText = GameObject.Find("ScoreToWin").GetComponent<TextMeshProUGUI>();
         timerTextTutorialText = GameObject.Find("RoundTimerText").GetComponent<TextMeshProUGUI>();
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
+        startTimeText = GameObject.Find("StartTimeText").GetComponent<TextMeshProUGUI>();
         KOTHPlayerSpawner = GetComponent<KOTHPlayerSpawner>();
         maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -65,20 +69,47 @@ public class ScoreManager : MonoBehaviour
         timerTextTutorialText.text =  "Round Time: " + gameManager.GetTimer();
         scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
         scoreToWinText.text = "Score to win: " + maxScore;
+        gameManager.SetOldTimer();
         foreach (Transform t in PlayerUI.transform)
         {
             t.GetChild(6).GetComponent<TextMeshProUGUI>().text = "Score: 0";
         }
+       
     }
+    void StartTime()
+    {
+        startTime -= Time.deltaTime;
+        startTimeText.text = "" + (int)startTime;
+        if (startTime <= 1)
+        {
+            canGainPoints = true;
+            startTimeText.text = "Go!";
+            startTime = 4;
+            gameStarted = true;
+            StartCoroutine(HideStartTimeText());
+        }
+    }
+    IEnumerator HideStartTimeText()
+    {
+        yield return new WaitForSeconds(1);
+        startTimeText.text = "";
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (startGame == true)
         {
+            if(!gameStarted || !canGainPoints)
+            {
+                StartTime();
+            }
+          
             if (canGainPoints && currentRound <= maxRound && !endGameMode)
             {
                 AddScore();
                 AddScoreOutOfTime();
+                DecreaseTimerKoth();
             }
             if (currentRound > maxRound)
             {
@@ -87,7 +118,7 @@ public class ScoreManager : MonoBehaviour
                 timerText.text = "";
                 winText.text = "";
                 endGameMode = true;
-
+                scoreToWinText.text = "";
                 gameManager.transform.GetChild(0).gameObject.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(GameObject.Find("Next Level"));
                 startGame = false;
@@ -99,7 +130,7 @@ public class ScoreManager : MonoBehaviour
                     StartCoroutine(RespawnPlayer(child));
                 }
             }
-            DecreaseTimerKoth();
+      
         }
 
     }
@@ -252,7 +283,7 @@ public class ScoreManager : MonoBehaviour
             {
                 if (otherPlayers[i].GetComponent<PointCollide>().GetinPoint() && !resetPoints)
                 {
-                    inPointText.text = otherPlayers[i].tag + " is on the point";
+                    inPointText.text = "Player " + (i+1)  + " is on the point";
                     point.gameObject.GetComponent<MeshRenderer>().material = otherPlayers[i].GetComponent<PointCollide>().pointMat;
                     timer += Time.deltaTime;
                     if (timer >= 1)
@@ -287,7 +318,7 @@ public class ScoreManager : MonoBehaviour
                 {
                     gameManager.SetPlayerFourScore(1);
                 }
-                winText.text = otherPlayers[i].tag + " wins the round";
+                winText.text = "Player " + (i + 1) + " wins the round";
                 currentRound++;
                 roundText.text = "Round: " + currentRound + " of " + maxRound;
 
@@ -321,6 +352,7 @@ public class ScoreManager : MonoBehaviour
                 resetPoints = false;
                 point.MovePoint();
                 StartCoroutine(CanGainPoints());
+                gameManager.SetTimer(gameManager.GetOldTimer());
             }
         }
     }
@@ -330,7 +362,8 @@ public class ScoreManager : MonoBehaviour
         {
             otherPlayers[i].GetComponent<Rigidbody>().mass = 200;
         }
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
+        point.ResetTimer();
         canGainPoints = true;
         winText.text = "";
         for (int i = 0; i < otherPlayers.Count; i++)
