@@ -28,9 +28,7 @@ public class HotPotato : MonoBehaviour
     bool endGameMode = false;
     bool startGame = false;
     TextMeshProUGUI bombTimerText;
-    TextMeshProUGUI startTimeText;
     GameObject HotPotatoUI;
-    float startTime = 4;
     bool gameStarted = false;
     bool canPassBomb = false;
     bool roundRestarting;
@@ -40,7 +38,6 @@ public class HotPotato : MonoBehaviour
         Invoke("LateStart", 0.1f);
         bombTimerText = GameObject.Find("BombTimer").GetComponent<TextMeshProUGUI>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        startTimeText = GameObject.Find("StartTimeText").GetComponent<TextMeshProUGUI>();
         bombTimerTitle.text = "Bomb Timer: " + maxBombTimer;
     }
     void LateStart()
@@ -55,15 +52,11 @@ public class HotPotato : MonoBehaviour
     }
     void StartTime()
     {
-        startTime -= Time.deltaTime;
-        startTimeText.text = "" + (int)startTime;
-        if (startTime <= 1)
+        CountdownTimer.Instance.Run();
+        if (CountdownTimer.Instance.Timeleft <= 0)
         {
             canPassBomb = true;
-            startTimeText.text = "Go!";
-            startTime = 4;
             gameStarted = true;
-            StartCoroutine(HideStartTimeText());
             for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
             {
                 int randomBombPick = Random.Range(0, gameManager.GetPlayerCount());
@@ -75,12 +68,6 @@ public class HotPotato : MonoBehaviour
             }
         }
     }
-    IEnumerator HideStartTimeText()
-    {
-        yield return new WaitForSeconds(1);
-        startTimeText.text = "";
-    }
-
     void BombTimer()
     {
         if (!roundRestarting)
@@ -113,7 +100,7 @@ public class HotPotato : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(GameObject.Find("Next Level"));
 
             }
-            if(!canPassBomb || !gameStarted)
+            if((!canPassBomb || !gameStarted) && !endGameMode)
             {
                 StartTime();
             }

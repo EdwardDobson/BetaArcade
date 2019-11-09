@@ -13,7 +13,6 @@ public class ScoreManager : MonoBehaviour
     TextMeshProUGUI scoreToWinText;
     TextMeshProUGUI scoreToWinTextTutorialText;
     TextMeshProUGUI timerTextTutorialText;
-    TextMeshProUGUI startTimeText;
     public int maxScore;
     bool resetPoints = false;
     bool canGainPoints = false;
@@ -43,7 +42,6 @@ public class ScoreManager : MonoBehaviour
     int stopTimerDecrease = 0;
     [SerializeField]
     bool startGame;
-    float startTime = 4;
     bool gameStarted = false;
     // Start is called before the first frame update
     void Start()
@@ -59,7 +57,6 @@ public class ScoreManager : MonoBehaviour
         scoreToWinTextTutorialText = GameObject.Find("ScoreToWin").GetComponent<TextMeshProUGUI>();
         timerTextTutorialText = GameObject.Find("RoundTimerText").GetComponent<TextMeshProUGUI>();
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
-        startTimeText = GameObject.Find("StartTimeText").GetComponent<TextMeshProUGUI>();
         KOTHPlayerSpawner = GetComponent<KOTHPlayerSpawner>();
         maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -78,21 +75,12 @@ public class ScoreManager : MonoBehaviour
     }
     void StartTime()
     {
-        startTime -= Time.deltaTime;
-        startTimeText.text = "" + (int)startTime;
-        if (startTime <= 1)
+        CountdownTimer.Instance.Run();
+        if (CountdownTimer.Instance.Timeleft <= 0)
         {
             canGainPoints = true;
-            startTimeText.text = "Go!";
-            startTime = 4;
             gameStarted = true;
-            StartCoroutine(HideStartTimeText());
         }
-    }
-    IEnumerator HideStartTimeText()
-    {
-        yield return new WaitForSeconds(1);
-        startTimeText.text = "";
     }
 
     // Update is called once per frame

@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     private float dashSpeed = 8.0f;
     private Vector3 movement;
     private Rigidbody rb;
+  private bool isFrozen = false;
     private bool isGrounded;
     private bool hasDashed;
     private bool hasPushed = false;
@@ -43,7 +44,7 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
 
-        if (isGrounded)
+        if (isGrounded && !isFrozen)
         {
             if (Input.GetButtonDown("Jump" + ID))
             {
@@ -91,32 +92,35 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-        // Update is called once per frame
-        void FixedUpdate()
-        {
-            float moveHorizontal = Input.GetAxisRaw("Horizontal" + ID);
-            float moveVertical = Input.GetAxisRaw("Vertical" + ID);
-            movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-            rb.AddForce(new Vector3(moveHorizontal * speed, 0, moveVertical * speed));
-            //if(rb.velocity.sqrMagnitude < maxSpeed)
-            //rb.AddForce(Time.deltaTime * movement.x * speed, 0, Time.deltaTime * movement.z * speed, ForceMode.VelocityChange);
-            if (Mathf.Abs(rb.velocity.z) > maxSpeed || Mathf.Abs(rb.velocity.x) > maxSpeed)
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+  // Update is called once per frame
+  void FixedUpdate()
+    {
+    if (!isFrozen)
+      {
+      float moveHorizontal = Input.GetAxisRaw("Horizontal" + ID);
+      float moveVertical = Input.GetAxisRaw("Vertical" + ID);
+      movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+      rb.AddForce(new Vector3(moveHorizontal * speed, 0, moveVertical * speed));
+      //if(rb.velocity.sqrMagnitude < maxSpeed)
+      //rb.AddForce(Time.deltaTime * movement.x * speed, 0, Time.deltaTime * movement.z * speed, ForceMode.VelocityChange);
+      if (Mathf.Abs(rb.velocity.z) > maxSpeed || Mathf.Abs(rb.velocity.x) > maxSpeed)
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
 
-            Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
-            if (Input.GetButton("Shove" + ID) && !hasPushed)
-            {
-                hasPushed = true;
-                Debug.Log("Shoved");
-                Push();
-                StartCoroutine(ResetShove());
-            }
-            if (lookDir.magnitude > 0.5)
-            {
-                Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
-                transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
-            }
+      Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
+      if (Input.GetButton("Shove" + ID) && !hasPushed)
+        {
+        hasPushed = true;
+        Debug.Log("Shoved");
+        Push();
+        StartCoroutine(ResetShove());
         }
+      if (lookDir.magnitude > 0.5)
+        {
+        Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
+        transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
+        }
+      }    
+    }
         IEnumerator ResetDash()
         {
 
@@ -185,6 +189,11 @@ public class PlayerMove : MonoBehaviour
             }
             speed = originalSpeed;
         }
+
+  public void ToggleFreeze(bool frozen)
+    {
+    isFrozen = frozen;
+    }
 
         public void AddBigJumps(int count)
         {

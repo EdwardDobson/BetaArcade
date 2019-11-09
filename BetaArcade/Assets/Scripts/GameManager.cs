@@ -166,6 +166,12 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+  public void Countdown()
+    {
+    CountdownTimer.Instance.Run();
+    }
+
     public void Quit()
     {
         Application.Quit();
