@@ -7,26 +7,31 @@ public class WAMLevelManager : MonoBehaviour
   public GameObject PlayerPrefab;
   public GameObject MolePrefab;
   public int MoleCount = 0;
+
   public int TargetPlayers
     {
     set
       {
-      for(int i = m_PlayerCount; i < value; i++)
+      for(int i = m_Players.Count; i < value; i++)
         {
         CreatePlayer();
         }
       }
     }
 
-  private int m_PlayerCount = 0;
+  private List<GameObject> m_Players = new List<GameObject>();
   private List<GameObject> m_SpawnPoints = new List<GameObject>();
   private int m_MaxMoles = 5;
   private bool m_CanSpawnMole = true;
+  private float m_Timer;
+  private float m_MaxTime = 90f;
+  private int m_MaxScore;
 
   private System.Random m_Rand = new System.Random(System.DateTime.Now.Millisecond);
 
   private void Start()
     {
+    m_Timer = m_MaxTime;
     var spawnPointsParent = GameObject.Find("SpawnPoints");
     foreach (Transform spawnPoint in spawnPointsParent.transform)
       {
@@ -46,13 +51,27 @@ public class WAMLevelManager : MonoBehaviour
       }
     }
 
+  private void Update()
+    {
+    m_Timer -= Time.deltaTime;
+    if(m_Timer <= 0.0f)
+      {
+      TimerEnded();
+      }
+    }
+
+  public void End()
+    {
+    // TODO end game and get winner
+    }
+
   private void CreatePlayer()
     {
     var player = Instantiate(PlayerPrefab);
-    m_PlayerCount++;
-    player.tag = "Player" + m_PlayerCount;
-    player.GetComponent<PlayerMove>().ID = m_PlayerCount;
-    player.transform.position = m_SpawnPoints[m_PlayerCount - 1].transform.position;
+    m_Players.Add(player);
+    player.tag = "Player" + m_Players.Count;
+    player.GetComponent<PlayerMove>().ID = m_Players.Count;
+    player.transform.position = m_SpawnPoints[m_Players.Count - 1].transform.position;
     }
   private void CreateMole()
     {
@@ -62,6 +81,11 @@ public class WAMLevelManager : MonoBehaviour
     mole.name = "Mole";
     mole.transform.position = new Vector3(x, -0.5f, z);
     MoleCount++;
+    }
+
+  private void TimerEnded()
+    {
+    // TODO end game and get winner
     }
 
   private IEnumerator SpawnDelay()

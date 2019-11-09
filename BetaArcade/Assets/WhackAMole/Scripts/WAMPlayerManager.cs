@@ -6,8 +6,21 @@ public class WAMPlayerManager : MonoBehaviour
   {
   public GameObject Hammer;
   public bool CanSwing = true;
-  public int Score = 0;
+  public int Score
+    {
+    get { return m_Score; }
+    set
+      {
+      m_Score = value;
+      if(m_Score >= m_MaxScore)
+        {
+        GameObject.Find("LevelManager").GetComponent<WAMLevelManager>().End();
+        }
+      }
+    }
 
+  private int m_Score;
+  private int m_MaxScore = 20;
   private int m_ID;
   private float m_SwingCooldownTime = 1f;
   private Animator m_Animator;
