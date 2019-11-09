@@ -28,6 +28,7 @@ public class HotPotato : MonoBehaviour
     bool endGameMode = false;
     bool startGame = false;
     TextMeshProUGUI bombTimerText;
+    GameObject HotPotatoUI;
     void Start()
     {
         maxBombTimer = 5;
@@ -39,6 +40,7 @@ public class HotPotato : MonoBehaviour
     void LateStart()
     {
         roundText = GameObject.Find("RoundText").GetComponent<TextMeshProUGUI>();
+        HotPotatoUI = GameObject.Find("HotPotatoUI");
         currentBombTimer = maxBombTimer;
         for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
         {
@@ -73,7 +75,11 @@ public class HotPotato : MonoBehaviour
                 endGameMode = true;
                 roundText.text = "";
                 currentRound = maxRound;
+                HotPotatoUI.SetActive(false);
                 gameManager.transform.GetChild(0).gameObject.SetActive(true);
+                gameManager.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                gameManager.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                gameManager.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(GameObject.Find("Next Level"));
 
             }

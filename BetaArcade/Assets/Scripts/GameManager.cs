@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         playerTotalText.text = "Player Total: " + playerTotal;
         winScreen = transform.GetChild(0).gameObject;
         gameModeList.text = "Game Modes \n";
-        nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(5).GetChild(0).GetComponent<TextMeshProUGUI>();
         roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
         roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
@@ -307,7 +307,6 @@ public class GameManager : MonoBehaviour
                     StartCoroutine(LoadAsync());
 
                 }
-
                 if (playerTotal < 2)
                 {
                     notEnoughText.text = "Not enough players";

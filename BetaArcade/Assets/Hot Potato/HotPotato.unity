@@ -3252,6 +3252,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6904190841159945215, guid: 06ef58d2953944a429dd556605ed05f5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7987500057223226939, guid: 06ef58d2953944a429dd556605ed05f5,
         type: 3}
       propertyPath: Portraits.Array.data[0]
@@ -3278,11 +3283,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8834752589239295553, guid: ce74d4798a12166409ce90b72988b334,
         type: 3}
-    - target: {fileID: 6904190841159945215, guid: 06ef58d2953944a429dd556605ed05f5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 793252002531182807, guid: 06ef58d2953944a429dd556605ed05f5,
         type: 3}
       propertyPath: m_Name
