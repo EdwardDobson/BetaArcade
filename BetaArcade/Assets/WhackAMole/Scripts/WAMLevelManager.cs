@@ -7,6 +7,16 @@ public class WAMLevelManager : MonoBehaviour
   public GameObject PlayerPrefab;
   public GameObject MolePrefab;
   public int MoleCount = 0;
+  public int TargetPlayers
+    {
+    set
+      {
+      for(int i = m_PlayerCount; i < value; i++)
+        {
+        CreatePlayer();
+        }
+      }
+    }
 
   private int m_PlayerCount = 0;
   private List<GameObject> m_SpawnPoints = new List<GameObject>();
@@ -15,14 +25,15 @@ public class WAMLevelManager : MonoBehaviour
 
   private System.Random m_Rand = new System.Random(System.DateTime.Now.Millisecond);
 
-    private void Start()
+  private void Start()
     {
     var spawnPointsParent = GameObject.Find("SpawnPoints");
     foreach (Transform spawnPoint in spawnPointsParent.transform)
       {
       m_SpawnPoints.Add(spawnPoint.gameObject);
       }
-    CreatePlayer();
+    // TargetPlayers should be set from Game Controller
+    TargetPlayers = 1;
     Physics.IgnoreLayerCollision(11, 12);
     }
 

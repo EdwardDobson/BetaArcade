@@ -28,6 +28,17 @@ public class WAMPlayerManager : MonoBehaviour
   public void DisableHammerCollider() => Hammer.GetComponentInChildren<BoxCollider>().enabled = false;
   public void EnableHammerCollider() => Hammer.GetComponentInChildren<BoxCollider>().enabled = true;
 
+  public void Stun() => StartCoroutine(StunRoutine());
+
+  private IEnumerator StunRoutine()
+    {
+    CanSwing = false;
+    GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+    yield return new WaitForSeconds(2f);
+    GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+    CanSwing = true;
+    }
+
   private IEnumerator SwingHammer()
     {
     CanSwing = false;

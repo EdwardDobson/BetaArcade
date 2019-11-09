@@ -13,5 +13,9 @@ public class HammerHeadScript : MonoBehaviour
       GetComponentInParent<WAMPlayerManager>().Score++;
       GameObject.Find("LevelManager").GetComponent<WAMLevelManager>().MoleCount--;
       }
+    else if (other.gameObject.tag.Contains("Player"))
+      {
+      other.GetComponent<WAMPlayerManager>().Stun();
+      }
     }
   }
