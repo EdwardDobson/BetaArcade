@@ -13,7 +13,7 @@ public class PlayerHotPotato : MonoBehaviour
     GameManager gameManager;
     void Start()
     {
-        bombImage = transform.GetChild(1).GetChild(0).gameObject;
+        bombImage = transform.GetChild(0).GetChild(1).gameObject;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
