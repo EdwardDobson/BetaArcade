@@ -25,7 +25,8 @@ public class WAMLevelManager : MonoBehaviour
   private bool m_CanSpawnMole = true;
   private float m_Timer;
   private float m_MaxTime = 90f;
-  private int m_MaxScore;
+  private int m_MaxRounds = 1;
+  private bool m_IsPaused = false;
 
   private System.Random m_Rand = new System.Random(System.DateTime.Now.Millisecond);
 
@@ -34,17 +35,21 @@ public class WAMLevelManager : MonoBehaviour
     m_Timer = m_MaxTime;
     var spawnPointsParent = GameObject.Find("SpawnPoints");
     foreach (Transform spawnPoint in spawnPointsParent.transform)
-      {
       m_SpawnPoints.Add(spawnPoint.gameObject);
-      }
-    // TargetPlayers should be set from Game Controller
     TargetPlayers = 1;
+
+    // Get level management info from game manager
+    TargetPlayers = LevelManagerTools.GetLevelInfo(out m_MaxRounds);
+
+    CountdownTimer.Instance.Run();
+    m_IsPaused = true;
+
     Physics.IgnoreLayerCollision(11, 12);
     }
 
   private void FixedUpdate()
     {
-    if (MoleCount < m_MaxMoles && m_CanSpawnMole)
+    if (!m_IsPaused && MoleCount < m_MaxMoles && m_CanSpawnMole)
       {
       CreateMole();
       StartCoroutine(SpawnDelay());
@@ -53,10 +58,18 @@ public class WAMLevelManager : MonoBehaviour
 
   private void Update()
     {
-    m_Timer -= Time.deltaTime;
-    if(m_Timer <= 0.0f)
+    if (!m_IsPaused)
       {
-      TimerEnded();
+      m_Timer -= Time.deltaTime;
+      if (m_Timer <= 0.0f)
+        {
+        TimerEnded();
+        }
+      }
+    else
+      {
+      if (CountdownTimer.Instance.Timeleft <= 0)
+        m_IsPaused = false;
       }
     }
 

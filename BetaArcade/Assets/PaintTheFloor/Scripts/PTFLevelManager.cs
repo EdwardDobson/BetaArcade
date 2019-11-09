@@ -22,6 +22,8 @@ public class PTFLevelManager : MonoBehaviour
   private int playerCount = 0;
   private float m_Timer;
   private float m_MaxTime = 90;
+  private int m_MaxRounds = 1;
+  private bool m_IsPaused = false;
 
   void Start()
     {
@@ -41,7 +43,11 @@ public class PTFLevelManager : MonoBehaviour
         }
       }
     #endregion
-    CreatePlayer();
+
+    TargetPlayers = LevelManagerTools.GetLevelInfo(out m_MaxRounds);
+
+    CountdownTimer.Instance.Run();
+    m_IsPaused = true;
     m_Timer = m_MaxTime;
     }
 
@@ -54,10 +60,18 @@ public class PTFLevelManager : MonoBehaviour
         CreatePlayer();
       }
 
-    m_Timer -= Time.deltaTime;
-    if(m_Timer <= 0)
+    if (!m_IsPaused)
       {
-      // TODO end
+      m_Timer -= Time.deltaTime;
+      if (m_Timer <= 0)
+        {
+        // TODO end
+        }
+      }
+    else
+      {
+      if (CountdownTimer.Instance.Timeleft <= 0)
+        m_IsPaused = false;
       }
     }
 

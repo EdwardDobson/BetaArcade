@@ -38,4 +38,21 @@ public static class LevelManagerTools
       }
     return -1;
     }
+
+  /// <summary>
+  /// Returns the number of players should be in the scene whilst setting level variables
+  /// </summary>
+  /// <param name="maxRounds">Maximum number of rounds for this gamemode</param>
+  /// <returns></returns>
+  public static int GetLevelInfo(out int maxRounds)
+    {
+    maxRounds = 1;
+    var gameManager = GameObject.Find("GameManager") != null ? GameObject.Find("GameManager").GetComponent<GameManager>() : null;
+    if (gameManager != null)
+      {
+      maxRounds = gameManager.GetNumberOfRounds();
+      return gameManager.GetPlayerCount();
+      }
+    return 1;
+    }
   }

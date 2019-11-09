@@ -30,13 +30,8 @@ public class LevelManager : MonoBehaviour
     {
     m_Timer = m_MaxTime;
     var gameManager = GameObject.Find("GameManager") != null ? GameObject.Find("GameManager").GetComponent<GameManager>() : null;
-    TargetPlayers = 1;
 
-    if (gameManager != null)
-      {
-      TargetPlayers = gameManager.GetPlayerCount();
-      m_MaxRounds = gameManager.GetNumberOfRounds();
-      }
+    TargetPlayers = LevelManagerTools.GetLevelInfo(out m_MaxRounds);
 
     players = GameObject.FindObjectsOfType(typeof(GameObject)).Where(x => (x as GameObject).tag.Contains("Player")).Select(x => x as GameObject).ToArray();
     CountdownTimer.Instance.Run();
