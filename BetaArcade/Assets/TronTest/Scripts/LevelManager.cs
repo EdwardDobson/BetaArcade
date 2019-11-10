@@ -22,13 +22,16 @@ public class LevelManager : KamilLevelManager
     {
     if(!m_RoundEnded)
       {
-      if (m_Players.Where(x => x != null).Count() == 1)
+      if (m_Players.Where(x => x != null).Count() <= 1)
         {
         var player = m_Players.FirstOrDefault(x => x != null);
+        if(player != null)
+          {
+          if (m_GameManager != null)
+            m_GameManager.SetPlayerScore(player.GetComponent<PlayerManager>().ID, 2);
+          player.GetComponent<PlayerManager>().IsDead = true;
+          }
         // Add 2 to player score for winning
-        if (m_GameManager != null)
-          m_GameManager.SetPlayerScore(player.GetComponent<PlayerManager>().ID, 2);
-        player.GetComponent<PlayerManager>().IsDead = true;
         StartCoroutine(EndRound());
         }
 
