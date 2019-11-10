@@ -71,16 +71,16 @@ public class GameManager : MonoBehaviour
 
         if (playerTotal >= 2)
         {
-            endGameModeScoreTexts[0].text = "Player One \n Total Rounds \n" + playerOneScore;
-            endGameModeScoreTexts[1].text = "Player Two \n Total Rounds \n" + playerTwoScore;
+            endGameModeScoreTexts[0].text = "Player One \n Total Score \n" + playerOneScore;
+            endGameModeScoreTexts[1].text = "Player Two \n Total Score \n" + playerTwoScore;
         }
         if (playerTotal >= 3)
         {
-            endGameModeScoreTexts[2].text = "Player Three \nTotal Rounds \n" + playerThreeScore;
+            endGameModeScoreTexts[2].text = "Player Three \nTotal Score \n" + playerThreeScore;
         }
         if (playerTotal >= 4)
         {
-            endGameModeScoreTexts[3].text = "Player Four \n Total Rounds \n" + playerFourScore;
+            endGameModeScoreTexts[3].text = "Player Four \n Total Score \n" + playerFourScore;
         }
         if (currentSceneID == levelPlaylist.Count - 1)
         {
