@@ -14,7 +14,7 @@ public class WAMPlayerManager : MonoBehaviour
       m_Score = value;
       if(m_Score >= m_MaxScore)
         {
-        GameObject.Find("LevelManager").GetComponent<WAMLevelManager>().End();
+        GameObject.Find("LevelManager").GetComponent<WAMLevelManager>().EndRound();
         }
       }
     }

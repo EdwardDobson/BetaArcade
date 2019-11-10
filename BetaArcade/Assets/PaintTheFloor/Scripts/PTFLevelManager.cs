@@ -2,31 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PTFLevelManager : MonoBehaviour
+public class PTFLevelManager : KamilLevelManager
   {
   public GameObject Player;
   public GameObject FlatFloor;
-  public int TargetPlayers
-    {
-    set
-      {
-      for(int i = playerCount; i < value; i++)
-        {
-        CreatePlayer();
-        }
-      }
-    }
 
   private int maxX = 50;
   private int maxY = 50;
-  private int playerCount = 0;
-  private float m_Timer;
-  private float m_MaxTime = 90;
-  private int m_MaxRounds = 1;
-  private bool m_IsPaused = false;
 
-  void Start()
+  protected override void Start()
     {
+    base.Start();
     FlatFloor.transform.localScale = new Vector3(maxX, .1f, maxY);
     Physics.IgnoreLayerCollision(9, 10);
 
@@ -44,11 +30,8 @@ public class PTFLevelManager : MonoBehaviour
       }
     #endregion
 
-    TargetPlayers = LevelManagerTools.GetLevelInfo(out m_MaxRounds);
-
     CountdownTimer.Instance.Run();
     m_IsPaused = true;
-    m_Timer = m_MaxTime;
     }
 
   private void Update()
@@ -56,7 +39,7 @@ public class PTFLevelManager : MonoBehaviour
     // DEBUG
     if (Debug.isDebugBuild)
       {
-      if (Input.GetKeyDown(KeyCode.P) && playerCount < 4)
+      if (Input.GetKeyDown(KeyCode.P) && m_Players.Count < 4)
         CreatePlayer();
       }
 
@@ -65,7 +48,7 @@ public class PTFLevelManager : MonoBehaviour
       m_Timer -= Time.deltaTime;
       if (m_Timer <= 0)
         {
-        // TODO end
+        StartCoroutine(EndRound());
         }
       }
     else
@@ -75,13 +58,20 @@ public class PTFLevelManager : MonoBehaviour
       }
     }
 
-  private void CreatePlayer()
+  protected override void CreatePlayer()
     {
     var player = Instantiate(Player);
-    player.transform.position = new Vector3(5 * playerCount, .8f, 0);
-    playerCount++;
-    player.tag = "Player" + playerCount;
-    player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(playerCount));
-    player.GetComponent<PlayerMove>().ID = playerCount;
+    player.transform.position = new Vector3(5 * m_Players.Count, .8f, 0);
+    m_Players.Add(player);
+    player.tag = "Player" + m_Players.Count;
+    player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
+    player.GetComponent<PlayerMove>().ID = m_Players.Count;
+    }
+
+  public override IEnumerator EndRound()
+    {
+    yield return new WaitForSeconds(2);
+    LevelCheck();
+    m_CurrentRound++;
     }
   }

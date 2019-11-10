@@ -2,44 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WAMLevelManager : MonoBehaviour
+public class WAMLevelManager : KamilLevelManager
   {
   public GameObject PlayerPrefab;
   public GameObject MolePrefab;
   public int MoleCount = 0;
 
-  public int TargetPlayers
-    {
-    set
-      {
-      for(int i = m_Players.Count; i < value; i++)
-        {
-        CreatePlayer();
-        }
-      }
-    }
-
-  private List<GameObject> m_Players = new List<GameObject>();
   private List<GameObject> m_SpawnPoints = new List<GameObject>();
   private int m_MaxMoles = 5;
   private bool m_CanSpawnMole = true;
-  private float m_Timer;
-  private float m_MaxTime = 90f;
-  private int m_MaxRounds = 1;
-  private bool m_IsPaused = false;
 
   private System.Random m_Rand = new System.Random(System.DateTime.Now.Millisecond);
 
-  private void Start()
+  protected override void Start()
     {
-    m_Timer = m_MaxTime;
+    base.Start();
     var spawnPointsParent = GameObject.Find("SpawnPoints");
     foreach (Transform spawnPoint in spawnPointsParent.transform)
       m_SpawnPoints.Add(spawnPoint.gameObject);
     TargetPlayers = 1;
-
-    // Get level management info from game manager
-    TargetPlayers = LevelManagerTools.GetLevelInfo(out m_MaxRounds);
 
     CountdownTimer.Instance.Run();
     m_IsPaused = true;
@@ -63,7 +44,7 @@ public class WAMLevelManager : MonoBehaviour
       m_Timer -= Time.deltaTime;
       if (m_Timer <= 0.0f)
         {
-        TimerEnded();
+        StartCoroutine(EndRound());
         }
       }
     else
@@ -73,18 +54,19 @@ public class WAMLevelManager : MonoBehaviour
       }
     }
 
-  public void End()
-    {
-    // TODO end game and get winner
-    }
-
-  private void CreatePlayer()
+  protected override void CreatePlayer()
     {
     var player = Instantiate(PlayerPrefab);
     m_Players.Add(player);
     player.tag = "Player" + m_Players.Count;
     player.GetComponent<PlayerMove>().ID = m_Players.Count;
     player.transform.position = m_SpawnPoints[m_Players.Count - 1].transform.position;
+    }
+  public override IEnumerator EndRound()
+    {
+    yield return new WaitForSeconds(2);
+    LevelCheck();
+    m_CurrentRound++;
     }
   private void CreateMole()
     {
@@ -94,11 +76,6 @@ public class WAMLevelManager : MonoBehaviour
     mole.name = "Mole";
     mole.transform.position = new Vector3(x, -0.5f, z);
     MoleCount++;
-    }
-
-  private void TimerEnded()
-    {
-    // TODO end game and get winner
     }
 
   private IEnumerator SpawnDelay()

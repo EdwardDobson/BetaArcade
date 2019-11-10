@@ -9,15 +9,16 @@ public class PlayerManager : MonoBehaviour
   public GameObject TrailObject;
   public GameObject Explosion;
   public int ID;
+  public bool IsDead;
 
   private Rigidbody m_Rb;
   [SerializeField]
   private Direction m_Direction;
   private float m_OriginalSpeed = 0.2f;
   private float m_Speed = 0.2f;
-  private bool m_IsDead;
   private float m_TrailTime = 2f;
   private GameObject m_TrailParent;
+
   private void Start()
     {
     m_Rb = GetComponent<Rigidbody>();
@@ -42,7 +43,7 @@ public class PlayerManager : MonoBehaviour
 
   void LateUpdate()
     {
-    if (!m_IsDead)
+    if (!IsDead)
       {
       var trail = Instantiate(TrailObject);
       var trailScript = trail.GetComponent<TrailScript>();
@@ -63,7 +64,7 @@ public class PlayerManager : MonoBehaviour
     }
   public void Die()
     {
-    m_IsDead = true;
+    IsDead = true;
 
     // TODO could do some nice death fade and still show previous player on map
     #region DeathFade
@@ -76,15 +77,9 @@ public class PlayerManager : MonoBehaviour
     Destroy(gameObject);
     }
 
-  public void SetWinner()
-    {
-    m_IsDead = true;
-    // TODO?
-    }
-
   public void ToggleFreeze(bool isFrozen)
     {
-    m_IsDead = isFrozen;
+    IsDead = isFrozen;
     }
 
   IEnumerator DeleteAfterTime(GameObject trail)
