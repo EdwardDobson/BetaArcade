@@ -450,6 +450,26 @@ public class GameManager : MonoBehaviour
     }
 
     #region ScoreSetters&Getters
+    public void SetPlayerScore(int ID, int _set)
+    {
+        switch (ID)
+        {
+            case 1:
+              SetPlayerOneScore(_set);
+              break;
+            case 2:
+              SetPlayerTwoScore(_set);
+              break;
+            case 3:
+              SetPlayerThreeScore(_set);
+              break;
+            case 4:
+              SetPlayerFourScore(_set);
+              break;
+            default:
+              break;
+        }
+    }
     public void SetPlayerOneScore(int _set)
     {
         playerOneScore += _set;

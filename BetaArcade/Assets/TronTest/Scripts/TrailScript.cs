@@ -17,10 +17,24 @@ public class TrailScript : MonoBehaviour
     }
   private void OnTriggerEnter(Collider other)
     {
-    if(other.gameObject.tag == "Player")
+    // Check if trigger collision is with a player
+    if(other.gameObject.tag.Contains("Player"))
       {
       var playerScript = other.GetComponent<PlayerManager>();
-      playerScript.Die();
+      if (!playerScript.IsDead)
+        {
+        playerScript.Die();
+
+        // Get game manager so score can be set
+        if(playerScript.ID != ID)
+          {
+          var gameManager = GameObject.Find("GameManager") != null ? GameObject.Find("GameManager").GetComponent<GameManager>() : null;
+          if (gameManager != null)
+            {
+            gameManager.SetPlayerScore(ID, 1);
+            }
+          }
+        }
       }
     }
   }
