@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
         }
         if (SceneManager.GetActiveScene().name != "MainMenu" && !winScreen.activeSelf)
         {
+            if(PlayerUI != null)
             PlayerUI.transform.GetChild(1).gameObject.SetActive(true);
         }
         if(SceneManager.GetActiveScene().name == "EndZone")
