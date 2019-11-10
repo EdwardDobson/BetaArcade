@@ -32,6 +32,7 @@ public class HotPotato : MonoBehaviour
     bool gameStarted = false;
     bool canPassBomb = false;
     bool roundRestarting;
+    int playerBombTotal;
     void Start()
     {
         maxBombTimer = 5;
@@ -106,6 +107,7 @@ public class HotPotato : MonoBehaviour
             }
             if (!endGameMode && canPassBomb)
             {
+                playerBombTotal = 0;
                 BombTimer();
                 bombTimerText.text = "Bomb Timer: " + currentBombTimer;
                 if (increaseInactivePlayers >= gameManager.GetPlayerCount() - 1)
@@ -174,8 +176,33 @@ public class HotPotato : MonoBehaviour
         canPassBomb = false;
         yield return new WaitForSeconds(3);
         ResetRound();
+        for(int i =0; i< gameManager.GetPlayerCount(); ++i)
+        {
+            if(!players[i].GetComponent<PlayerHotPotato>().HasBomb())
+            {
+                playerBombTotal++;
+                break;
+            }
+        }
+        if(playerBombTotal >= gameManager.GetPlayerCount())
+        {
+            for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
+            {
+                int randomIndex = Random.Range(0, players.Count);
+                if (players[randomIndex].gameObject.activeSelf)
+                {
+                    if (!players[randomIndex].GetComponent<PlayerHotPotato>().HasBomb())
+                    {
+                        Debug.Log("HAS BOMB");
+                        players[randomIndex].GetComponent<PlayerHotPotato>().SetHasBomb(true);
+                        playerBombTotal = 0;
+                        break;
+                    }
+                }
+            }
+        }
    
-        yield return new WaitForSeconds(3);
+             yield return new WaitForSeconds(3);
         canPassBomb = true;
     }
     void ResetBomb()
