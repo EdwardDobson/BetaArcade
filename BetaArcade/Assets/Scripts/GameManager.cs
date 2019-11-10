@@ -482,6 +482,23 @@ public class GameManager : MonoBehaviour
     {
         return playerFourScore;
     }
+
+    public int GetPlayerScore(int ID)
+    {
+        switch(ID)
+        {
+            case 1:
+              return GetPlayerOneScore();
+            case 2:
+              return GetPlayerTwoScore();
+            case 3:
+              return GetPlayerThreeScore();
+            case 4:
+              return GetPlayerFourScore();
+            default:
+              return -1;
+        }
+    }
     #endregion
     public void SetNumberOfRounds(int _set)//Set in lobby menu
     {
