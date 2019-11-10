@@ -52,21 +52,22 @@ public class LevelManager : KamilLevelManager
   public override IEnumerator EndRound()
     {
     m_RoundEnded = true;
-    yield return new WaitForSeconds(1);
-    LevelCheck();
-    yield return new WaitForSeconds(1);
-    m_CurrentRound++;
-    var playerCount = m_Players.Count;
-    foreach (var player in m_Players.Where(x => x != null))
+    yield return new WaitForSeconds(2);
+    if (!LevelCheck())
       {
-      Destroy(player);
+      m_CurrentRound++;
+      var playerCount = m_Players.Count;
+      foreach (var player in m_Players.Where(x => x != null))
+        {
+        Destroy(player);
+        }
+      m_IsPaused = true;
+      m_Players = new List<GameObject>();
+      TargetPlayers = playerCount;
+      CountdownTimer.Instance.Run();
+      m_Timer = m_OldTimer;
+      m_RoundEnded = false;
       }
-    m_IsPaused = true;
-    m_Players = new List<GameObject>();
-    TargetPlayers = playerCount;
-    CountdownTimer.Instance.Run();
-    m_Timer = m_OldTimer;
-    m_RoundEnded = false;
     }
 
   protected override void CreatePlayer()

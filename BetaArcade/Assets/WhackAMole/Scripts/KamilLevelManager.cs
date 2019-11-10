@@ -38,13 +38,15 @@ public abstract class KamilLevelManager : MonoBehaviour
     TargetPlayers = LevelManagerTools.GetLevelInfo(out m_MaxRounds);
     }
 
-  protected void LevelCheck()
+  protected bool LevelCheck()
     {
     if(m_CurrentRound >= m_MaxRounds)
       {
       // TODO Maybe wait a little bit
-      SceneManager.LoadScene("EndZone");
+      m_GameManager.transform.GetChild(0).gameObject.SetActive(true);
+      return true;
       }
+    return false;
     }
 
   protected void HandleTimer()
