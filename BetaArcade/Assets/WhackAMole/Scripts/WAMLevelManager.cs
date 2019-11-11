@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,21 +12,25 @@ public class WAMLevelManager : KamilLevelManager
   private List<GameObject> m_SpawnPoints = new List<GameObject>();
   private int m_MaxMoles = 5;
   private bool m_CanSpawnMole = true;
+  private bool m_RoundEnded = false;
 
   private System.Random m_Rand = new System.Random(System.DateTime.Now.Millisecond);
 
   protected override void Start()
     {
-    base.Start();
+    // Get spawn points
     var spawnPointsParent = GameObject.Find("SpawnPoints");
     foreach (Transform spawnPoint in spawnPointsParent.transform)
       m_SpawnPoints.Add(spawnPoint.gameObject);
-    TargetPlayers = 1;
 
+    // Create players
+    base.Start();
+    
     CountdownTimer.Instance.Run();
     m_IsPaused = true;
 
     Physics.IgnoreLayerCollision(11, 12);
+    m_CurrentRound++;
     }
 
   private void FixedUpdate()
@@ -39,18 +44,21 @@ public class WAMLevelManager : KamilLevelManager
 
   private void Update()
     {
-    if (!m_IsPaused)
+    if (!m_RoundEnded)
       {
-      m_Timer -= Time.deltaTime;
-      if (m_Timer <= 0.0f)
+      if (!m_IsPaused)
         {
-        StartCoroutine(EndRound());
+        m_Timer -= Time.deltaTime;
+        if (m_Timer <= 0.0f)
+          {
+          StartCoroutine(EndRound());
+          }
         }
-      }
-    else
-      {
-      if (CountdownTimer.Instance.Timeleft <= 0)
-        m_IsPaused = false;
+      else
+        {
+        if (CountdownTimer.Instance.Timeleft <= 0)
+          m_IsPaused = false;
+        }
       }
     }
 
@@ -64,9 +72,33 @@ public class WAMLevelManager : KamilLevelManager
     }
   public override IEnumerator EndRound()
     {
+    m_RoundEnded = true;
+    // Give +1 to players who won
+    m_Players.Where(x => x.GetComponent<WAMPlayerManager>().Score == m_Players.Max(p => p.GetComponent<WAMPlayerManager>().Score))
+             .ToList().ForEach(x => { if (m_GameManager != null) m_GameManager.SetPlayerScore(LevelManagerTools.GetPlayerID(x), 1); });
+
     yield return new WaitForSeconds(2);
-    LevelCheck();
-    m_CurrentRound++;
+    if (!LevelCheck())
+      {
+      m_CurrentRound++;
+      var playerCount = m_Players.Count;
+      foreach (var player in m_Players.Where(x => x != null))
+        {
+        Destroy(player);
+        }
+      m_IsPaused = true;
+      m_Players = new List<GameObject>();
+      TargetPlayers = playerCount;
+      foreach(var mole in GameObject.FindObjectsOfType<GameObject>().Where(x => x.name == "Mole"))
+        {
+        Destroy(mole);
+        }
+      MoleCount = 0;
+      m_CanSpawnMole = true;
+      CountdownTimer.Instance.Run();
+      m_Timer = m_OldTimer;
+      m_RoundEnded = false;
+      }
     }
   private void CreateMole()
     {

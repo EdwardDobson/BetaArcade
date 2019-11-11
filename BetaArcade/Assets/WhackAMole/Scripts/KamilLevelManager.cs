@@ -5,11 +5,11 @@ using UnityEngine.SceneManagement;
 
 public abstract class KamilLevelManager : MonoBehaviour
   {
-  [SerializeField]
   protected int m_MaxRounds = 1;
   protected int m_CurrentRound = 0;
   protected bool m_IsPaused = false;
   protected GameManager m_GameManager;
+  [SerializeField]
   protected float m_Timer;
   protected float m_OldTimer;
 

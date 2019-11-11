@@ -24,10 +24,12 @@ public class WAMPlayerManager : MonoBehaviour
   private int m_ID;
   private float m_SwingCooldownTime = 1f;
   private Animator m_Animator;
+  private GameManager m_GameManager;
   private void Start()
     {
     m_ID = LevelManagerTools.GetPlayerID(gameObject);
     m_Animator = GetComponent<Animator>();
+    m_GameManager = GameObject.Find("GameManager") != null ? GameObject.Find("GameManager").GetComponent<GameManager>() : null;
     }
 
   private void Update()
