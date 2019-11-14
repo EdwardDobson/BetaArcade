@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponSwitching : MonoBehaviour
 {
     [SerializeField] private int WeaponSelection = 0;
+    private bool f = false;
 
     void Start()
     {
@@ -14,12 +15,12 @@ public class WeaponSwitching : MonoBehaviour
     void Update()
     {
         int PreviousSelectedWeapon = WeaponSelection;
-
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        if (Input.GetButtonDown("RB1"))
         {
             if (WeaponSelection >= transform.childCount - 1)
             {
                 WeaponSelection = 0;
+                Debug.Log("RB1 Works Correctly");
             }
             else
             {
@@ -27,18 +28,25 @@ public class WeaponSwitching : MonoBehaviour
             }
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-        {
+        if (Input.GetButtonDown("LB1"))
+        {        
             if (WeaponSelection <= 0)
-            {
-                WeaponSelection = transform.childCount - 1;
+                {
+                    if (f == false)
+                    {
+                    Debug.Log("LB1 Works Correctly");
+                    f = true;
+                    StartCoroutine(Waiter());
+                    WeaponSelection = transform.childCount - 1;
+                    }
+                }
+                else
+                {
+                    WeaponSelection--;
+                }
             }
-            else
-            {
-                WeaponSelection--;
-            }
-        }
-
+        
+        
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             WeaponSelection = 0;
@@ -58,7 +66,7 @@ public class WeaponSwitching : MonoBehaviour
         {
             WeaponSelection = 3;
         }
-
+        
         if (PreviousSelectedWeapon != WeaponSelection)
         {
             SelectWeapon();
@@ -82,4 +90,11 @@ public class WeaponSwitching : MonoBehaviour
             i++;
         }
     }
+
+    IEnumerator Waiter()
+    {
+        yield return new WaitForSeconds(2);
+        f = false;
+    }
 }
+
