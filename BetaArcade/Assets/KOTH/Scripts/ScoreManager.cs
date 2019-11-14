@@ -125,6 +125,7 @@ public class ScoreManager : MonoBehaviour
     public void SetStartGame(bool _state)
     {
         startGame = _state;
+        timerText.text  = "Time: " + gameManager.GetTimer();
     }
     public bool GetStartGame()
     {

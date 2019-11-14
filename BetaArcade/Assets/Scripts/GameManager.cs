@@ -61,8 +61,8 @@ public class GameManager : MonoBehaviour
         winScreen = transform.GetChild(0).gameObject;
         gameModeList.text = "Game Modes \n";
         nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(5).GetChild(0).GetComponent<TextMeshProUGUI>();
-        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
-        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText2.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
     }
 
     // Update is called once per frame
@@ -524,13 +524,13 @@ public class GameManager : MonoBehaviour
     public void SetNumberOfRounds(int _set)//Set in lobby menu
     {
         numberOfRounds = _set;
-        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
         roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
     public void IncreaseNumberOfRounds()
     {
         numberOfRounds++;
-        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
         roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
     public void DecreaseNumberOfRounds()
@@ -539,7 +539,7 @@ public class GameManager : MonoBehaviour
         {
             numberOfRounds--;
         }
-        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
         roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
     public int GetNumberOfRounds()//Used at the start of your scene to set your own max round value or to just use 
