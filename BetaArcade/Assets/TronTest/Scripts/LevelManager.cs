@@ -28,7 +28,7 @@ public class LevelManager : KamilLevelManager
         if(player != null)
           {
           if (m_GameManager != null)
-            m_GameManager.SetPlayerScore(player.GetComponent<PlayerManager>().ID, 2);
+            m_GameManager.SetPlayerScore(player.GetComponent<PlayerManager>().ID, 1);
           player.GetComponent<PlayerManager>().IsDead = true;
           }
         // Add 2 to player score for winning

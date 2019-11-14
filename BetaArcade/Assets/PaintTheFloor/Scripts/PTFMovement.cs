@@ -73,7 +73,6 @@ public class PTFMovement : MonoBehaviour
 
   private void ShootPaint()
     {
-    Debug.Log("Shot paint");
     var paintBall = Instantiate(PaintBall);
     paintBall.GetComponent<PaintballScript>().Color = GetComponent<Renderer>().material.GetColor("_BaseColor");
     paintBall.transform.position = m_FirePoint.position;
