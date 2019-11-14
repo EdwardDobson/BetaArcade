@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1097618605988206677}
   m_Layer: 2
   m_Name: Bomb
-  m_TagString: Explosion
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,6 +105,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6fff4cbf143544aadd4d1ad36df7e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 0}
+  bombPrefab: {fileID: 0}
+  myTransform: {fileID: 0}
+  isDead: 0
+  baseCooldown: 1.5
+  bombPower: 3
   fuse: 3
   explosionPrefab: {fileID: 7969996010995801681, guid: ec7d91602ec3b454180d4c4c54c01472,
     type: 3}
