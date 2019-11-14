@@ -281,7 +281,7 @@ public class GameManager : MonoBehaviour
             int sceneCount = SceneManager.sceneCountInBuildSettings;
             for (int i = 0; i < sceneCount; ++i)
             {
-                int random = Random.Range(2, sceneCount);//dont include 1 or 0 that will be the main menu and splash screen
+                int random = Random.Range(2, sceneCount-1);//dont include 1 or 0 that will be the main menu and splash screen
                 levelPlaylist.Add(random);
             }
             CreatePlayerUIButton();
