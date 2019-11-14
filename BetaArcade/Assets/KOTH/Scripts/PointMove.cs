@@ -13,16 +13,20 @@ public class PointMove : MonoBehaviour
     int pointID;
     [SerializeField]
     int pointAmount = 0;
-    [SerializeField]
-    int movePointSpeed = 0;
     bool moved;
+    [SerializeField]
+    float timer;
+    [SerializeField]
+    float maxtimer;
+    GameManager gameManager;
     ScoreManager scoreManager;
     // Start is called before the first frame update
     void Start()
     {
-        previousPos = transform;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         scoreManager = GetComponent<ScoreManager>();
-        InvokeRepeating("MovePoint", 1, movePointSpeed);
+        previousPos = transform;
+        //InvokeRepeating("MovePoint", 5, movePointSpeed);
         pointsHolder = GameObject.Find("Points");
         for(int i =0; i< pointAmount; ++i)
         {
@@ -30,23 +34,34 @@ public class PointMove : MonoBehaviour
             transform.position = pointsHolder.GetComponent<Transform>().GetChild(0).position;
         }
         moveText = GameObject.Find("MoveText").GetComponent<TextMeshProUGUI>();
+        timer = maxtimer;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(points.Count <=0)
+       if(scoreManager.GetStartGame() == true)
         {
-            for (int i = 0; i < pointAmount; ++i)
+            if (points.Count <= 0)
             {
-                points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
+                for (int i = 0; i < pointAmount; ++i)
+                {
+                    points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
+                }
+
             }
-            
+            MovePoint();
         }
+      
     }
    public void MovePoint()
     {
-        if(!moved)
+        timer -= Time.deltaTime;
+        if(timer <= 0)
+        {
+
+            timer = maxtimer;
+        if (!moved)
         {
             for (int i = 0; i < 1; ++i)
             {
@@ -56,9 +71,14 @@ public class PointMove : MonoBehaviour
                 points.RemoveAt(pointID);
                 moved = true;
                 moveText.text = "Point has moved!";
-                StartCoroutine(HideText());
+                    StartCoroutine(HideText());
             }
         }
+        }
+    }
+    public void ResetTimer()
+    {
+        timer = maxtimer;
     }
     IEnumerator HideText()
     {

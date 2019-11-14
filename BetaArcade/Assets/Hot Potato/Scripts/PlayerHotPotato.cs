@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class PlayerHotPotato : MonoBehaviour
 {
     [SerializeField]
@@ -10,9 +10,11 @@ public class PlayerHotPotato : MonoBehaviour
     bool canTakeBomb = true;
     bool hasLeftEnemy;
     GameObject bombImage;
+    GameManager gameManager;
     void Start()
     {
-        bombImage = transform.GetChild(1).GetChild(0).gameObject;
+        bombImage = transform.GetChild(0).GetChild(1).gameObject;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -22,11 +24,13 @@ public class PlayerHotPotato : MonoBehaviour
         {
             bombImage.SetActive(true);
             canTakeBomb = false;
+            gameManager.PlayerPictures[GetComponent<PlayerMove>().ID - 1].transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "has the bomb";
         }
         if(!hasBomb)
         {
             bombImage.SetActive(false);
             canTakeBomb = true;
+            gameManager.PlayerPictures[GetComponent<PlayerMove>().ID-1].transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
         }
      
     }

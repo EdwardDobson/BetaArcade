@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PTFLevelManager : MonoBehaviour
+public class PTFLevelManager : KamilLevelManager
   {
   public GameObject Player;
   public GameObject FlatFloor;
+
   private int maxX = 50;
   private int maxY = 50;
-  private int playerCount = 0;
-  void Start()
+
+  protected override void Start()
     {
+    base.Start();
     FlatFloor.transform.localScale = new Vector3(maxX, .1f, maxY);
     Physics.IgnoreLayerCollision(9, 10);
 
     #region Level Generation
+    var levelParent = new GameObject("levelParent");
     for (int i = 0; i <= maxX; i++)
       {
       for (int y = 0; y <= maxY; y++)
@@ -22,10 +25,13 @@ public class PTFLevelManager : MonoBehaviour
         var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         cube.transform.position = new Vector3(i - (maxX / 2), 0, y - (maxY / 2));
         cube.transform.localScale = new Vector3(1, 0.2f, 1);
+        cube.transform.SetParent(levelParent.transform);
         }
       }
     #endregion
-    CreatePlayer();
+
+    CountdownTimer.Instance.Run();
+    m_IsPaused = true;
     }
 
   private void Update()
@@ -33,36 +39,39 @@ public class PTFLevelManager : MonoBehaviour
     // DEBUG
     if (Debug.isDebugBuild)
       {
-      if (Input.GetKeyDown(KeyCode.P) && playerCount < 4)
+      if (Input.GetKeyDown(KeyCode.P) && m_Players.Count < 4)
         CreatePlayer();
       }
+
+    if (!m_IsPaused)
+      {
+      m_Timer -= Time.deltaTime;
+      if (m_Timer <= 0)
+        {
+        StartCoroutine(EndRound());
+        }
+      }
+    else
+      {
+      if (CountdownTimer.Instance.Timeleft <= 0)
+        m_IsPaused = false;
+      }
     }
 
-  private void CreatePlayer()
+  protected override void CreatePlayer()
     {
     var player = Instantiate(Player);
-    player.transform.position = new Vector3(5 * playerCount, .8f, 0);
-    playerCount++;
-    player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
-    player.GetComponent<PlayerMove>().ID = playerCount;
+    player.transform.position = new Vector3(5 * m_Players.Count, .8f, 0);
+    m_Players.Add(player);
+    player.tag = "Player" + m_Players.Count;
+    player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
+    player.GetComponent<PlayerMove>().ID = m_Players.Count;
     }
 
-  private Color PlayerIDToColor(int id)
+  public override IEnumerator EndRound()
     {
-    switch (id)
-      {
-      case 1:
-        return Color.red;
-      case 2:
-        return Color.yellow;
-      case 3:
-        return Color.green;
-      case 4:
-        return Color.blue;
-      default:
-        Debug.LogError("Player has no ID");
-        break;
-      }
-    return Color.clear;
+    yield return new WaitForSeconds(2);
+    LevelCheck();
+    m_CurrentRound++;
     }
   }

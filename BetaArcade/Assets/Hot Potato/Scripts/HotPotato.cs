@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.EventSystems;
 public class HotPotato : MonoBehaviour
 {
     // Start is called before the first frame update
     #region Bomb
-    public int maxBombTimer;
+    public int maxBombTimer = 5;
     [SerializeField]
     int currentBombTimer;
+    float timer = 1;
     #endregion
     #region PassBomb
     [SerializeField]
@@ -19,88 +20,138 @@ public class HotPotato : MonoBehaviour
     [SerializeField]
     int increaseInactivePlayers;
     TextMeshProUGUI roundText;
+    public TextMeshProUGUI bombTimerTitle;
     [SerializeField]
     int currentRound = 0;
     [SerializeField]
     int maxRound;
     bool endGameMode = false;
+    bool startGame = false;
+    TextMeshProUGUI bombTimerText;
+    GameObject HotPotatoUI;
+    bool gameStarted = false;
+    bool canPassBomb = false;
+    bool roundRestarting;
+    int playerBombTotal;
     void Start()
     {
-
-        roundText = GameObject.Find("RoundText").GetComponent<TextMeshProUGUI>();
+        maxBombTimer = 5;
+        Invoke("LateStart", 0.1f);
+        bombTimerText = GameObject.Find("BombTimer").GetComponent<TextMeshProUGUI>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        bombTimerTitle.text = "Bomb Timer: " + maxBombTimer;
+    }
+    void LateStart()
+    {
+        roundText = GameObject.Find("RoundText").GetComponent<TextMeshProUGUI>();
+        HotPotatoUI = GameObject.Find("HotPotatoUI");
         currentBombTimer = maxBombTimer;
-        for (int i = 0; i < players.Count; ++i)
-        {
-            int randomBombPick = Random.Range(0, players.Count);
-            if (!players[randomBombPick].GetComponent<PlayerHotPotato>().HasBomb())
-            {
-                players[randomBombPick].GetComponent<PlayerHotPotato>().SetHasBomb(true);
 
-                break;
-            }
-        }
         currentRound++;
         maxRound = gameManager.GetNumberOfRounds();
         roundText.text = "Round: 1 of " + maxRound;
-        InvokeRepeating("BombTimer", 0, 1);
+    }
+    void StartTime()
+    {
+        CountdownTimer.Instance.Run();
+        if (CountdownTimer.Instance.Timeleft <= 0)
+        {
+            canPassBomb = true;
+            gameStarted = true;
+            for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
+            {
+                int randomBombPick = Random.Range(0, gameManager.GetPlayerCount());
+                if (!players[randomBombPick].GetComponent<PlayerHotPotato>().HasBomb())
+                {
+                    players[randomBombPick].GetComponent<PlayerHotPotato>().SetHasBomb(true);
+                    break;
+                }
+            }
+        }
     }
     void BombTimer()
     {
-        currentBombTimer--;
+        if (!roundRestarting)
+        {
+            timer -= Time.deltaTime;
+            if (timer <= 0)
+            {
+                timer = 1;
+                currentBombTimer--;
+                bombTimerText.text = "Bomb Timer: " + currentBombTimer;
+            }
+        }
+      
     }
     // Update is called once per frame
     void Update()
     {
-        if (currentRound > maxRound)
+        if (startGame == true)
         {
-            endGameMode = true;
-            roundText.text = "";
-            currentRound = maxRound;
-        }
-        if (!endGameMode)
-        {
-            if (increaseInactivePlayers >= 3)
+            if (currentRound > maxRound)
             {
-                StartCoroutine(ResetRoundCoroutine());
-                for (int i = 0; i < players.Count; ++i)
+                endGameMode = true;
+                roundText.text = "";
+                currentRound = maxRound;
+                HotPotatoUI.SetActive(false);
+                gameManager.transform.GetChild(0).gameObject.SetActive(true);
+                gameManager.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                gameManager.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                gameManager.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(GameObject.Find("Next Level"));
+
+            }
+            if((!canPassBomb || !gameStarted) && !endGameMode)
+            {
+                StartTime();
+            }
+            if (!endGameMode && canPassBomb)
+            {
+                playerBombTotal = 0;
+                BombTimer();
+                bombTimerText.text = "Bomb Timer: " + currentBombTimer;
+                if (increaseInactivePlayers >= gameManager.GetPlayerCount() - 1)
                 {
-                    if (players[i].gameObject.activeSelf)
+                    StartCoroutine(ResetRoundCoroutine());
+                    for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
                     {
-                        if (players[i].tag == "Player1")
+                        if (players[i].gameObject.activeSelf)
                         {
-                            gameManager.SetPlayerOneScore(1);
+                            if (players[i].tag == "Player1")
+                            {
+                                gameManager.SetPlayerOneScore(1);
+                            }
+                            if (players[i].tag == "Player2")
+                            {
+                                gameManager.SetPlayerTwoScore(1);
+                            }
+                            if (players[i].tag == "Player3")
+                            {
+                                gameManager.SetPlayerThreeScore(1);
+                            }
+                            if (players[i].tag == "Player4")
+                            {
+                                gameManager.SetPlayerFourScore(1);
+                            }
+                            increaseInactivePlayers = 0;
+                            currentRound++;
                         }
-                        if (players[i].tag == "Player2")
-                        {
-                            gameManager.SetPlayerTwoScore(1);
-                        }
-                        if (players[i].tag == "Player3")
-                        {
-                            gameManager.SetPlayerThreeScore(1);
-                        }
-                        if (players[i].tag == "Player4")
-                        {
-                            gameManager.SetPlayerFourScore(1);
-                        }
-                        increaseInactivePlayers = 0;
-                        currentRound++;
+                    }
+                }
+                ResetBomb();
+                for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
+                {
+                    if (players[i].GetComponent<PlayerHotPotato>().HasBomb())
+                    {
+                        gameManager.PlayerPictures[i].transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "has the bomb";
+                      
+                    }
+                    if (!players[i].GetComponent<PlayerHotPotato>().HasBomb())
+                    {
+                        gameManager.PlayerPictures[i].transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
                     }
 
                 }
-            }
-            ResetBomb();
-            for (int i = 0; i < players.Count; ++i)
-            {
-                if (players[i].GetComponent<PlayerHotPotato>().HasBomb())
-                {
-                    gameManager.PlayerUIs[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "has the bomb";
-                }
-                if (!players[i].GetComponent<PlayerHotPotato>().HasBomb())
-                {
-                    gameManager.PlayerUIs[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "";
-                }
-
             }
         }
     }
@@ -109,37 +160,56 @@ public class HotPotato : MonoBehaviour
         foreach (Transform t in transform)
         {
             t.gameObject.SetActive(true);
-
+            t.gameObject.transform.position = GetComponent<HOTPotatoSpawner>().SpawnPoints[t.GetComponent<PlayerMove>().ID - 1].transform.position;
             roundText.text = "Round: " + currentRound + " of " + maxRound;
             currentBombTimer = maxBombTimer;
             t.GetComponent<PlayerHotPotato>().SetCanTakeBomb(true);
             t.GetComponent<PlayerHotPotato>().SetHasBomb(false);
         }
         increaseInactivePlayers = 0;
+        roundRestarting = false;
     }
     IEnumerator ResetRoundCoroutine()
     {
-
-        yield return new WaitForSeconds(1);
+        currentBombTimer = maxBombTimer;
+        roundRestarting = true;
+        canPassBomb = false;
+        yield return new WaitForSeconds(3);
         ResetRound();
-        for (int i = 0; i < players.Count; ++i)
+        for(int i =0; i< gameManager.GetPlayerCount(); ++i)
         {
-            if (players[i].gameObject.activeSelf)
+            if(!players[i].GetComponent<PlayerHotPotato>().HasBomb())
             {
-                if (!players[i].GetComponent<PlayerHotPotato>().HasBomb())
+                playerBombTotal++;
+                break;
+            }
+        }
+        if(playerBombTotal >= gameManager.GetPlayerCount())
+        {
+            for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
+            {
+                int randomIndex = Random.Range(0, players.Count);
+                if (players[randomIndex].gameObject.activeSelf)
                 {
-                    Debug.Log("HAS BOMB");
-                    players[i].GetComponent<PlayerHotPotato>().SetHasBomb(true);
-                    break;
+                    if (!players[randomIndex].GetComponent<PlayerHotPotato>().HasBomb())
+                    {
+                        Debug.Log("HAS BOMB");
+                        players[randomIndex].GetComponent<PlayerHotPotato>().SetHasBomb(true);
+                        playerBombTotal = 0;
+                        break;
+                    }
                 }
             }
         }
+   
+             yield return new WaitForSeconds(3);
+        canPassBomb = true;
     }
     void ResetBomb()
     {
-        if (currentBombTimer <= 0)
+        if (currentBombTimer <= 0 && !roundRestarting)
         {
-            for (int i = 0; i < players.Count; ++i)
+            for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
             {
                 if (players[i].GetComponent<PlayerHotPotato>().HasBomb())
                 {
@@ -160,19 +230,47 @@ public class HotPotato : MonoBehaviour
     }
     void SwitchPlayer()
     {
-        for (int i = 0; i < players.Count; ++i)
+        if(!roundRestarting)
         {
-            int randomIndex = Random.Range(0, players.Count);
-            if (players[randomIndex].gameObject.activeSelf)
+            for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
             {
-                if (!players[randomIndex].GetComponent<PlayerHotPotato>().HasBomb())
+                int randomIndex = Random.Range(0, players.Count);
+                if (players[randomIndex].gameObject.activeSelf)
                 {
-                    Debug.Log("HAS BOMB");
-                    players[randomIndex].GetComponent<PlayerHotPotato>().SetHasBomb(true);
-                    break;
+                    if (!players[randomIndex].GetComponent<PlayerHotPotato>().HasBomb())
+                    {
+                        Debug.Log("HAS BOMB");
+                        players[randomIndex].GetComponent<PlayerHotPotato>().SetHasBomb(true);
+                        break;
+                    }
                 }
             }
         }
+    
 
+    }
+    public void StartGame(bool _state)
+    {
+        startGame = _state;
+    }
+    public void IncreaseBombTimer(int _timer)
+    {
+        if (maxBombTimer < 1000)
+        {
+            maxBombTimer += _timer;
+            bombTimerTitle.text = "Bomb Timer: " + maxBombTimer;
+        }
+    }
+    public void DecreaseBombTimer(int _timer)
+    {
+        if (maxBombTimer > 5)
+        {
+            maxBombTimer -= _timer;
+            bombTimerTitle.text = "Bomb Timer: " + maxBombTimer;
+        }
+    }
+    public void SetCurrentBombTimer()
+    {
+        currentBombTimer = maxBombTimer;
     }
 }
