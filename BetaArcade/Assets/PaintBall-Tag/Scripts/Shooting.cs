@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    private float AmmoSpeed = 40.0f;
+    public float AmmoSpeed = 40.0f;
+    public float Damage = 10.0f;
     [SerializeField] public float BulletDelay = 2.0f;
 
     float tempTimer = 0.0f;
