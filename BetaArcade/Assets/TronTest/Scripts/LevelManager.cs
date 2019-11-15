@@ -12,9 +12,16 @@ public class LevelManager : KamilLevelManager
   // Start is called before the first frame update
   protected override void Start()
     {
+    m_RoundEnded = true;
+    StartGame();
+    }
+
+  public void StartGame()
+    {
     base.Start();
     CountdownTimer.Instance.Run();
     m_IsPaused = true;
+    m_RoundEnded = false;
     m_CurrentRound++;
     }
 

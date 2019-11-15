@@ -18,16 +18,23 @@ public class WAMLevelManager : KamilLevelManager
 
   protected override void Start()
     {
+    m_RoundEnded = true;
+    m_IsPaused = true;
     // Get spawn points
     var spawnPointsParent = GameObject.Find("SpawnPoints");
     foreach (Transform spawnPoint in spawnPointsParent.transform)
       m_SpawnPoints.Add(spawnPoint.gameObject);
+    StartGame();
+    }
 
+  public void StartGame()
+    {
     // Create players
     base.Start();
-    
+
     CountdownTimer.Instance.Run();
     m_IsPaused = true;
+    m_RoundEnded = false;
 
     Physics.IgnoreLayerCollision(11, 12);
     m_CurrentRound++;

@@ -15,6 +15,12 @@ public class PTFLevelManager : KamilLevelManager
 
   protected override void Start()
     {
+    m_RoundEnded = true;
+    StartGame();
+    }
+
+  public void StartGame()
+    {
     base.Start();
     FlatFloor.transform.localScale = new Vector3(maxX, .1f, maxY);
     Physics.IgnoreLayerCollision(9, 10);
@@ -24,6 +30,7 @@ public class PTFLevelManager : KamilLevelManager
     #endregion
 
     CountdownTimer.Instance.Run();
+    m_RoundEnded = false;
     m_IsPaused = true;
     m_CurrentRound++;
     }
