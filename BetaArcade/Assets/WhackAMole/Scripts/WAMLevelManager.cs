@@ -24,7 +24,7 @@ public class WAMLevelManager : KamilLevelManager
     var spawnPointsParent = GameObject.Find("SpawnPoints");
     foreach (Transform spawnPoint in spawnPointsParent.transform)
       m_SpawnPoints.Add(spawnPoint.gameObject);
-    StartGame();
+    //StartGame();
     }
 
   public void StartGame()

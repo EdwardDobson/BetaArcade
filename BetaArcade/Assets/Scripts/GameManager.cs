@@ -406,7 +406,7 @@ public class GameManager : MonoBehaviour
         if (_gameName == "Whack-A-Mole")
         {
             title.text = _gameName;
-            howToPlayText.text = "-Move your circle around and press A to hit the moles. \n" + "-Highest mole eliminations wins the round and gains a point.\n";
+            howToPlayText.text = "-Move around and press RT to hit the moles. \n" + "-Use your hammer to stun other players. \n" + "-Highest mole eliminations wins the round and gains a point.\n";
         }
     }
     IEnumerator LoadMainMenu()

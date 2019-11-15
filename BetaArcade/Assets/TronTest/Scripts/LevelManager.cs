@@ -13,7 +13,7 @@ public class LevelManager : KamilLevelManager
   protected override void Start()
     {
     m_RoundEnded = true;
-    StartGame();
+   // StartGame();
     }
 
   public void StartGame()
