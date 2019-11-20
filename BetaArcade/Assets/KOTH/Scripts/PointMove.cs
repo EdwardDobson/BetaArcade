@@ -32,6 +32,7 @@ public class PointMove : MonoBehaviour
         {
             points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
             transform.position = pointsHolder.GetComponent<Transform>().GetChild(0).position;
+            Debug.Log("DAS");
         }
         moveText = GameObject.Find("MoveText").GetComponent<TextMeshProUGUI>();
         timer = maxtimer;
@@ -47,6 +48,7 @@ public class PointMove : MonoBehaviour
                 for (int i = 0; i < pointAmount; ++i)
                 {
                     points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
+                 
                 }
 
             }
@@ -71,8 +73,9 @@ public class PointMove : MonoBehaviour
                 points.RemoveAt(pointID);
                 moved = true;
                 moveText.text = "Point has moved!";
-                    StartCoroutine(HideText());
-            }
+                StartCoroutine(HideText());
+                    Debug.Log("DAS");
+                }
         }
         }
     }
