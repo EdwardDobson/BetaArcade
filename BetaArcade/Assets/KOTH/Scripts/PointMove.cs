@@ -37,7 +37,6 @@ public class PointMove : MonoBehaviour
         }
         moveText = GameObject.Find("MoveText").GetComponent<TextMeshProUGUI>();
         timer = maxtimer;
-        tempPointAmount = pointAmount;
     }
 
     // Update is called once per frame
@@ -66,15 +65,9 @@ public class PointMove : MonoBehaviour
     {
         if (clearingPoints)
         {
-        for (int i = 0; i < pointAmount; ++i)
-        {
-            points.RemoveAt(i);
-            tempPointAmount++;
-        }
-        if(tempPointAmount >= 4)
-            {
-                clearingPoints = false;
-            }
+            points.Clear();
+            clearingPoints = false;
+            
         }
         if (!clearingPoints)
         {
@@ -87,6 +80,7 @@ public class PointMove : MonoBehaviour
             if(tempPointAmount >= 4)
             {
                 clearingPoints = false;
+                tempPointAmount = 0;
             }
         }
       
