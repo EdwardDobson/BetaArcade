@@ -3538,8 +3538,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   points: []
   pointAmount: 4
-  timer: 15
-  maxtimer: 15
+  timer: 10
+  maxtimer: 10
 --- !u!64 &631749816
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -12957,7 +12957,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh289348
+  m_Name: pb_Mesh40368
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

@@ -75,12 +75,15 @@ public class ScoreManager : MonoBehaviour
     }
     void StartTime()
     {
-        CountdownTimer.Instance.Run();
-        if (CountdownTimer.Instance.Timeleft <= 0)
-        {
-            canGainPoints = true;
-            gameStarted = true;
-        }
+
+            CountdownTimer.Instance.Run();
+            if (CountdownTimer.Instance.Timeleft <= 0)
+            {
+                canGainPoints = true;
+                gameStarted = true;
+            }
+
+     
     }
 
     // Update is called once per frame
@@ -343,6 +346,8 @@ public class ScoreManager : MonoBehaviour
                 StartCoroutine(CanGainPoints());
                 gameManager.SetTimer(gameManager.GetOldTimer());
             }
+            point.SetResetPoints(true);
+            point.ResetPoints();
         }
     }
     IEnumerator CanGainPoints()

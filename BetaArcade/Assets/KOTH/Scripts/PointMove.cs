@@ -13,6 +13,8 @@ public class PointMove : MonoBehaviour
     int pointID;
     [SerializeField]
     int pointAmount = 0;
+    int tempPointAmount;
+    bool clearingPoints;
     bool moved;
     [SerializeField]
     float timer;
@@ -32,10 +34,10 @@ public class PointMove : MonoBehaviour
         {
             points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
             transform.position = pointsHolder.GetComponent<Transform>().GetChild(0).position;
-            Debug.Log("DAS");
         }
         moveText = GameObject.Find("MoveText").GetComponent<TextMeshProUGUI>();
         timer = maxtimer;
+        tempPointAmount = pointAmount;
     }
 
     // Update is called once per frame
@@ -52,7 +54,40 @@ public class PointMove : MonoBehaviour
                 }
 
             }
-            MovePoint();
+           if(scoreManager.GetStartGame())
+                {
+                MovePoint();
+            }
+         
+        }
+      
+    }
+    public void ResetPoints()
+    {
+        if (clearingPoints)
+        {
+        for (int i = 0; i < pointAmount; ++i)
+        {
+            points.RemoveAt(i);
+            tempPointAmount++;
+        }
+        if(tempPointAmount >= 4)
+            {
+                clearingPoints = false;
+            }
+        }
+        if (!clearingPoints)
+        {
+            for (int i = 0; i < pointAmount; ++i)
+            {
+                points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
+                transform.position = pointsHolder.GetComponent<Transform>().GetChild(0).position;
+                tempPointAmount++;
+            }
+            if(tempPointAmount >= 4)
+            {
+                clearingPoints = false;
+            }
         }
       
     }
@@ -74,7 +109,6 @@ public class PointMove : MonoBehaviour
                 moved = true;
                 moveText.text = "Point has moved!";
                 StartCoroutine(HideText());
-                    Debug.Log("DAS");
                 }
         }
         }
@@ -88,5 +122,9 @@ public class PointMove : MonoBehaviour
         yield return new WaitForSeconds(1);
         moveText.text = "";
         moved = false;
+    }
+    public void SetResetPoints(bool _state)
+    {
+        clearingPoints = _state;
     }
 }
