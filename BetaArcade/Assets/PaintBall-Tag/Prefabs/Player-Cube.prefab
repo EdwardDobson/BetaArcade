@@ -107,6 +107,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AmmoSpeed: 100
+  Damage: 10
+  BulletDelay: 2
   AmmoPrefab: {fileID: 2720750492839488757, guid: 449355088b6354749bd49cdaa8a46890,
     type: 3}
   ShootingPoint: {fileID: 8513199683650526201}
@@ -187,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponSelection: 0
+  ID: 1
 --- !u!1 &8513199682280938174
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,6 +297,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1
+  shoveForce: 0
+  shoveRadius: 0
+  dashTimer: 0.5
+  shoveTimer: 0.5
 --- !u!54 &8513199682280938169
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -417,6 +424,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AmmoSpeed: 100
+  Damage: 10
+  BulletDelay: 2
   AmmoPrefab: {fileID: 2720750492839488757, guid: 449355088b6354749bd49cdaa8a46890,
     type: 3}
   ShootingPoint: {fileID: 8513199682472588819}
@@ -587,6 +596,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AmmoSpeed: 100
+  Damage: 10
+  BulletDelay: 2
   AmmoPrefab: {fileID: 2720750492839488757, guid: 449355088b6354749bd49cdaa8a46890,
     type: 3}
   ShootingPoint: {fileID: 8513199682173205829}

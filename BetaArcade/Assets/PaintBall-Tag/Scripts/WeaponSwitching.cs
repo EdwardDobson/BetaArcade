@@ -6,6 +6,7 @@ public class WeaponSwitching : MonoBehaviour
 {
     [SerializeField] private int WeaponSelection = 0;
     private bool f = false;
+    public int ID;
 
     void Start()
     {
@@ -15,7 +16,7 @@ public class WeaponSwitching : MonoBehaviour
     void Update()
     {
         int PreviousSelectedWeapon = WeaponSelection;
-        if (Input.GetButtonDown("RB1"))
+        if (Input.GetButtonDown("RB" + ID))
         {
             if (WeaponSelection >= transform.childCount - 1)
             {
@@ -28,7 +29,7 @@ public class WeaponSwitching : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("LB1"))
+        if (Input.GetButtonDown("LB" + ID))
         {        
             if (WeaponSelection <= 0)
                 {

@@ -38,6 +38,8 @@ public class PBTLevManager : MonoBehaviour
         var Movescript = player.GetComponent<PlayerMove>();
         PlayerCount++;
         Movescript.ID = PlayerCount;
+        var WeaponScript = player.GetComponentInChildren<WeaponSwitching>();
+        WeaponScript.ID = PlayerCount;
         //player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(PlayerCount));
     }
 }
