@@ -76,7 +76,7 @@ public class WAMLevelManager : KamilLevelManager
     player.tag = "Player" + m_Players.Count;
     player.GetComponent<PlayerMove>().ID = m_Players.Count;
     player.transform.position = m_SpawnPoints[m_Players.Count - 1].transform.position;
-    player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
+    //player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
     }
   public override IEnumerator EndRound()
     {
