@@ -20,21 +20,15 @@ public class PointMove : MonoBehaviour
     float timer;
     [SerializeField]
     float maxtimer;
-    GameManager gameManager;
     ScoreManager scoreManager;
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         scoreManager = GetComponent<ScoreManager>();
         previousPos = transform;
         //InvokeRepeating("MovePoint", 5, movePointSpeed);
         pointsHolder = GameObject.Find("Points");
-        for(int i =0; i< pointAmount; ++i)
-        {
-            points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
-            transform.position = pointsHolder.GetComponent<Transform>().GetChild(0).position;
-        }
+     
         moveText = GameObject.Find("MoveText").GetComponent<TextMeshProUGUI>();
         timer = maxtimer;
     }

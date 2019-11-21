@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
-
+using System.Linq;
 public class ScoreManager : MonoBehaviour
 {
     TextMeshProUGUI winText;
@@ -76,14 +76,12 @@ public class ScoreManager : MonoBehaviour
     void StartTime()
     {
 
-            CountdownTimer.Instance.Run();
+         CountdownTimer.Instance.Run();
             if (CountdownTimer.Instance.Timeleft <= 0)
             {
                 canGainPoints = true;
                 gameStarted = true;
             }
-
-     
     }
 
     // Update is called once per frame
@@ -170,10 +168,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (gameManager.GetTimer() <= 0)
         {
-            ResetScorePlayers(0, 1, 2, 3);
-            ResetScorePlayers(1, 0, 2, 3);
-            ResetScorePlayers(2, 1, 0, 3);
-            ResetScorePlayers(3, 1, 2, 0);
+            ResetScorePlayers();
             currentRound++;
             roundText.text = "Round: " + currentRound + " of " + maxRound;
             gameManager.SetTimer(10);
@@ -182,92 +177,37 @@ public class ScoreManager : MonoBehaviour
             stopTimerDecrease = 0;
         }
     }
-    void ResetScorePlayers(int _id, int _id2, int _id3, int _id4)
+    void ResetScorePlayers()
     {
-        if (gameManager.GetPlayerCount() == 2)
+        List<int> scores = new List<int>();
+        foreach (var player in otherPlayers)
         {
-            if (otherPlayers[_id].GetComponent<PointCollide>().GetScore() > otherPlayers[_id2].GetComponent<PointCollide>().GetScore())
+            scores.Add(player.GetComponent<PointCollide>().GetScore());
+            int temp = scores.Max();
+            if (player.GetComponent<PointCollide>().GetScore() == temp && player.GetComponent<PointCollide>().GetScore() > 0)
             {
-                if (_id == 0)
+                switch (player.GetComponent<PlayerMove>().ID)
                 {
-                    gameManager.SetPlayerOneScore(1);
-                }
-                if (_id == 1)
-                {
-                    gameManager.SetPlayerTwoScore(1);
-                }
-                if (_id == 2)
-                {
-                    gameManager.SetPlayerThreeScore(1);
-                }
-                if (_id == 3)
-                {
-                    gameManager.SetPlayerFourScore(1);
-                }
-                winText.text = otherPlayers[_id].tag + " wins the round";
-            }
-            if (otherPlayers[_id].GetComponent<PointCollide>().GetScore() == otherPlayers[_id2].GetComponent<PointCollide>().GetScore())
-            {
-                winText.text = "Draw ";
-            }
-        }
-        if (gameManager.GetPlayerCount() == 3)
-        {
-            if (otherPlayers[_id].GetComponent<PointCollide>().GetScore() > otherPlayers[_id2].GetComponent<PointCollide>().GetScore() && otherPlayers[_id].GetComponent<PointCollide>().GetScore() > otherPlayers[_id3].GetComponent<PointCollide>().GetScore())
-            {
-                if (_id == 0)
-                {
-                    gameManager.SetPlayerOneScore(1);
-                }
-                if (_id == 1)
-                {
-                    gameManager.SetPlayerTwoScore(1);
-                }
-                if (_id == 2)
-                {
-                    gameManager.SetPlayerThreeScore(1);
-                }
-                if (_id == 3)
-                {
-                    gameManager.SetPlayerFourScore(1);
-                }
-                winText.text = otherPlayers[_id].tag + " wins the round";
-            }
-            if (otherPlayers[_id].GetComponent<PointCollide>().GetScore() == otherPlayers[_id2].GetComponent<PointCollide>().GetScore() && otherPlayers[_id].GetComponent<PointCollide>().GetScore() == otherPlayers[_id3].GetComponent<PointCollide>().GetScore())
-            {
-                winText.text = "Draw ";
-            }
-        }
-        if (gameManager.GetPlayerCount() == 4)
-        {
-            if (otherPlayers[_id].GetComponent<PointCollide>().GetScore() > otherPlayers[_id2].GetComponent<PointCollide>().GetScore() && otherPlayers[_id].GetComponent<PointCollide>().GetScore() > otherPlayers[_id3].GetComponent<PointCollide>().GetScore() && otherPlayers[_id].GetComponent<PointCollide>().GetScore() > otherPlayers[_id4].GetComponent<PointCollide>().GetScore())
-            {
-                if (_id == 0)
-                {
-                    gameManager.SetPlayerOneScore(1);
-                }
-                if (_id == 1)
-                {
-                    gameManager.SetPlayerTwoScore(1);
-                }
-                if (_id == 2)
-                {
-                    gameManager.SetPlayerThreeScore(1);
-                }
-                if (_id == 3)
-                {
-                    gameManager.SetPlayerFourScore(1);
-                }
-                winText.text = otherPlayers[_id].tag + " wins the round";
-            }
-            if (otherPlayers[_id].GetComponent<PointCollide>().GetScore() == otherPlayers[_id2].GetComponent<PointCollide>().GetScore() && otherPlayers[_id].GetComponent<PointCollide>().GetScore() == otherPlayers[_id3].GetComponent<PointCollide>().GetScore() && otherPlayers[_id].GetComponent<PointCollide>().GetScore() == otherPlayers[_id4].GetComponent<PointCollide>().GetScore())
-            {
-                winText.text = "Draw ";
-            }
-        }
+                    case 1:
+                        gameManager.SetPlayerOneScore(1);
+                        break;
+                    case 2:
+                        gameManager.SetPlayerTwoScore(1);
+                        break;
+                    case 3:
+                        gameManager.SetPlayerThreeScore(1);
+                        break;
+                    case 4:
+                        gameManager.SetPlayerFourScore(1);
+                        break;
+                    default:
 
-    }
-    void AddScore()
+                        break;
+                }
+            }
+        }
+}
+void AddScore()
     {
         for (int i = 0; i < otherPlayers.Count; ++i)//Used to check if any other player is in the zone
         {
@@ -277,6 +217,7 @@ public class ScoreManager : MonoBehaviour
                 {
                     inPointText.text = "Player " + (i+1)  + " is on the point";
                     point.gameObject.GetComponent<MeshRenderer>().material = otherPlayers[i].GetComponent<PointCollide>().pointMat;
+                    transform.GetChild(0).GetComponent<ChangeColour>().ModColour(otherPlayers[i].GetComponent<PlayerMove>().ID);
                     timer += Time.deltaTime;
                     if (timer >= 1)
                     {
@@ -291,6 +232,7 @@ public class ScoreManager : MonoBehaviour
             {
                 point.gameObject.GetComponent<MeshRenderer>().material = pointMat;
                 inPointText.text = "Point is being contested";
+                transform.GetChild(0).GetComponent<ChangeColour>().ModColour(5);
             }
             if (otherPlayers[i].GetComponent<PointCollide>().GetScore() >= maxScore)
             {
@@ -368,51 +310,28 @@ public class ScoreManager : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player1" || other.gameObject.tag == "Player2" || other.gameObject.tag == "Player3" || other.gameObject.tag == "Player4")
+       
+        if(other.tag.Contains("Player"))
+        {
+            inPointCount--;
+            inPointText.text = "";
+        }
+        if (other.tag.Contains("Player"))
         {
             point.gameObject.GetComponent<MeshRenderer>().material = pointMat;
+            transform.GetChild(0).GetComponent<ChangeColour>().ModColour(5);
         }
-        if (other.gameObject.tag == "Player1")
-        {
-            inPointCount--;
-            inPointText.text = "";
-        }
-        if (other.gameObject.tag == "Player2")
-        {
-            inPointCount--;
-            inPointText.text = "";
-        }
-        if (other.gameObject.tag == "Player3")
-        {
-            inPointCount--;
-            inPointText.text = "";
-        }
-        if (other.gameObject.tag == "Player4")
-        {
-            inPointCount--;
-            inPointText.text = "";
-        }
-
+    
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player1")
+        if (other.tag.Contains("Player"))
         {
             inPointCount++;
+       
         }
-        if (other.gameObject.tag == "Player2")
-        {
-            inPointCount++;
-        }
-        if (other.gameObject.tag == "Player3")
-        {
-            inPointCount++;
-        }
-        if (other.gameObject.tag == "Player4")
-        {
-            inPointCount++;
-        }
+  
     }
     public bool GetresetPoints()
     {
