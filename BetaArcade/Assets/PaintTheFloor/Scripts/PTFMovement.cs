@@ -18,6 +18,7 @@ public class PTFMovement : MonoBehaviour
   private PlayerMove m_PlayerMoveScript;
   private float m_FireRate = 7.5f;
   private float m_ShotSize = 1;
+  private Animator m_CharacterAnimator;
 
   public float FireRate
     {
@@ -41,9 +42,15 @@ public class PTFMovement : MonoBehaviour
     {
     m_FirePoint = ShootingObject.transform.GetChild(0);
     m_PlayerMoveScript = gameObject.GetComponent<PlayerMove>();
+    foreach(Transform child in transform)
+      {
+      if(child.name == "character")
+        m_CharacterAnimator = child.GetComponent<Animator>();
+      }
     }
   void Update()
     {
+    m_CharacterAnimator.SetFloat("MoveSpeed", GetComponent<Rigidbody>().velocity.magnitude >= 0.5f ? GetComponent<Rigidbody>().velocity.magnitude : 0);
     if (Input.GetButton("RB" + m_PlayerMoveScript.ID))
       {
       if (ShootingObject.transform.localRotation.x > -.25f)
@@ -65,20 +72,22 @@ public class PTFMovement : MonoBehaviour
       {
       if (m_CanShoot)
         {
+        m_CharacterAnimator.SetBool("IsShooting", true);
         StartCoroutine(ShotDelay());
         ShootPaint();
         }
       }
+    else
+      m_CharacterAnimator.SetBool("IsShooting", false);
     }
 
   private void ShootPaint()
     {
-    var paintBall = Instantiate(PaintBall);
-    paintBall.GetComponent<PaintballScript>().Color = GetComponent<Renderer>().material.GetColor("_BaseColor");
-    paintBall.transform.position = m_FirePoint.position;
-    paintBall.GetComponent<Rigidbody>().AddForce(m_FirePoint.forward * m_ShotPower, ForceMode.Impulse);
-    paintBall.transform.localScale *= ShotSize;
-
+    //var paintBall = Instantiate(PaintBall);
+    //paintBall.GetComponent<PaintballScript>().Color = GetComponent<Renderer>().material.GetColor("_BaseColor");
+    //paintBall.transform.position = m_FirePoint.position;
+    //paintBall.GetComponent<Rigidbody>().AddForce(m_FirePoint.forward * m_ShotPower, ForceMode.Impulse);
+    //paintBall.transform.localScale *= ShotSize;
     GetComponent<AudioSource>().PlayOneShot(ShotSound);
     }
 
