@@ -36,7 +36,9 @@ public class LevelManager : KamilLevelManager
           {
           if (m_GameManager != null)
             m_GameManager.SetPlayerScore(player.GetComponent<PlayerManager>().ID, 1);
-          player.GetComponent<PlayerManager>().IsDead = true;
+          player.GetComponentInChildren<Animator>().speed = 1;
+          player.GetComponentInChildren<Animator>().SetBool("HasWon", true);
+          player.GetComponent<PlayerManager>().ToggleFreeze(true);
           }
         // Add 2 to player score for winning
         StartCoroutine(EndRound());
@@ -85,6 +87,6 @@ public class LevelManager : KamilLevelManager
     player.transform.position = new Vector3((10 * m_Players.Count) - 15, 1);
     player.tag = "Player" + m_Players.Count;
     playerScript.ID = m_Players.Count;
-    player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
+    ///player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
     }
   }

@@ -50,7 +50,11 @@ public class PTFLevelManager : KamilLevelManager
       else
         {
         if (CountdownTimer.Instance.Timeleft <= 0)
+          {
           m_IsPaused = false;
+          Debug.Log("Unpausing");
+          m_Players.Where(x => x != null).Select(x => x.GetComponent<PTFMovement>()).ToList().ForEach(x => x.IsPaused = false);
+          }
         }
       }
     }
@@ -61,7 +65,7 @@ public class PTFLevelManager : KamilLevelManager
     player.transform.position = new Vector3(5 * m_Players.Count, .8f, 0);
     m_Players.Add(player);
     player.tag = "Player" + m_Players.Count;
-    player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
+    //player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
     player.GetComponent<PlayerMove>().ID = m_Players.Count;
     }
 

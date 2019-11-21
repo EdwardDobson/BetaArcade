@@ -18,6 +18,12 @@ public class PlayerManager : MonoBehaviour
   private float m_Speed = 0.2f;
   private float m_TrailTime = 2f;
   private GameObject m_TrailParent;
+  private Animator m_Animator;
+
+  private void Awake()
+    {
+    m_Animator = GetComponentInChildren<Animator>();
+    }
 
   private void Start()
     {
@@ -49,13 +55,19 @@ public class PlayerManager : MonoBehaviour
       var trailScript = trail.GetComponent<TrailScript>();
       trail.transform.position = transform.position;
       trail.transform.SetParent(m_TrailParent.transform);
-      trail.GetComponent<Renderer>().material.SetColor("_BaseColor", GetComponent<Renderer>().material.GetColor("_BaseColor"));
+      //trail.GetComponent<Renderer>().material.SetColor("_BaseColor", GetComponent<Renderer>().material.GetColor("_BaseColor"));
       trailScript.ID = ID;
 
       if (Input.GetButton("Dash" + ID))
+        {
         m_Rb.MovePosition(transform.position + (DirectionToVector3(m_Direction) * 2));
+        m_Animator.speed = 3f;
+        }
       else
+        {
         m_Rb.MovePosition(transform.position + DirectionToVector3(m_Direction));
+        m_Animator.speed = 1.5f;
+        }
 
       //transform.position += DirectionToVector3(m_Direction);
       transform.eulerAngles = new Vector3(0, 90 * (int)m_Direction, 0);
@@ -80,6 +92,7 @@ public class PlayerManager : MonoBehaviour
   public void ToggleFreeze(bool isFrozen)
     {
     IsDead = isFrozen;
+    m_Animator.SetBool("IsMoving", !isFrozen);
     }
 
   IEnumerator DeleteAfterTime(GameObject trail)
