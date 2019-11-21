@@ -9,6 +9,7 @@ public class PTFMovement : MonoBehaviour
 
   public AudioClip ShotSound;
 
+  public bool IsPaused = true;
   public int Score = 0;
 
   private float m_AimRotateSpeed = .3f;
@@ -51,34 +52,37 @@ public class PTFMovement : MonoBehaviour
   void Update()
     {
     m_CharacterAnimator.SetFloat("MoveSpeed", GetComponent<Rigidbody>().velocity.magnitude >= 0.5f ? GetComponent<Rigidbody>().velocity.magnitude : 0);
-    if (Input.GetButton("RB" + m_PlayerMoveScript.ID))
+    if (!IsPaused)
       {
-      if (ShootingObject.transform.localRotation.x > -.25f)
+      if (Input.GetButton("RB" + m_PlayerMoveScript.ID))
         {
-        Debug.Log(ShootingObject.transform.localRotation.x);
-        ShootingObject.transform.Rotate(Vector3.left, m_AimRotateSpeed);
+        if (ShootingObject.transform.localRotation.x > -.25f)
+          {
+          Debug.Log(ShootingObject.transform.localRotation.x);
+          ShootingObject.transform.Rotate(Vector3.left, m_AimRotateSpeed);
+          }
         }
-      }
-    if (Input.GetButton("LB" + m_PlayerMoveScript.ID))
-      {
-      if (ShootingObject.transform.localRotation.x < .25f)
+      if (Input.GetButton("LB" + m_PlayerMoveScript.ID))
         {
-        Debug.Log(ShootingObject.transform.localRotation.x);
-        ShootingObject.transform.Rotate(Vector3.left, -m_AimRotateSpeed);
+        if (ShootingObject.transform.localRotation.x < .25f)
+          {
+          Debug.Log(ShootingObject.transform.localRotation.x);
+          ShootingObject.transform.Rotate(Vector3.left, -m_AimRotateSpeed);
+          }
         }
-      }
 
-    if (Input.GetAxis("RT" + m_PlayerMoveScript.ID) != 0)
-      {
-      if (m_CanShoot)
+      if (Input.GetAxis("RT" + m_PlayerMoveScript.ID) != 0)
         {
-        m_CharacterAnimator.SetBool("IsShooting", true);
-        StartCoroutine(ShotDelay());
-        ShootPaint();
+        if (m_CanShoot)
+          {
+          m_CharacterAnimator.SetBool("IsShooting", true);
+          StartCoroutine(ShotDelay());
+          ShootPaint();
+          }
         }
+      else
+        m_CharacterAnimator.SetBool("IsShooting", false);
       }
-    else
-      m_CharacterAnimator.SetBool("IsShooting", false);
     }
 
   private void ShootPaint()

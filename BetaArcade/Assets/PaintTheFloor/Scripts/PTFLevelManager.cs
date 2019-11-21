@@ -50,7 +50,11 @@ public class PTFLevelManager : KamilLevelManager
       else
         {
         if (CountdownTimer.Instance.Timeleft <= 0)
+          {
           m_IsPaused = false;
+          Debug.Log("Unpausing");
+          m_Players.Where(x => x != null).Select(x => x.GetComponent<PTFMovement>()).ToList().ForEach(x => x.IsPaused = false);
+          }
         }
       }
     }
