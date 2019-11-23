@@ -8,16 +8,18 @@ public class Pause : MonoBehaviour
 {
     bool paused = false;
     GameObject PauseMenu;
+    GameObject WinScreen;
     // Start is called before the first frame update
     void Start()
     {
         PauseMenu = transform.GetChild(0).gameObject;
+        WinScreen = GameObject.Find("GameManager").transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-       if(SceneManager.GetActiveScene().buildIndex != 0 && SceneManager.GetActiveScene().buildIndex != 1)
+       if(SceneManager.GetActiveScene().buildIndex != 0 && SceneManager.GetActiveScene().buildIndex != 1 && !WinScreen.activeSelf)
         {
             if (Input.GetButtonDown("Start"))
             {
