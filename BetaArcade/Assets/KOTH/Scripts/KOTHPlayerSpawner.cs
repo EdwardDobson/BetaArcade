@@ -9,51 +9,40 @@ public class KOTHPlayerSpawner : MonoBehaviour
     [SerializeField]
     public List<Transform> SpawnPoints = new List<Transform>();
     ScoreManager scoreManager;
+    Transform playerHolder;
     private int playerCount = 0;
+    GameManager gameManager;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
+        playerHolder = GameObject.Find("PlayerHolder").transform;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         scoreManager = GetComponent<ScoreManager>();
-        if (playerCount < 4)
+        Invoke("LateStart", 0.1f);
+    }
+    private void LateStart()
+    {
+        if (playerCount < gameManager.GetPlayerCount())
         {
-            for(int i = 0; i<4; ++i)
+            for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
             {
                 CreatePlayer();
-             
             }
-       
         }
-
-        
     }
     // Update is called once per frame
     void Update()
     {
-        
     }
     public void CreatePlayer()
     {
         GameObject player = Instantiate(Player);
-        if (playerCount == 0)
-        {
-            player.tag = "Player1";
-        }
-        if (playerCount == 1)
-        {
-            player.tag = "Player2";
-        }
-        if (playerCount == 2)
-        {
-            player.tag = "Player3";
-        }
-        if (playerCount == 3)
-        {
-            player.tag = "Player4";
-        }
         player.transform.position = SpawnPoints[playerCount].position;
         playerCount++;
+        player.tag = "Player" + playerCount;
         player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
         player.GetComponent<PlayerMove>().ID = playerCount;
+        player.transform.SetParent(playerHolder);
         scoreManager.otherPlayers.Add(player);
     }
     private Color PlayerIDToColor(int id)
@@ -73,5 +62,9 @@ public class KOTHPlayerSpawner : MonoBehaviour
                 break;
         }
         return Color.clear;
+    }
+    public Transform GetPlayerHolderTransform()
+    {
+        return playerHolder;
     }
 }
