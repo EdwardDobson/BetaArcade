@@ -5996,6 +5996,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TutorialScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 4990322031891434358, guid: 3dc3d3df1e8d80246b2e7044e1e7f9f9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4836010754439564053, guid: 3dc3d3df1e8d80246b2e7044e1e7f9f9,
         type: 3}
       propertyPath: m_LocalPosition.x
