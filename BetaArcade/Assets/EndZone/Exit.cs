@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Exit : MonoBehaviour
 {
+    GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -20,6 +21,7 @@ public class Exit : MonoBehaviour
         if(other.gameObject.tag.Contains("Player"))
         {
             SceneManager.LoadScene("MainMenu");
+            gameManager.SetPlayerCount(2);
         }
     }
 }

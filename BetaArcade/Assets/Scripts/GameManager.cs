@@ -181,6 +181,10 @@ public class GameManager : MonoBehaviour
     {
         return playerTotal;
     }
+    public void SetPlayerCount(int _count)
+    {
+        playerTotal = _count;
+    }
     public int GetTimer()
     {
         return timer;

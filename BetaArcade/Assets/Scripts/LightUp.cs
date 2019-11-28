@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class LightUp : MonoBehaviour
 {
     public int ID;
@@ -10,14 +10,19 @@ public class LightUp : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-    }
 
+    }
+  
     // Update is called once per frame
     void Update()
     {
+        if(gameManager == null)
+        {
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        }
             GetComponent<Renderer>().material.SetColor("_BaseColor", LightColour(ID));
             transform.GetChild(0).gameObject.SetActive(true);
-       
+      
         if (ID == 3 && gameManager.GetPlayerCount() > 2)
         {
             GetComponent<Renderer>().material.SetColor("_BaseColor", LightColour(ID));
