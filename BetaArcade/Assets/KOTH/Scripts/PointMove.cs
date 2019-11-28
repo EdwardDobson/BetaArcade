@@ -13,26 +13,22 @@ public class PointMove : MonoBehaviour
     int pointID;
     [SerializeField]
     int pointAmount = 0;
+    int tempPointAmount;
+    bool clearingPoints;
     bool moved;
     [SerializeField]
     float timer;
     [SerializeField]
     float maxtimer;
-    GameManager gameManager;
     ScoreManager scoreManager;
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         scoreManager = GetComponent<ScoreManager>();
         previousPos = transform;
         //InvokeRepeating("MovePoint", 5, movePointSpeed);
         pointsHolder = GameObject.Find("Points");
-        for(int i =0; i< pointAmount; ++i)
-        {
-            points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
-            transform.position = pointsHolder.GetComponent<Transform>().GetChild(0).position;
-        }
+     
         moveText = GameObject.Find("MoveText").GetComponent<TextMeshProUGUI>();
         timer = maxtimer;
     }
@@ -47,10 +43,39 @@ public class PointMove : MonoBehaviour
                 for (int i = 0; i < pointAmount; ++i)
                 {
                     points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
+                 
                 }
 
             }
-            MovePoint();
+           if(scoreManager.GetStartGame())
+                {
+                MovePoint();
+            }
+         
+        }
+      
+    }
+    public void ResetPoints()
+    {
+        if (clearingPoints)
+        {
+            points.Clear();
+            clearingPoints = false;
+            
+        }
+        if (!clearingPoints)
+        {
+            for (int i = 0; i < pointAmount; ++i)
+            {
+                points.Add(pointsHolder.GetComponent<Transform>().GetChild(i));
+                transform.position = pointsHolder.GetComponent<Transform>().GetChild(0).position;
+                tempPointAmount++;
+            }
+            if(tempPointAmount >= 4)
+            {
+                clearingPoints = false;
+                tempPointAmount = 0;
+            }
         }
       
     }
@@ -71,8 +96,8 @@ public class PointMove : MonoBehaviour
                 points.RemoveAt(pointID);
                 moved = true;
                 moveText.text = "Point has moved!";
-                    StartCoroutine(HideText());
-            }
+                StartCoroutine(HideText());
+                }
         }
         }
     }
@@ -85,5 +110,9 @@ public class PointMove : MonoBehaviour
         yield return new WaitForSeconds(1);
         moveText.text = "";
         moved = false;
+    }
+    public void SetResetPoints(bool _state)
+    {
+        clearingPoints = _state;
     }
 }
