@@ -55,4 +55,32 @@ public static class LevelManagerTools
       }
     return 1;
     }
+
+  public static bool SetPlayerColor(GameObject playerObject, int id = -1)
+    {
+    if(id == -1)
+      {
+      id = GetPlayerID(playerObject);
+      if (id == -1)
+        {
+        Debug.Log("Cannot get id for colour");
+        return false;
+        }
+      }
+    var characterObj = playerObject.transform.Find("character");
+    if(characterObj == null)
+      {
+      Debug.LogWarning("Cannot get character object");
+      return false;
+      }
+    var hairObj = characterObj.transform.Find("Cube.001");
+    if (hairObj == null)
+      {
+      Debug.LogWarning("Cannot get hair object");
+      return false;
+      }
+    hairObj.GetComponent<SkinnedMeshRenderer>().material.SetColor("_BaseColor", PlayerIDToColor(id));
+    Debug.Log("Color set!");
+    return true;
+    }
   }
