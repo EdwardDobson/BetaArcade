@@ -7,10 +7,10 @@ public class PlayerMove : MonoBehaviour
     public int ID;
 
     private float originalSpeed = 15f;
-    private float speed = 15f;
+    private float speed = 60f;
     private float maxSpeed = 5f;
-    private float jumpSpeed = 180.0f;
-    private float rotationSpeed = 12.5f;
+    private float jumpSpeed = 600.0f;
+    private float rotationSpeed = 25f;
     private float dashSpeed = 8.0f;
     private float distanceToGround;
     private Vector3 movement;
