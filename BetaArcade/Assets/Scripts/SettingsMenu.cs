@@ -6,9 +6,16 @@ using UnityEngine.UI;
 using TMPro;
 public class SettingsMenu : MonoBehaviour
 {
-    public AudioMixer audioMixer;
+    public AudioMixerGroup master;
+    public AudioMixerGroup effects;
+    public AudioMixerGroup music;
     public Toggle fullscreenToggle;
-    public Slider volume;
+    public Slider masterVolume;
+    public Slider effectsVolume;
+    public Slider musicVolume;
+    public Slider masterVolumePause;
+    public Slider effectsVolumePause;
+    public Slider musicVolumePause;
     public TMP_Dropdown qualitySettings;
     bool isFullscreen;
     Resolution[] resolutions;
@@ -18,15 +25,38 @@ public class SettingsMenu : MonoBehaviour
         Screen.fullScreen = isFullscreen;
         fullscreenToggle.isOn = isFullscreen;
         Screen.SetResolution(1920, 1080, Screen.fullScreen);
-        audioMixer.SetFloat("MasterVolume", PlayerPrefs.GetFloat("Volume"));
-        volume.value = PlayerPrefs.GetFloat("Volume");
+        master.audioMixer.SetFloat("MasterVolume", PlayerPrefs.GetFloat("VolumeMaster"));
+        effects.audioMixer.SetFloat("EffectsVolume", PlayerPrefs.GetFloat("VolumeEffects"));
+        music.audioMixer.SetFloat("MusicVolume", PlayerPrefs.GetFloat("VolumeMusic"));
+        masterVolume.value = PlayerPrefs.GetFloat("VolumeMaster");
+        effectsVolume.value = PlayerPrefs.GetFloat("VolumeEffects");
+        musicVolume.value = PlayerPrefs.GetFloat("VolumeMusic");
+    
         QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("QualitySettings"));
         qualitySettings.value = PlayerPrefs.GetInt("QualitySettings");
     }
+    public void SetVolumeSliders()
+    {
+        masterVolumePause.value = PlayerPrefs.GetFloat("VolumeMaster");
+        effectsVolumePause.value = PlayerPrefs.GetFloat("VolumeEffects");
+        musicVolumePause.value = PlayerPrefs.GetFloat("VolumeMusic");
+    }
     public void SetVolume(float _value)
     {
-        audioMixer.SetFloat("MasterVolume", _value);
-        PlayerPrefs.SetFloat("Volume", _value);
+        master.audioMixer.SetFloat("MasterVolume", _value);
+        effects.audioMixer.SetFloat("MasterVolume", _value);
+        music.audioMixer.SetFloat("MasterVolume", _value);
+        PlayerPrefs.SetFloat("VolumeMaster", _value);
+    }
+    public void SetEffectsVolume(float _value)
+    {
+        effects.audioMixer.SetFloat("EffectsVolume", _value);
+        PlayerPrefs.SetFloat("VolumeEffects", _value);
+    }
+    public void SetMusicVolume(float _value)
+    {
+        music.audioMixer.SetFloat("MusicVolume", _value);
+        PlayerPrefs.SetFloat("VolumeMusic", _value);
     }
     public void SetQuality(int _index)
     {

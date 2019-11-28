@@ -18,8 +18,7 @@ public class EndZoneScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+          gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         if (playerCount < gameManager.GetPlayerCount())
         {
             for (int i = 0; i < gameManager.GetPlayerCount(); ++i)

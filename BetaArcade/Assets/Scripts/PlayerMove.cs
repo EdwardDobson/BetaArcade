@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class PlayerMove : MonoBehaviour
 {
     public int ID;
-
+    AudioSource Jump;
+    AudioSource Walk;
     private float originalSpeed = 15f;
     private float speed = 15f;
     private float maxSpeed = 5f;
@@ -37,6 +38,8 @@ public class PlayerMove : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         Invoke("LateStart", 0.1f);
         distanceToGround = GetComponent<Collider>().bounds.extents.y;
+        Walk = GetComponent<AudioSource>();
+        Jump = transform.GetChild(0).GetComponent<AudioSource>();
     }
     void LateStart()
     {
@@ -71,6 +74,7 @@ public class PlayerMove : MonoBehaviour
                         }
                     }
                 }
+                Jump.Play();
             }
             if (Input.GetButtonDown("Dash" + ID) && !hasDashed)
             {
@@ -107,7 +111,7 @@ public class PlayerMove : MonoBehaviour
       //rb.AddForce(Time.deltaTime * movement.x * speed, 0, Time.deltaTime * movement.z * speed, ForceMode.VelocityChange);
       if (Mathf.Abs(rb.velocity.z) > maxSpeed || Mathf.Abs(rb.velocity.x) > maxSpeed)
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-
+    
       Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
       if (Input.GetButton("Shove" + ID) && !hasPushed)
         {
