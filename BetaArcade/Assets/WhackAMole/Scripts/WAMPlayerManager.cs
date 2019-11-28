@@ -24,16 +24,14 @@ public class WAMPlayerManager : MonoBehaviour
   private int m_MaxScore = 20;
   private int m_ID;
   private float m_SwingCooldownTime = 1f;
-  private Animator m_Animator;
   private GameManager m_GameManager;
   private Animator m_CharacterAnimator;
   private bool m_IsStunned = false;
   private void Start()
     {
     m_ID = LevelManagerTools.GetPlayerID(gameObject);
-    m_Animator = GetComponent<Animator>();
     m_GameManager = GameObject.Find("GameManager") != null ? GameObject.Find("GameManager").GetComponent<GameManager>() : null;
-    m_CharacterAnimator = GetComponentsInChildren<Animator>()[1];//.SetFloat("MoveSpeed", GetComponent<Rigidbody>().velocity.magnitude);
+    m_CharacterAnimator = GetComponentInChildren<Animator>();//.SetFloat("MoveSpeed", GetComponent<Rigidbody>().velocity.magnitude);
     }
 
   private void Update()
@@ -82,7 +80,7 @@ public class WAMPlayerManager : MonoBehaviour
   private IEnumerator SwingHammer()
     {
     CanSwing = false;
-    m_Animator.SetTrigger("CanSwing");
+    m_CharacterAnimator.SetTrigger("SmackTrigger");
     yield return new WaitForSeconds(m_SwingCooldownTime);
     CanSwing = true;
     }
