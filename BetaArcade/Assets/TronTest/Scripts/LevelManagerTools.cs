@@ -79,7 +79,15 @@ public static class LevelManagerTools
       Debug.LogWarning("Cannot get hair object");
       return false;
       }
-    hairObj.GetComponent<SkinnedMeshRenderer>().material.SetColor("_BaseColor", PlayerIDToColor(id));
+    var chestObj = characterObj.transform.Find("Cube.002");
+    if(chestObj == null)
+      {
+      Debug.LogWarning("Cannot get chest object");
+      return false;
+      }
+    var color = PlayerIDToColor(id);
+    hairObj.GetComponent<SkinnedMeshRenderer>().material.SetColor("_BaseColor", color);
+    chestObj.GetComponent<SkinnedMeshRenderer>().material.SetColor("_BaseColor", color);
     Debug.Log("Color set!");
     return true;
     }
