@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WAMPlayerManager : MonoBehaviour
   {
+  public GameObject StunEffect;
   public GameObject Hammer;
   public bool CanSwing = true;
   public int Score
@@ -26,6 +27,7 @@ public class WAMPlayerManager : MonoBehaviour
   private Animator m_Animator;
   private GameManager m_GameManager;
   private Animator m_CharacterAnimator;
+  private bool m_IsStunned = false;
   private void Start()
     {
     m_ID = LevelManagerTools.GetPlayerID(gameObject);
@@ -51,15 +53,30 @@ public class WAMPlayerManager : MonoBehaviour
   public void DisableHammerCollider() => Hammer.GetComponentInChildren<BoxCollider>().enabled = false;
   public void EnableHammerCollider() => Hammer.GetComponentInChildren<BoxCollider>().enabled = true;
 
-  public void Stun() => StartCoroutine(StunRoutine());
+  public void Stun()
+    {
+    if(!m_IsStunned)
+      StartCoroutine(StunRoutine());
+    }
 
   private IEnumerator StunRoutine()
     {
+    var stunEffect = GameObject.Instantiate(StunEffect);
+    stunEffect.transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+    m_IsStunned = true;
     CanSwing = false;
     GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+    m_CharacterAnimator.SetBool("IsStunned", true);
+    Debug.Log("STUNNED");
     yield return new WaitForSeconds(2f);
+    m_CharacterAnimator.SetTrigger("StandTrigger");
+    yield return new WaitForSeconds(1.5f);
     GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
     CanSwing = true;
+    Destroy(stunEffect);
+    m_CharacterAnimator.SetBool("IsStunned", false);
+    yield return new WaitForSeconds(2f);
+    m_IsStunned = false;
     }
 
   private IEnumerator SwingHammer()
