@@ -67,6 +67,8 @@ public class Pause : MonoBehaviour
     public void ReturnToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        paused = false;
+        Time.timeScale = 1;
     }
     public void SetBackButton()
     {

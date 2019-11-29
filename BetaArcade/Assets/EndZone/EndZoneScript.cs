@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 public class EndZoneScript : MonoBehaviour
 {
     public GameObject Player;
@@ -15,6 +16,7 @@ public class EndZoneScript : MonoBehaviour
     int secondHighest;
     int thirdHighest;
     int lowestScore;
+
     // Start is called before the first frame update
     void Start()
     {

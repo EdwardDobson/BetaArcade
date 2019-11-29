@@ -18,8 +18,8 @@ public class ChangeColour : MonoBehaviour
     }
     public void ModColour(int _id)
     {
-        mat.SetColor("_BaseColor", IDToColor(_id));
-        mat.SetColor("_BaseColor",new Vector4(mat.GetColor("_BaseColor").r, mat.GetColor("_BaseColor").g, mat.GetColor("_BaseColor").b, mat.GetColor("_BaseColor").a - 0.5f));
+       // mat.SetColor("_BaseColor", IDToColor(_id));
+      //  mat.SetColor("_BaseColor",new Vector4(mat.GetColor("_BaseColor").r, mat.GetColor("_BaseColor").g, mat.GetColor("_BaseColor").b, mat.GetColor("_BaseColor").a - 0.5f));
     }
 
     private Color IDToColor(int id)

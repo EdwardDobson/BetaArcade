@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI notEnoughText2;
     public TextMeshProUGUI roundCountText;
     public TextMeshProUGUI roundCountText2;
+    public Slider RoundTotal;
+    public Slider PlayerTotal;
     #region TutorialScreen
     public TextMeshProUGUI title;
     public TextMeshProUGUI howToPlayText;
@@ -63,6 +65,8 @@ public class GameManager : MonoBehaviour
         nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(5).GetChild(0).GetComponent<TextMeshProUGUI>();
         roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
         roundCountText2.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
+        playerTotal = (int)PlayerTotal.value;
+        numberOfRounds = (int)RoundTotal.value;
     }
 
     // Update is called once per frame
@@ -144,28 +148,15 @@ public class GameManager : MonoBehaviour
     public void ResetPlayerCount()
     {
         playerTotal = 2;
+        PlayerTotal.value = 2;
         playerTotalText.text = "Player Total: " + playerTotal;
         playerTotalText2.text = "Player Total: " + playerTotal;
     }
-    public void IncreasePlayerCount()
+    public void ChangePlayerCount()
     {
-        if (playerTotal <= 3)
-        {
-            playerTotal++;
-            playerTotalText.text = "Player Total: " + playerTotal;
-            playerTotalText2.text = "Player Total: " + playerTotal;
-        }
-
-    }
-    public void DecreasePlayerCount()
-    {
-        if (playerTotal > 2)
-        {
-            playerTotal--;
-            playerTotalText.text = "Player Total: " + playerTotal;
-            playerTotalText2.text = "Player Total: " + playerTotal;
-        }
-
+        playerTotal = (int)PlayerTotal.value;
+        playerTotalText.text = "Player Total: " + playerTotal;
+        playerTotalText2.text = "Player Total: " + playerTotal;
     }
 
   public void Countdown()
@@ -193,6 +184,7 @@ public class GameManager : MonoBehaviour
     {
         timer = _timer;
     }
+    
     public void DecreaseTimer(int _decrease)
     {
         timer -= _decrease;
@@ -535,24 +527,16 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
+    public void ChangeNumberOfRounds()
+    {
+        numberOfRounds = (int)RoundTotal.value;
+        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+    }
     public void SetNumberOfRounds(int _set)//Set in lobby menu
     {
         numberOfRounds = _set;
-        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
-        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
-    }
-    public void IncreaseNumberOfRounds()
-    {
-        numberOfRounds++;
-        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
-        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
-    }
-    public void DecreaseNumberOfRounds()
-    {
-        if (numberOfRounds > 1)
-        {
-            numberOfRounds--;
-        }
+        RoundTotal.value = _set;
         roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
         roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }

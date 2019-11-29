@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Linq;
@@ -13,6 +14,8 @@ public class ScoreManager : MonoBehaviour
     TextMeshProUGUI scoreToWinText;
     TextMeshProUGUI scoreToWinTextTutorialText;
     TextMeshProUGUI timerTextTutorialText;
+    Slider roundTimerSlider;
+    Slider scoreTimerSlider;
     public int maxScore;
     bool resetPoints = false;
     bool canGainPoints = false;
@@ -56,6 +59,8 @@ public class ScoreManager : MonoBehaviour
         inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
         scoreToWinTextTutorialText = GameObject.Find("ScoreToWin").GetComponent<TextMeshProUGUI>();
         timerTextTutorialText = GameObject.Find("RoundTimerText").GetComponent<TextMeshProUGUI>();
+        roundTimerSlider = GameObject.Find("RoundTimeSlider").GetComponent<Slider>();
+        scoreTimerSlider = GameObject.Find("ScoreToWinSlider").GetComponent<Slider>();
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
         KOTHPlayerSpawner = GetComponent<KOTHPlayerSpawner>();
         maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
@@ -207,7 +212,7 @@ public class ScoreManager : MonoBehaviour
             }
         }
 }
-void AddScore()
+    void AddScore()
     {
         for (int i = 0; i < otherPlayers.Count; ++i)//Used to check if any other player is in the zone
         {
@@ -341,38 +346,17 @@ void AddScore()
     {
         resetPoints = _reset;
     }
-    public void IncreaseScoreToWin()
+    public void ChangeScoreToWin()
     {
-        if (maxScore < 1000)
-        {
-            maxScore += 5;
-            scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
-            scoreToWinText.text = "Score to win: " + maxScore;
-        }
+        maxScore = (int)scoreTimerSlider.value;
+        scoreToWinTextTutorialText.text = "Score to win : " + maxScore;
+        scoreToWinText.text = "Score to win : " + maxScore;
+    }
+    public void ChangeRoundTime()
+    {
+        gameManager.SetTimer((int)roundTimerSlider.value);
+        timerTextTutorialText.text = "Round Time : " + gameManager.GetTimer();
+    }
 
-    }
-    public void DecreaseScoreToWin()
-    {
-        if (maxScore > 5)
-        {
-            maxScore -= 5;
-            scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
-            scoreToWinText.text = "Score to win: " + maxScore;
-        }
-
-    }
-    public void IncreaseTimer()
-    {
-        gameManager.IncreaseTimer(5);
-        timerTextTutorialText.text = "Round Time: " + gameManager.GetTimer();
-    }
-    public void DecreaseTimer()
-    {
-        if (gameManager.GetTimer() > 60)
-        {
-            gameManager.DecreaseTimer(5);
-            timerTextTutorialText.text = "Round Time: " + gameManager.GetTimer();
-        }
-    
-    }
+ 
 }

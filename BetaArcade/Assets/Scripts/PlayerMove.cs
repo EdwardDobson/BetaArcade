@@ -67,9 +67,12 @@ public class PlayerMove : MonoBehaviour
                     {
                         foreach (Transform t in Clone.transform)
                         {
-                            if (t.name == "PUJump")
+                          
+                            if (t.name == "PUJump" + "(Clone)")
                             {
                                 t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
+                                t.gameObject.name = "";
+                                powerUpCount--;
                             }
                         }
                     }
@@ -93,114 +96,117 @@ public class PlayerMove : MonoBehaviour
                 shoveTimer -= Time.deltaTime;
                 shoveSlider.value = shoveTimer;
             }
-
-
-        }
-    }
-
-  // Update is called once per frame
-  void FixedUpdate()
-    {
-    if (!isFrozen)
-      {
-      float moveHorizontal = Input.GetAxisRaw("Horizontal" + ID);
-      float moveVertical = Input.GetAxisRaw("Vertical" + ID);
-      movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-      rb.AddForce(new Vector3(moveHorizontal * speed, 0, moveVertical * speed));
-      //if(rb.velocity.sqrMagnitude < maxSpeed)
-      //rb.AddForce(Time.deltaTime * movement.x * speed, 0, Time.deltaTime * movement.z * speed, ForceMode.VelocityChange);
-      if (Mathf.Abs(rb.velocity.z) > maxSpeed || Mathf.Abs(rb.velocity.x) > maxSpeed)
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-    
-      Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
-      if (Input.GetButton("Shove" + ID) && !hasPushed)
-        {
-        hasPushed = true;
-        Debug.Log("Shoved");
-        Push();
-        StartCoroutine(ResetShove());
-        }
-      if (lookDir.magnitude > 0.5)
-        {
-        Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
-        transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
-        }
-      }
-    isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
-    }
-        IEnumerator ResetDash()
-        {
-
-            yield return new WaitForSeconds(0.5f);
-            hasDashed = false;
-            dashTimer = 0.5f;
-            dashSlider.value = dashTimer;
-        }
-        IEnumerator ResetShove()
-        {
-
-            yield return new WaitForSeconds(0.5f);
-            hasPushed = false;
-            shoveTimer = 0.5f;
-            shoveSlider.value = shoveTimer;
-        }
-        void Push()
-        {
-
-            Vector3 pushPos = transform.GetChild(0).GetChild(0).position;
-            Collider[] colliders = Physics.OverlapBox(pushPos, transform.localScale / 4);
-            foreach (Collider hit in colliders)
+            if (rb.velocity.sqrMagnitude > 2f && !Walk.isPlaying)
             {
-                Rigidbody rb = hit.GetComponent<Rigidbody>();
-                if (rb != null)
+                Walk.Play();
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (!isFrozen)
+        {
+            float moveHorizontal = Input.GetAxisRaw("Horizontal" + ID);
+            float moveVertical = Input.GetAxisRaw("Vertical" + ID);
+            movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+            rb.AddForce(new Vector3(moveHorizontal * speed, 0, moveVertical * speed));
+            //if(rb.velocity.sqrMagnitude < maxSpeed)
+            //rb.AddForce(Time.deltaTime * movement.x * speed, 0, Time.deltaTime * movement.z * speed, ForceMode.VelocityChange);
+            if (Mathf.Abs(rb.velocity.z) > maxSpeed || Mathf.Abs(rb.velocity.x) > maxSpeed)
+                rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+
+            Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
+            if (Input.GetButton("Shove" + ID) && !hasPushed)
+            {
+                hasPushed = true;
+                Debug.Log("Shoved");
+                Push();
+                StartCoroutine(ResetShove());
+            }
+            if (lookDir.magnitude > 0.5)
+            {
+                Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
+                transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
+            }
+        }
+        isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
+    }
+    IEnumerator ResetDash()
+    {
+
+        yield return new WaitForSeconds(0.5f);
+        hasDashed = false;
+        dashTimer = 0.5f;
+        dashSlider.value = dashTimer;
+    }
+    IEnumerator ResetShove()
+    {
+
+        yield return new WaitForSeconds(0.5f);
+        hasPushed = false;
+        shoveTimer = 0.5f;
+        shoveSlider.value = shoveTimer;
+    }
+    void Push()
+    {
+
+        Vector3 pushPos = transform.GetChild(0).GetChild(0).position;
+        Collider[] colliders = Physics.OverlapBox(pushPos, transform.localScale / 4);
+        foreach (Collider hit in colliders)
+        {
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 3.0f);
+            }
+        }
+    }
+
+    public void IncreaseMovementSpeed()
+    {
+        speed = (speed * 1.5f);
+        StartCoroutine(SpeedReset(5));
+    }
+    IEnumerator SpeedReset(float time)
+    {
+        yield return new WaitForSeconds(time);
+        GameObject Clone = GameObject.Find("PlayerPicture" + ID);
+        if (Clone != null)
+        {
+            foreach (Transform t in Clone.transform.transform)
+            { 
+                if (t.name == "PUSpeedup"+ "(Clone)")
                 {
-                    rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 3.0f);
+                    t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
+                    t.gameObject.name = "";
+                    powerUpCount--;
                 }
             }
         }
+        speed = originalSpeed;
+    }
 
-        public void IncreaseMovementSpeed()
-        {
-            speed = (speed * 1.5f);
-            StartCoroutine(SpeedReset(5));
-        }
-        IEnumerator SpeedReset(float time)
-        {
-            yield return new WaitForSeconds(time);
-            GameObject Clone = GameObject.Find("PlayerPicture" + ID);
-            if (Clone != null)
-            {
-                foreach (Transform t in Clone.transform.transform)
-                {
-                    if (t.name == "PUSpeedup")
-                    {
-                        t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
-                    }
-
-                }
-            }
-            speed = originalSpeed;
-        }
-
-  public void ToggleFreeze(bool frozen)
+    public void ToggleFreeze(bool frozen)
     {
-    isFrozen = frozen;
+        isFrozen = frozen;
     }
 
-        public void AddBigJumps(int count)
-        {
-            bigJumps += count;
-        }
-        public void IncreasePowerUpCount(int _count)
-        {
-            powerUpCount++;
-        }
-        public void DecreasePowerUpCount(int _count)
-        {
-            powerUpCount--;
-        }
-        public int GetPowerUpCount()
-        {
-            return powerUpCount;
-        }
+    public void AddBigJumps(int count)
+    {
+        bigJumps += count;
     }
+    public void IncreasePowerUpCount(int _count)
+    {
+        powerUpCount++;
+    }
+    public void DecreasePowerUpCount(int _count)
+    {
+        powerUpCount--;
+    }
+    public int GetPowerUpCount()
+    {
+        return powerUpCount;
+    }
+}
