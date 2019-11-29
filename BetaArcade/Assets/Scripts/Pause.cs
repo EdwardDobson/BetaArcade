@@ -55,9 +55,14 @@ public class Pause : MonoBehaviour
         paused = false;
         PauseMenu.SetActive(false);
         GameObject TutorialScreen = GameObject.Find("TutorialScreen");
+        if(TutorialScreen != null)
+        {
+
+        
         if (TutorialScreen.activeSelf)
         {
             EventSystem.current.SetSelectedGameObject(TutorialScreen.transform.GetChild(0).GetChild(3).gameObject);
+        }
         }
     }
     public void SetOptionsButton()
