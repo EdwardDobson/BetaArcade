@@ -46,6 +46,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField]
     bool startGame;
     bool gameStarted = false;
+  public  float pointDrainTimer = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -121,7 +122,24 @@ public class ScoreManager : MonoBehaviour
             {
                 if (!child.gameObject.activeSelf)
                 {
-                    StartCoroutine(RespawnPlayer(child));
+                    child.gameObject.SetActive(true);
+                    if (child.tag == "Player1")
+                    {
+                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[0].position;
+                    }
+                    if (child.tag == "Player2")
+                    {
+                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[1].position;
+                    }
+                    if (child.tag == "Player3")
+                    {
+                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[2].position;
+                    }
+                    if (child.tag == "Player4")
+                    {
+                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[3].position;
+                    }
+                   StartCoroutine(RespawnPlayer(child));
                 }
             }
       
@@ -150,24 +168,9 @@ public class ScoreManager : MonoBehaviour
     }
     IEnumerator RespawnPlayer(Transform _child)
     {
-        yield return new WaitForSeconds(3);
-        _child.gameObject.SetActive(true);
-        if (_child.tag == "Player1")
-        {
-            _child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[0].position;
-        }
-        if (_child.tag == "Player2")
-        {
-            _child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[1].position;
-        }
-        if (_child.tag == "Player3")
-        {
-            _child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[2].position;
-        }
-        if (_child.tag == "Player4")
-        {
-            _child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[3].position;
-        }
+        _child.gameObject.GetComponent<Rigidbody>().mass = 300;
+        yield return new WaitForSeconds(2);
+        _child.gameObject.GetComponent<Rigidbody>().mass = 1;
     }
     void AddScoreOutOfTime()
     {
@@ -334,9 +337,27 @@ public class ScoreManager : MonoBehaviour
         if (other.tag.Contains("Player"))
         {
             inPointCount++;
-       
         }
-  
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag.Contains("Player"))
+        {
+            if(inPointCount == 1)
+            {
+                pointDrainTimer -= Time.deltaTime;
+                if(pointDrainTimer <= 0)
+                {
+                    GetComponent<PointMove>().scoreAmountGive--;
+                    pointDrainTimer = 1;
+                    if (GetComponent<PointMove>().scoreAmountGive <= 0)
+                    {
+                        GetComponent<PointMove>().ForceMove();
+                    }
+                }
+            }
+         
+        }
     }
     public bool GetresetPoints()
     {
