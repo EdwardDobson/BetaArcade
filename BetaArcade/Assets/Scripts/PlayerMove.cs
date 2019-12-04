@@ -30,6 +30,8 @@ public class PlayerMove : MonoBehaviour
     float dashTimer = 0.5f;
     [SerializeField]
     float shoveTimer = 0.5f;
+	[SerializeField]
+	bool jumpEnabled = true; //used in bomberman to disable the jump function
     Slider dashSlider;
     Slider shoveSlider;
     // Start is called before the first frame update
@@ -49,7 +51,7 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
 
-        if (isGrounded && !isFrozen)
+        if (isGrounded && !isFrozen && jumpEnabled)
         {
             if (Input.GetButtonDown("Jump" + ID))
             {

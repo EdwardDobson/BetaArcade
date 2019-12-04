@@ -36,31 +36,42 @@ public class HazardSpawner : MonoBehaviour
 	List<GameObject> Objects = new List<GameObject>();
 	[SerializeField]
 	bool isRounding = false;
+	[SerializeField]
+	bool isActive = false;
 	// Start is called before the first frame update
 	private void Awake()
 	{
 		StartCoroutine("Spawner");
 	}
 
+	public void SetActive(bool activeState)
+	{
+		isActive = activeState;
+	}
+
 	IEnumerator Spawner()
 	{
 		while(true)
 		{
-			objectId = Random.Range(0, Objects.Count);
-			posX = Random.Range(minX, maxX);
-			posY = Random.Range(minY, maxY);
-			posZ = Random.Range(minZ, maxZ);
-			if(isRounding)
+			if(isActive)
 			{
-				posX = Mathf.RoundToInt(posX) + 0.5f;
-				posY = Mathf.RoundToInt(posY);
-				posZ = Mathf.RoundToInt(posZ) + 0.5f;
+				objectId = Random.Range(0, Objects.Count);
+				posX = Random.Range(minX, maxX);
+				posY = Random.Range(minY, maxY);
+				posZ = Random.Range(minZ, maxZ);
+				if (isRounding)
+				{
+					posX = Mathf.RoundToInt(posX) + 0.5f;
+					posY = Mathf.RoundToInt(posY);
+					posZ = Mathf.RoundToInt(posZ) + 0.5f;
+				}
+				timeDelay = Random.Range(minTime, maxTime);
+				spawnPosition = new Vector3(posX, posY, posZ);
+				GameObject clone = Instantiate(Objects[objectId], spawnPosition, Quaternion.identity);
+				clone.transform.SetParent(transform);
+				yield return new WaitForSeconds(timeDelay);
 			}
-			timeDelay = Random.Range(minTime, maxTime);
-			spawnPosition = new Vector3(posX, posY, posZ);
-			GameObject clone = Instantiate(Objects[objectId], spawnPosition, Quaternion.identity);
-			clone.transform.SetParent(transform);
-			yield return new WaitForSeconds(timeDelay);
+			
 		}
 	}
     // Update is called once per frame

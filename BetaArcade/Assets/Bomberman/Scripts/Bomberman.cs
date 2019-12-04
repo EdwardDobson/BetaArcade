@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Bomberman : MonoBehaviour
@@ -19,11 +20,13 @@ public class Bomberman : MonoBehaviour
 	[SerializeField]
 	int bombPower = 0;
 	[SerializeField]
-	int baseBombNumber = 3;
+	int baseBombMax = 3;
 	[SerializeField]
-	int bombNumber = 0;
+	int bombMax = 0;
 	[SerializeField]
 	int bombsRemaining = 0;
+	[SerializeField]
+	TextMeshProUGUI powerText;
 
 	public int GetBombPower()
 	{
@@ -33,15 +36,46 @@ public class Bomberman : MonoBehaviour
 	public void AddBombPower(int power)
 	{
 		bombPower += power;
+		UpdateUI();
+	}
+	public void ResetPowers()
+	{
+		bombPower = baseBombMax;
+		bombPower = baseBombPower;
+		regenRate = baseRegen;
+		UpdateUI();
+	}
+	public bool GetIsDead()
+	{
+		return isDead;
 	}
 	//add global reference here
 	void Start()
 	{
 		bombPower = baseBombPower;
-		bombNumber = baseBombNumber;
-		bombsRemaining = baseBombNumber;
+		bombMax = baseBombMax;
+		bombsRemaining = baseBombMax;
 		regenRate = baseRegen;
+		manager = FindObjectOfType<BombermanRoundManager>();
 		player = GetComponent<PlayerMove>();
+		switch (player.ID)
+		{
+			case 1:
+				powerText = GameObject.Find("Player1 Text").GetComponent<TextMeshProUGUI>();
+				break;
+			case 2:
+				powerText = GameObject.Find("Player2 Text").GetComponent<TextMeshProUGUI>();
+				break;
+			case 3:
+				powerText = GameObject.Find("Player3 Text").GetComponent<TextMeshProUGUI>();
+				break;
+			case 4:
+				powerText = GameObject.Find("Player4 Text").GetComponent<TextMeshProUGUI>();
+				break;
+			default:
+				break;
+		}
+		UpdateUI();
 	}
 
 	private void OnTriggerEnter(Collider other)
@@ -57,9 +91,11 @@ public class Bomberman : MonoBehaviour
 			{
 				case 0:
 					bombPower++;
+					UpdateUI();
 					break;
 				case 1:
-					bombNumber++;
+					bombMax++;
+					UpdateUI();
 					break;
 				case 2:
 					if(regenRate>0.5f)
@@ -73,10 +109,10 @@ public class Bomberman : MonoBehaviour
 			}
 		}
 	}
-	private void PlayerDied() //will probably need player id from global or something
+	private void PlayerDied()
 	{
 		isDead = true;
-		manager.PlayerDown();
+		manager.PlayerDown(player.ID);
 		//global point allocation
 		gameObject.SetActive(false);
 	}
@@ -92,6 +128,11 @@ public class Bomberman : MonoBehaviour
 		}
 	}
 
+	void UpdateUI()
+	{
+		powerText.text = "Player" + player.ID + "\nPower: " + bombPower + "\nBombs: " + bombsRemaining + "/" + bombMax;
+	}
+
 	void Update()
 	{
         regenRate -= Time.deltaTime;
@@ -99,15 +140,17 @@ public class Bomberman : MonoBehaviour
 		{
 			regenRate = baseRegen;
 			bombsRemaining++;
-			if(bombsRemaining>bombNumber)
+			if(bombsRemaining>bombMax)
 			{
-				bombNumber = bombsRemaining;
+				bombsRemaining = bombMax;
 			}
+			UpdateUI();
 		}
 		if (Input.GetButtonDown("Jump"+player.ID) && bombsRemaining > 0)
 		{
 			Debug.Log("Bomb button got");
 			DropBomb();
+			UpdateUI();
 		}
 	}
 }
