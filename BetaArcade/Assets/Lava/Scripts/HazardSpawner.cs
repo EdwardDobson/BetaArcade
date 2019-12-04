@@ -71,7 +71,7 @@ public class HazardSpawner : MonoBehaviour
 				clone.transform.SetParent(transform);
 				yield return new WaitForSeconds(timeDelay);
 			}
-			
+			yield return new WaitForSeconds(timeDelay);
 		}
 	}
     // Update is called once per frame

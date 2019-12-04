@@ -75,8 +75,9 @@ public class BombermanRoundManager : MonoBehaviour
 		eliminationText.text = "";
 	}
 	//resets everything, applies points to victor(s)
-	void Restart()
+	IEnumerator Restart()
 	{
+		yield return new WaitForSeconds(0.5f);
 		int tmpID = 0;
 		spawner.ResetPositions();
 		List<GameObject> winners = spawner.RemainingPlayers();
@@ -91,8 +92,9 @@ public class BombermanRoundManager : MonoBehaviour
 		remainingPlayers = GameObject.Find("GameManager").GetComponent<GameManager>().GetPlayerCount();
 		isVictory = false;
 	}
-	void Final()
+	IEnumerator Final()
 	{
+		yield return new WaitForSeconds(0.5f);
 		int tmpID = 0;
 		List<GameObject> winners = spawner.RemainingPlayers();
 		for(int i = 0; i < winners.Count; ++i)
@@ -122,16 +124,21 @@ public class BombermanRoundManager : MonoBehaviour
 			{
 				isScoring = true;
 				isVictory = true;
-				Restart();
+				StartCoroutine(Restart());
 			}
 			else if (remainingPlayers <= 1 && currentRound == roundMax && !isScoring)
 			{
 				isScoring = true;
 				isVictory = true;
-				Final();
+				StartCoroutine(Final());
 			}
 		}
-		
+		if(!hasStarted)
+		{
+			eliminationText.text = "";
+			roundText.text = "";
+			timerText.text = "";
+		}
 	}
 	public void PlayerDown(int playerID)
 	{

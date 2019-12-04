@@ -13,7 +13,7 @@ public class BombermanBomb : Bomberman
 	Bomberman myParent;
     Collider thisCollider;
     MeshRenderer thisRender;
-	int thisBombPower = 1;
+	float thisBombPower = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +35,7 @@ public class BombermanBomb : Bomberman
 		StartCoroutine(CreateExplosions(Vector3.right));
 		StartCoroutine(CreateExplosions(Vector3.back));
 		StartCoroutine(CreateExplosions(Vector3.left));
-		Destroy(this.gameObject, .2f);
+		Destroy(gameObject, .2f);
 	}
 
 	public void OnTriggerEnter(Collider other)

@@ -10,7 +10,7 @@ public class DontDestroy : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         if (GameObject.Find(gameObject.name)
-                  && GameObject.Find(gameObject.name) != this.gameObject)
+                  && GameObject.Find(gameObject.name) != gameObject)
         {
             Destroy(GameObject.Find(gameObject.name));
         }

@@ -117,6 +117,7 @@ MonoBehaviour:
   dashTimer: 0.5
   shoveTimer: 0.5
   jumpEnabled: 0
+  rotationEnabled: 0
 --- !u!54 &4652270019733902041
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -181,9 +182,10 @@ MonoBehaviour:
   regenRate: 0
   baseBombPower: 3
   bombPower: 0
-  baseBombNumber: 3
-  bombNumber: 0
+  baseBombMax: 3
+  bombMax: 0
   bombsRemaining: 0
+  powerText: {fileID: 0}
 --- !u!82 &-4878371909314161266
 AudioSource:
   m_ObjectHideFlags: 0

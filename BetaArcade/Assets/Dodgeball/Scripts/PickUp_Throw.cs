@@ -71,7 +71,7 @@ public class PickUp_Throw : MonoBehaviour
         ChildBall.GetComponent<Rigidbody>().velocity = new Vector3(0f,0f,0f);
 
         //we apply the same rotation our main object (Camera) has.
-        ChildBall.transform.localRotation = this.transform.rotation;
+        ChildBall.transform.localRotation = transform.rotation;
 
         //Set the ball to be active
         canHold = false;

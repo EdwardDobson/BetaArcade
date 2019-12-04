@@ -16,19 +16,19 @@ public class Bomberman : MonoBehaviour
 	[SerializeField]
 	float regenRate = 0.0f;
 	[SerializeField]
-	int baseBombPower = 3;
+	float baseBombPower = 3.0f;
 	[SerializeField]
-	int bombPower = 0;
+	float bombPower = 0.0f;
 	[SerializeField]
-	int baseBombMax = 3;
+	float baseBombMax = 3.0f;
 	[SerializeField]
-	int bombMax = 0;
+	float bombMax = 0.0f;
 	[SerializeField]
-	int bombsRemaining = 0;
+	float bombsRemaining = 0.0f;
 	[SerializeField]
 	TextMeshProUGUI powerText;
 
-	public int GetBombPower()
+	public float GetBombPower()
 	{
 		Debug.Log("Bomb power is: " + bombPower);
 		return bombPower;
@@ -90,17 +90,17 @@ public class Bomberman : MonoBehaviour
 			switch (other.GetComponent<BombermanPowerupData>().GetPowerupID())
 			{
 				case 0:
-					bombPower++;
+					bombPower += 0.5f;
 					UpdateUI();
 					break;
 				case 1:
-					bombMax++;
+					bombMax += 0.5f;
 					UpdateUI();
 					break;
 				case 2:
 					if(regenRate>0.5f)
 					{
-						regenRate -= 0.1f;
+						regenRate -= 0.05f;
 					}
 					break;
 				default:
@@ -130,6 +130,8 @@ public class Bomberman : MonoBehaviour
 
 	void UpdateUI()
 	{
+		Mathf.CeilToInt(bombPower);
+		Mathf.CeilToInt(bombsRemaining);
 		powerText.text = "Player" + player.ID + "\nPower: " + bombPower + "\nBombs: " + bombsRemaining + "/" + bombMax;
 	}
 

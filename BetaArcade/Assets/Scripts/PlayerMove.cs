@@ -32,6 +32,8 @@ public class PlayerMove : MonoBehaviour
     float shoveTimer = 0.5f;
 	[SerializeField]
 	bool jumpEnabled = true; //used in bomberman to disable the jump function
+	[SerializeField]
+	bool rotationEnabled = true;
     Slider dashSlider;
     Slider shoveSlider;
     // Start is called before the first frame update
@@ -127,7 +129,7 @@ public class PlayerMove : MonoBehaviour
                 Push();
                 StartCoroutine(ResetShove());
             }
-            if (lookDir.magnitude > 0.5)
+            if (lookDir.magnitude > 0.5 && rotationEnabled == true)
             {
                 Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
                 transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);

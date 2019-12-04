@@ -32,7 +32,7 @@ public class BombermanPowerups : MonoBehaviour
 				Debug.LogError("Powerup Error");
 				break;
 		}
-		GameObject clone = Instantiate(powerups[powerup], this.transform.position, Quaternion.identity);
+		GameObject clone = Instantiate(powerups[powerup], transform.position, Quaternion.identity);
 		clone.transform.SetParent(transform);
 	}
 }

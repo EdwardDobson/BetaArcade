@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class BombermanPowerupData : MonoBehaviour
 {
-	int powerupID = 0;
+	[SerializeField]
+	int powerupID = 1;
 	[SerializeField]
 	float destroyTimer = 12.5f;
+	bool isCollected = false;
 	public int GetPowerupID()
 	{
 		return powerupID;
@@ -15,18 +17,19 @@ public class BombermanPowerupData : MonoBehaviour
     void Start()
     {
 		Invoke("EndThis", destroyTimer);
-		powerupID = transform.parent.GetComponent<BombermanPowerups>().GetPowerup();
+		//powerupID = transform.parent.GetComponent<BombermanPowerups>().GetPowerup();
     }
 	private void EndThis()
 	{
-		Destroy(this.gameObject);
+		Destroy(gameObject);
 	}
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject.GetComponent<Bomberman>())
+		if (other.gameObject.GetComponent<Bomberman>() && !isCollected)
 		{
-			Destroy(transform.parent.gameObject);
-			Destroy(this.gameObject);
+			isCollected = true;
+			//Destroy(transform.parent.gameObject);
+			Destroy(gameObject);
 		}
 	}
 }
