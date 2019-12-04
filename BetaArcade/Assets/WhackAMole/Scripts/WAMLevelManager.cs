@@ -18,16 +18,23 @@ public class WAMLevelManager : KamilLevelManager
 
   protected override void Start()
     {
+    m_RoundEnded = true;
+    m_IsPaused = true;
     // Get spawn points
     var spawnPointsParent = GameObject.Find("SpawnPoints");
     foreach (Transform spawnPoint in spawnPointsParent.transform)
       m_SpawnPoints.Add(spawnPoint.gameObject);
+    //StartGame();
+    }
 
+  public void StartGame()
+    {
     // Create players
     base.Start();
-    
+
     CountdownTimer.Instance.Run();
     m_IsPaused = true;
+    m_RoundEnded = false;
 
     Physics.IgnoreLayerCollision(11, 12);
     m_CurrentRound++;
@@ -69,6 +76,7 @@ public class WAMLevelManager : KamilLevelManager
     player.tag = "Player" + m_Players.Count;
     player.GetComponent<PlayerMove>().ID = m_Players.Count;
     player.transform.position = m_SpawnPoints[m_Players.Count - 1].transform.position;
+    //player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
     }
   public override IEnumerator EndRound()
     {

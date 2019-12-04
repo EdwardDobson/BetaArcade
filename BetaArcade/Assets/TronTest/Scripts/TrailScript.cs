@@ -24,16 +24,6 @@ public class TrailScript : MonoBehaviour
       if (!playerScript.IsDead)
         {
         playerScript.Die();
-
-        // Get game manager so score can be set
-        if(playerScript.ID != ID)
-          {
-          var gameManager = GameObject.Find("GameManager") != null ? GameObject.Find("GameManager").GetComponent<GameManager>() : null;
-          if (gameManager != null)
-            {
-            gameManager.SetPlayerScore(ID, 1);
-            }
-          }
         }
       }
     }

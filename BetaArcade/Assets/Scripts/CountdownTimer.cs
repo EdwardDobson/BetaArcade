@@ -81,6 +81,6 @@ public class CountdownTimer : MonoBehaviour
     yield return new WaitForSeconds(3);
     Destroy(m_CountdownObject);
     if(m_Instance != null)
-      Destroy(m_Instance);
+      Destroy(m_Instance.gameObject);
     }
   }

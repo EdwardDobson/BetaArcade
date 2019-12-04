@@ -11,10 +11,12 @@ public class PlayerHotPotato : MonoBehaviour
     bool hasLeftEnemy;
     GameObject bombImage;
     GameManager gameManager;
+    AudioSource stunned;
     void Start()
     {
         bombImage = transform.GetChild(0).GetChild(1).gameObject;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        stunned = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -145,6 +147,7 @@ public class PlayerHotPotato : MonoBehaviour
     {
         GetComponent<Rigidbody>().mass = 200;
         GetComponent<Rigidbody>().drag = 200;
+        stunned.Play();
         yield return new WaitForSeconds(1);
         GetComponent<Rigidbody>().mass = 1;
         GetComponent<Rigidbody>().drag = 0;

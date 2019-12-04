@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI notEnoughText2;
     public TextMeshProUGUI roundCountText;
     public TextMeshProUGUI roundCountText2;
+    public Slider RoundTotal;
+    public Slider PlayerTotal;
     #region TutorialScreen
     public TextMeshProUGUI title;
     public TextMeshProUGUI howToPlayText;
@@ -61,8 +63,10 @@ public class GameManager : MonoBehaviour
         winScreen = transform.GetChild(0).gameObject;
         gameModeList.text = "Game Modes \n";
         nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(5).GetChild(0).GetComponent<TextMeshProUGUI>();
-        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
-        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText2.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
+        playerTotal = (int)PlayerTotal.value;
+        numberOfRounds = (int)RoundTotal.value;
     }
 
     // Update is called once per frame
@@ -144,28 +148,15 @@ public class GameManager : MonoBehaviour
     public void ResetPlayerCount()
     {
         playerTotal = 2;
+        PlayerTotal.value = 2;
         playerTotalText.text = "Player Total: " + playerTotal;
         playerTotalText2.text = "Player Total: " + playerTotal;
     }
-    public void IncreasePlayerCount()
+    public void ChangePlayerCount()
     {
-        if (playerTotal <= 3)
-        {
-            playerTotal++;
-            playerTotalText.text = "Player Total: " + playerTotal;
-            playerTotalText2.text = "Player Total: " + playerTotal;
-        }
-
-    }
-    public void DecreasePlayerCount()
-    {
-        if (playerTotal > 2)
-        {
-            playerTotal--;
-            playerTotalText.text = "Player Total: " + playerTotal;
-            playerTotalText2.text = "Player Total: " + playerTotal;
-        }
-
+        playerTotal = (int)PlayerTotal.value;
+        playerTotalText.text = "Player Total: " + playerTotal;
+        playerTotalText2.text = "Player Total: " + playerTotal;
     }
 
   public void Countdown()
@@ -181,6 +172,10 @@ public class GameManager : MonoBehaviour
     {
         return playerTotal;
     }
+    public void SetPlayerCount(int _count)
+    {
+        playerTotal = _count;
+    }
     public int GetTimer()
     {
         return timer;
@@ -189,6 +184,7 @@ public class GameManager : MonoBehaviour
     {
         timer = _timer;
     }
+    
     public void DecreaseTimer(int _decrease)
     {
         timer -= _decrease;
@@ -217,6 +213,9 @@ public class GameManager : MonoBehaviour
             playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 0.3f);
             playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.red;
             playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.red;
+            playerUI.transform.GetComponent<Image>().color = Color.red;
+            playerUI.transform.GetChild(8).GetComponent<Image>().color = Color.red;
+            playerUI.transform.GetChild(9).GetComponent<Image>().color = Color.red;
         }
         if (playerCount == 1)
         {
@@ -225,6 +224,8 @@ public class GameManager : MonoBehaviour
             playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 0.3f);
             playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.yellow;
             playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.yellow;
+            playerUI.transform.GetChild(8).GetComponent<Image>().color = Color.yellow;
+            playerUI.transform.GetChild(9).GetComponent<Image>().color = Color.yellow;
         }
         if (playerCount == 2)
         {
@@ -233,6 +234,8 @@ public class GameManager : MonoBehaviour
             playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 0.3f);
             playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.green;
             playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.green;
+            playerUI.transform.GetChild(8).GetComponent<Image>().color = Color.green;
+            playerUI.transform.GetChild(9).GetComponent<Image>().color = Color.green;
         }
         if (playerCount == 3)
         {
@@ -241,6 +244,8 @@ public class GameManager : MonoBehaviour
             playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 0.3f);
             playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.blue;
             playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = Color.blue;
+            playerUI.transform.GetChild(8).GetComponent<Image>().color = Color.blue;
+            playerUI.transform.GetChild(9).GetComponent<Image>().color = Color.blue;
         }
 
         playerUI.transform.position = Portraits[playerCount].position;
@@ -252,6 +257,7 @@ public class GameManager : MonoBehaviour
         playerUI.transform.GetChild(4).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(5).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         playerUI.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
+        
         playerUI.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
         playerUI.transform.SetParent(GameObject.Find("PlayerUI").transform.GetChild(1).transform);
         PlayerPictures.Add(playerUI);
@@ -281,7 +287,7 @@ public class GameManager : MonoBehaviour
             int sceneCount = SceneManager.sceneCountInBuildSettings;
             for (int i = 0; i < sceneCount; ++i)
             {
-                int random = Random.Range(2, sceneCount);//dont include 1 or 0 that will be the main menu and splash screen
+                int random = Random.Range(2, sceneCount-1);//dont include 1 or 0 that will be the main menu and splash screen
                 levelPlaylist.Add(random);
             }
             CreatePlayerUIButton();
@@ -406,7 +412,7 @@ public class GameManager : MonoBehaviour
         if (_gameName == "Whack-A-Mole")
         {
             title.text = _gameName;
-            howToPlayText.text = "-Move your circle around and press A to hit the moles. \n" + "-Highest mole eliminations wins the round and gains a point.\n";
+            howToPlayText.text = "-Move around and press RT to hit the moles. \n" + "-Use your hammer to stun other players. \n" + "-Highest mole eliminations wins the round and gains a point.\n";
         }
     }
     IEnumerator LoadMainMenu()
@@ -521,25 +527,17 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
+    public void ChangeNumberOfRounds()
+    {
+        numberOfRounds = (int)RoundTotal.value;
+        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+    }
     public void SetNumberOfRounds(int _set)//Set in lobby menu
     {
         numberOfRounds = _set;
-        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
-        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
-    }
-    public void IncreaseNumberOfRounds()
-    {
-        numberOfRounds++;
-        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
-        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
-    }
-    public void DecreaseNumberOfRounds()
-    {
-        if (numberOfRounds > 1)
-        {
-            numberOfRounds--;
-        }
-        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        RoundTotal.value = _set;
+        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
         roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
     public int GetNumberOfRounds()//Used at the start of your scene to set your own max round value or to just use 

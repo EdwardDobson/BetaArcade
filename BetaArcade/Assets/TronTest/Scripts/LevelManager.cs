@@ -12,9 +12,16 @@ public class LevelManager : KamilLevelManager
   // Start is called before the first frame update
   protected override void Start()
     {
+    m_RoundEnded = true;
+   // StartGame();
+    }
+
+  public void StartGame()
+    {
     base.Start();
     CountdownTimer.Instance.Run();
     m_IsPaused = true;
+    m_RoundEnded = false;
     m_CurrentRound++;
     }
 
@@ -28,8 +35,10 @@ public class LevelManager : KamilLevelManager
         if(player != null)
           {
           if (m_GameManager != null)
-            m_GameManager.SetPlayerScore(player.GetComponent<PlayerManager>().ID, 2);
-          player.GetComponent<PlayerManager>().IsDead = true;
+            m_GameManager.SetPlayerScore(player.GetComponent<PlayerManager>().ID, 1);
+          player.GetComponentInChildren<Animator>().speed = 1;
+          player.GetComponentInChildren<Animator>().SetBool("HasWon", true);
+          player.GetComponent<PlayerManager>().ToggleFreeze(true);
           }
         // Add 2 to player score for winning
         StartCoroutine(EndRound());
@@ -78,6 +87,6 @@ public class LevelManager : KamilLevelManager
     player.transform.position = new Vector3((10 * m_Players.Count) - 15, 1);
     player.tag = "Player" + m_Players.Count;
     playerScript.ID = m_Players.Count;
-    player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
+    ///player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
     }
   }

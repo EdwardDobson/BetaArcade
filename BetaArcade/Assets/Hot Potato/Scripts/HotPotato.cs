@@ -33,6 +33,8 @@ public class HotPotato : MonoBehaviour
     bool canPassBomb = false;
     bool roundRestarting;
     int playerBombTotal;
+    AudioSource tick;
+    AudioSource explosion;
     void Start()
     {
         maxBombTimer = 5;
@@ -40,6 +42,8 @@ public class HotPotato : MonoBehaviour
         bombTimerText = GameObject.Find("BombTimer").GetComponent<TextMeshProUGUI>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         bombTimerTitle.text = "Bomb Timer: " + maxBombTimer;
+        tick = GetComponent<AudioSource>();
+        explosion = transform.GetChild(0).GetComponent<AudioSource>();
     }
     void LateStart()
     {
@@ -76,6 +80,7 @@ public class HotPotato : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
+                tick.Play();
                 timer = 1;
                 currentBombTimer--;
                 bombTimerText.text = "Bomb Timer: " + currentBombTimer;
@@ -218,6 +223,7 @@ public class HotPotato : MonoBehaviour
                     currentBombTimer = maxBombTimer;
                     StartCoroutine(SwitchBombTarget());
                     increaseInactivePlayers++;
+                    explosion.Play();
                     break;
                 }
             }
