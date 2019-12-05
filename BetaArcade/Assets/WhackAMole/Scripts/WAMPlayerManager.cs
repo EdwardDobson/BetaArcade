@@ -69,7 +69,7 @@ public class WAMPlayerManager : MonoBehaviour
     yield return new WaitForSeconds(2f);
     m_CharacterAnimator.SetTrigger("StandTrigger");
     yield return new WaitForSeconds(1.5f);
-    GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+    GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
     CanSwing = true;
     Destroy(stunEffect);
     m_CharacterAnimator.SetBool("IsStunned", false);
