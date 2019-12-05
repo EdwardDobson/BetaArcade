@@ -10,14 +10,15 @@ public class Dodgeball_PlayerSpawner : MonoBehaviour
     Win_Condition WinCondition;
 
     public int playerCount = 0;
-
+    GameManager gameManager;
     // Start is called before the first frame update
     void Awake()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         WinCondition = GetComponent<Win_Condition>();
-        if (playerCount < 4)
+        if (playerCount < gameManager.GetPlayerCount())
         {
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
             {
                 CreatePlayer();
             }

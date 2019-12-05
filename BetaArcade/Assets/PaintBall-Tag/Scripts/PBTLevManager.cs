@@ -9,16 +9,17 @@ public class PBTLevManager : MonoBehaviour
     private List <GameObject> SpawnPoints = new List<GameObject>(); //list
 
     private int PlayerCount = 0;
-
+    GameManager gameManager;
 
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         foreach (Transform SP in SpawnPointParent.transform)
         {
             SpawnPoints.Add(SP.gameObject);
         }
 
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < gameManager.GetPlayerCount(); i++)
         {
             PlayerCreate();
         }
