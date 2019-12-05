@@ -44,7 +44,7 @@ public class WAMPlayerManager : MonoBehaviour
     if(m_CharacterAnimator != null)
       {
       m_CharacterAnimator.SetFloat("MoveSpeed", GetComponent<Rigidbody>().velocity.magnitude);
-      m_CharacterAnimator.speed = GetComponent<Rigidbody>().velocity.magnitude <= 0.1 ? 1 : Mathf.Abs(GetComponent<Rigidbody>().velocity.magnitude) / 5;
+      //m_CharacterAnimator.speed = GetComponent<Rigidbody>().velocity.magnitude <= 0.1 ? 1 : Mathf.Abs(GetComponent<Rigidbody>().velocity.magnitude) / 5;
       }
     }
 
