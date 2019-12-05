@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8513199682077622401}
   - component: {fileID: 8513199682077622402}
   m_Layer: 0
-  m_Name: 'Gun2-Cylinder '
+  m_Name: 'Pistol-Cylinder '
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,9 +106,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a84f0777ad7fa42a320d77a3c4a4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AmmoSpeed: 100
+  AmmoSpeed: 25
   Damage: 10
-  BulletDelay: 2
+  BulletDelay: 0.5
   AmmoPrefab: {fileID: 2720750492839488757, guid: 449355088b6354749bd49cdaa8a46890,
     type: 3}
   ShootingPoint: {fileID: 8513199683650526201}
@@ -431,7 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8b39cee9c7ce484dae14e3fb45976e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 50
+  Health: 100
 --- !u!82 &7261104279174109653
 AudioSource:
   m_ObjectHideFlags: 0
@@ -543,7 +543,7 @@ GameObject:
   - component: {fileID: 8513199682348031464}
   - component: {fileID: 8513199682348031477}
   m_Layer: 0
-  m_Name: Gun1-Cylinder
+  m_Name: Rocket Launcher-Cylinder
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -635,9 +635,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a84f0777ad7fa42a320d77a3c4a4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AmmoSpeed: 100
-  Damage: 10
-  BulletDelay: 2
+  AmmoSpeed: 200
+  Damage: 40
+  BulletDelay: 3
   AmmoPrefab: {fileID: 2720750492839488757, guid: 449355088b6354749bd49cdaa8a46890,
     type: 3}
   ShootingPoint: {fileID: 8513199682472588819}
@@ -715,12 +715,12 @@ GameObject:
   - component: {fileID: 8513199684034475891}
   - component: {fileID: 8513199684034475888}
   m_Layer: 0
-  m_Name: Gun-Cylinder
+  m_Name: Assault Rifle-Cylinder
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8513199684034475889
 Transform:
   m_ObjectHideFlags: 0
@@ -807,9 +807,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a84f0777ad7fa42a320d77a3c4a4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AmmoSpeed: 100
-  Damage: 10
-  BulletDelay: 2
+  AmmoSpeed: 50
+  Damage: 20
+  BulletDelay: 1
   AmmoPrefab: {fileID: 2720750492839488757, guid: 449355088b6354749bd49cdaa8a46890,
     type: 3}
   ShootingPoint: {fileID: 8513199682173205829}
