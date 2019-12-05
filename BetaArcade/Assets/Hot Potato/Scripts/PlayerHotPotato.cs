@@ -27,12 +27,14 @@ public class PlayerHotPotato : MonoBehaviour
             bombImage.SetActive(true);
             canTakeBomb = false;
             gameManager.PlayerPictures[GetComponent<PlayerMove>().ID - 1].transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "has the bomb";
+            GetComponent<PlayerMove>().SetSpeed(12);
         }
         if(!hasBomb)
         {
             bombImage.SetActive(false);
             canTakeBomb = true;
             gameManager.PlayerPictures[GetComponent<PlayerMove>().ID-1].transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
+            GetComponent<PlayerMove>().SetSpeed(10);
         }
      
     }
