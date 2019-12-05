@@ -4953,16 +4953,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: character
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 56da8606b00473c42911807b11868617,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 10a9bd4ed031a3846bb2f67ea7db5519, type: 2}
-    - target: {fileID: -6057140222963153312, guid: 56da8606b00473c42911807b11868617,
-        type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 56da8606b00473c42911807b11868617,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5033,6 +5023,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 56da8606b00473c42911807b11868617,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 10a9bd4ed031a3846bb2f67ea7db5519, type: 2}
+    - target: {fileID: -6057140222963153312, guid: 56da8606b00473c42911807b11868617,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7780734103960978560, guid: 56da8606b00473c42911807b11868617,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5fdc2a82a8ed8bd418c8b152f725825c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56da8606b00473c42911807b11868617, type: 3}
 --- !u!4 &1979371895707743643 stripped
