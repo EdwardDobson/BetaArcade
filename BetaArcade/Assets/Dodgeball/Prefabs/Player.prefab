@@ -107,8 +107,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d748f31fc79cc43478c37081fd1566bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   ID: 1
 --- !u!54 &4030777183551942062
 Rigidbody:
@@ -136,8 +136,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30354f74d81e28f4cb66b1916f2a9d8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   score: 0
   pointMat: {fileID: 0}
 --- !u!65 &3216302817683100051
@@ -151,8 +151,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.3892202, y: 1, z: 0.61263895}
-  m_Center: {x: 0.018616915, y: 0, z: 0.80467737}
+  m_Size: {x: 1.1191862, y: 1, z: 0.27776694}
+  m_Center: {x: -0.008829474, y: 0, z: 0.63724136}
 --- !u!114 &3216302817683100050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b230fd8702b9404a8223f8c91f98a60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   speed: 20
   canHold: 1
   ChildBall: {fileID: 0}
@@ -194,7 +194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4030777184476572530}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.14199996, y: 0.48299998, z: 1.033}
+  m_LocalPosition: {x: 0, y: 0.5, z: 1.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4030777183551942063}
