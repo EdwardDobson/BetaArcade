@@ -20,27 +20,27 @@ public class LightUp : MonoBehaviour
         {
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         }
-            GetComponent<Renderer>().material.SetColor("_BaseColor", LightColour(ID));
+            GetComponent<Renderer>().material.SetColor("_Colour", LightColour(ID));
             transform.GetChild(0).gameObject.SetActive(true);
       
         if (ID == 3 && gameManager.GetPlayerCount() > 2)
         {
-            GetComponent<Renderer>().material.SetColor("_BaseColor", LightColour(ID));
+            GetComponent<Renderer>().material.SetColor("_Colour", LightColour(ID));
             transform.GetChild(0).gameObject.SetActive(true);
         }
         if (ID == 4 && gameManager.GetPlayerCount() > 3)
         {
-            GetComponent<Renderer>().material.SetColor("_BaseColor", LightColour(ID));
+            GetComponent<Renderer>().material.SetColor("_Colour", LightColour(ID));
             transform.GetChild(0).gameObject.SetActive(true);
         }
         if (ID == 4 && gameManager.GetPlayerCount() < 4)
         {
-            GetComponent<Renderer>().material.SetColor("_BaseColor", Color.white);
+            GetComponent<Renderer>().material.SetColor("_Colour", Color.white);
             transform.GetChild(0).gameObject.SetActive(false);
         }
         if (ID == 3 && gameManager.GetPlayerCount() < 3)
         {
-            GetComponent<Renderer>().material.SetColor("_BaseColor", Color.white);
+            GetComponent<Renderer>().material.SetColor("_Colour", Color.white);
             transform.GetChild(0).gameObject.SetActive(false);
         }
     }
