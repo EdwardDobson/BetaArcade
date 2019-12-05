@@ -13,7 +13,7 @@ public class BombermanExplosion : MonoBehaviour
     }
 	void Finish()
 	{
-		Destroy(this.gameObject);
+		Destroy(gameObject);
 	}
     // Update is called once per frame
     void Update()

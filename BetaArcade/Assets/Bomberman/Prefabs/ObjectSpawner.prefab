@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9017403271137258681}
   - component: {fileID: 9017403271137258630}
-  - component: {fileID: 8803401641697793903}
-  - component: {fileID: 8803401641697793902}
   m_Layer: 0
   m_Name: ObjectSpawner
   m_TagString: Untagged
@@ -55,41 +53,8 @@ MonoBehaviour:
   maxTime: 2
   objectId: 0
   Objects:
-  - {fileID: 370541212449628546, guid: 8c1e37c6d5c5aa7468b504508fcf6b18, type: 3}
+  - {fileID: 8707230087966893501, guid: bf7828777aff9324a84b00b5dcc9019d, type: 3}
+  - {fileID: 98351048627005690, guid: 00b6238037650c343904021734f6d92d, type: 3}
+  - {fileID: 6579385602955041038, guid: 438ea00263e8f33498afdf4226f1054d, type: 3}
   isRounding: 1
---- !u!114 &8803401641697793903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9017403271137258680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3c7c49fb3ba09f408b40f3b4c2da437, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Player: {fileID: 5795757667461715645, guid: 886d89c4f9b74ed48b0dd5d400c3637e, type: 3}
-  SpawnPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  players: []
---- !u!114 &8803401641697793902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9017403271137258680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f49072f469824943a33c583a2c1981e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseRoundTimer: 60
-  roundMax: 0
-  currentRound: 0
-  remainingPlayers: 1
-  isVictory: 0
+  isActive: 0

@@ -40,7 +40,7 @@ public class ImpulseBomb : MonoBehaviour
 	}
 	void Finished()
 	{
-		Destroy(this.gameObject);
+		Destroy(gameObject);
 	}
 
 }

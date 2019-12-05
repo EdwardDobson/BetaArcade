@@ -16,7 +16,7 @@ public class PlayerHotPotato : MonoBehaviour
     {
         bombImage = transform.GetChild(0).GetChild(1).gameObject;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        stunned = GetComponent<AudioSource>();
+        stunned = transform.GetChild(0).GetChild(0).GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

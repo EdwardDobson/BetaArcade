@@ -35,6 +35,7 @@ public class Shooting : MonoBehaviour
         GameObject BulletInstance = Instantiate(AmmoPrefab, ShootingPoint.position, Quaternion.identity);
         Rigidbody BulletRigidbodyInstance = BulletInstance.GetComponent<Rigidbody>();
         BulletRigidbodyInstance.velocity = ShootingPoint.forward * AmmoSpeed;
+        Physics.IgnoreCollision(BulletInstance.GetComponent<Collider>(), GetComponent<Collider>());
      
     }
 }

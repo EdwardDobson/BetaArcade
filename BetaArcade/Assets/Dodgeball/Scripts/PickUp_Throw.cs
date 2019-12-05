@@ -44,7 +44,6 @@ public class PickUp_Throw : MonoBehaviour
                     //We re-position the ball on our guide object
             ChildBall.transform.position = guide.position;
         }
-
     }
 
     void OnTriggerEnter(Collider col)
@@ -65,13 +64,16 @@ public class PickUp_Throw : MonoBehaviour
         //We set the object parent to our guide empty object i.e become it's child
         ChildBall.transform.SetParent(guide);
 
+        ChildBall.gameObject.tag = "B"+id;
+
         //Set gravity to false while holding it
         ChildBall.GetComponent<Rigidbody>().useGravity = false;
+        ChildBall.GetComponent<Rigidbody>().detectCollisions = false;
 
         ChildBall.GetComponent<Rigidbody>().velocity = new Vector3(0f,0f,0f);
 
         //we apply the same rotation our main object (Camera) has.
-        ChildBall.transform.localRotation = this.transform.rotation;
+        ChildBall.transform.localRotation = transform.rotation;
 
         //Set the ball to be active
         canHold = false;
@@ -86,6 +88,8 @@ public class PickUp_Throw : MonoBehaviour
 
         //Set our Gravity to true again.
         ChildBall.GetComponent<Rigidbody>().useGravity = true;
+        ChildBall.GetComponent<Rigidbody>().detectCollisions = true;
+
 
         // we don't have anything to do with our ball anymore
         ChildBall = null;

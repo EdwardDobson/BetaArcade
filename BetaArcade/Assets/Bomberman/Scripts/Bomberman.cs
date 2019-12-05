@@ -1,23 +1,81 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Bomberman : MonoBehaviour
 {
 	public BombermanRoundManager manager;
-	public GameObject bombPrefab;
+	[SerializeField]
+	GameObject bombPrefab;
 	PlayerMove player;
 	public Transform myTransform;
 	public bool isDead = false;
 	[SerializeField]
-	float baseCooldown = 1.5f;
-	float cooldown = 0.0f;
+	float baseRegen = 1.5f;
+	[SerializeField]
+	float regenRate = 0.0f;
+	[SerializeField]
+	float baseBombPower = 3.0f;
+	[SerializeField]
+	float bombPower = 0.0f;
+	[SerializeField]
+	float baseBombMax = 3.0f;
+	[SerializeField]
+	float bombMax = 0.0f;
+	[SerializeField]
+	float bombsRemaining = 0.0f;
+	[SerializeField]
+	TextMeshProUGUI powerText;
 
+	public float GetBombPower()
+	{
+		Debug.Log("Bomb power is: " + bombPower);
+		return bombPower;
+	}
+	public void AddBombPower(int power)
+	{
+		bombPower += power;
+		UpdateUI();
+	}
+	public void ResetPowers()
+	{
+		bombPower = baseBombMax;
+		bombPower = baseBombPower;
+		regenRate = baseRegen;
+		UpdateUI();
+	}
+	public bool GetIsDead()
+	{
+		return isDead;
+	}
 	//add global reference here
 	void Start()
 	{
-		cooldown = baseCooldown;
+		bombPower = baseBombPower;
+		bombMax = baseBombMax;
+		bombsRemaining = baseBombMax;
+		regenRate = baseRegen;
+		manager = FindObjectOfType<BombermanRoundManager>();
 		player = GetComponent<PlayerMove>();
+		switch (player.ID)
+		{
+			case 1:
+				powerText = GameObject.Find("Player1 Text").GetComponent<TextMeshProUGUI>();
+				break;
+			case 2:
+				powerText = GameObject.Find("Player2 Text").GetComponent<TextMeshProUGUI>();
+				break;
+			case 3:
+				powerText = GameObject.Find("Player3 Text").GetComponent<TextMeshProUGUI>();
+				break;
+			case 4:
+				powerText = GameObject.Find("Player4 Text").GetComponent<TextMeshProUGUI>();
+				break;
+			default:
+				break;
+		}
+		UpdateUI();
 	}
 
 	private void OnTriggerEnter(Collider other)
@@ -27,11 +85,34 @@ public class Bomberman : MonoBehaviour
 			Debug.Log("Death Detected");
 			PlayerDied(); //replace with health loss
 		}
+		if(other.CompareTag("Powerup"))
+		{
+			switch (other.GetComponent<BombermanPowerupData>().GetPowerupID())
+			{
+				case 0:
+					bombPower += 0.5f;
+					UpdateUI();
+					break;
+				case 1:
+					bombMax += 0.5f;
+					UpdateUI();
+					break;
+				case 2:
+					if(regenRate>0.5f)
+					{
+						regenRate -= 0.05f;
+					}
+					break;
+				default:
+					Debug.Log("Powerup Error");
+					break;
+			}
+		}
 	}
-	private void PlayerDied() //will probably need player id from global or something
+	private void PlayerDied()
 	{
 		isDead = true;
-		manager.PlayerDown();
+		manager.PlayerDown(player.ID);
 		//global point allocation
 		gameObject.SetActive(false);
 	}
@@ -40,17 +121,38 @@ public class Bomberman : MonoBehaviour
 	{
 		if (bombPrefab)
 		{
-			Instantiate(bombPrefab, new Vector3(Mathf.RoundToInt(myTransform.position.x) + 0.5f, Mathf.RoundToInt(myTransform.position.y), Mathf.RoundToInt(myTransform.position.z) + 0.5f), bombPrefab.transform.rotation);
+			bombsRemaining--;
+			GameObject clone = Instantiate(bombPrefab, new Vector3(Mathf.RoundToInt(myTransform.position.x) + 0.5f, Mathf.RoundToInt(myTransform.position.y), Mathf.RoundToInt(myTransform.position.z) - 0.5f), bombPrefab.transform.rotation);
+			clone.transform.SetParent(transform);
+			Debug.Log("Bomb dropped");
 		}
+	}
+
+	void UpdateUI()
+	{
+		Mathf.CeilToInt(bombPower);
+		Mathf.CeilToInt(bombsRemaining);
+		powerText.text = "Player" + player.ID + "\nPower: " + bombPower + "\nBombs: " + bombsRemaining + "/" + bombMax;
 	}
 
 	void Update()
 	{
-        cooldown -= Time.deltaTime;
-		if (Input.GetButtonDown("Jump"+player.ID) && cooldown <= 0)
+        regenRate -= Time.deltaTime;
+		if(regenRate<= 0.0f)
+		{
+			regenRate = baseRegen;
+			bombsRemaining++;
+			if(bombsRemaining>bombMax)
+			{
+				bombsRemaining = bombMax;
+			}
+			UpdateUI();
+		}
+		if (Input.GetButtonDown("Jump"+player.ID) && bombsRemaining > 0)
 		{
 			Debug.Log("Bomb button got");
 			DropBomb();
+			UpdateUI();
 		}
 	}
 }

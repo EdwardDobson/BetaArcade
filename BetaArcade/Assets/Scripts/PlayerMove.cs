@@ -8,10 +8,10 @@ public class PlayerMove : MonoBehaviour
     AudioSource Jump;
     AudioSource Walk;
     private float originalSpeed = 15f;
-    private float speed = 15f;
+    private float speed = 60f;
     private float maxSpeed = 5f;
-    private float jumpSpeed = 180.0f;
-    private float rotationSpeed = 12.5f;
+    private float jumpSpeed = 600.0f;
+    private float rotationSpeed = 25f;
     private float dashSpeed = 8.0f;
     private float distanceToGround;
     private Vector3 movement;
@@ -30,6 +30,10 @@ public class PlayerMove : MonoBehaviour
     float dashTimer = 0.5f;
     [SerializeField]
     float shoveTimer = 0.5f;
+	[SerializeField]
+	bool jumpEnabled = true; //used in bomberman to disable the jump function
+	[SerializeField]
+	bool rotationEnabled = true;
     Slider dashSlider;
     Slider shoveSlider;
     // Start is called before the first frame update
@@ -40,6 +44,7 @@ public class PlayerMove : MonoBehaviour
         distanceToGround = GetComponent<Collider>().bounds.extents.y;
         Walk = GetComponent<AudioSource>();
         Jump = transform.GetChild(0).GetComponent<AudioSource>();
+
     }
     void LateStart()
     {
@@ -49,7 +54,7 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
 
-        if (isGrounded && !isFrozen)
+        if (isGrounded && !isFrozen && jumpEnabled)
         {
             if (Input.GetButtonDown("Jump" + ID))
             {
@@ -125,7 +130,7 @@ public class PlayerMove : MonoBehaviour
                 Push();
                 StartCoroutine(ResetShove());
             }
-            if (lookDir.magnitude > 0.5)
+            if (lookDir.magnitude > 0.5 && rotationEnabled == true)
             {
                 Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
                 transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);

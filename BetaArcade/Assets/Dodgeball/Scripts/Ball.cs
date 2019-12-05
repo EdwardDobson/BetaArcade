@@ -21,7 +21,12 @@ public class Ball : MonoBehaviour
     {
         if (col.gameObject.tag == "Player1" || col.gameObject.tag == "Player2" || col.gameObject.tag == "Player3" || col.gameObject.tag == "Player4")
         {
-            if (IsActive) // if the player doesn't have anything
+            if (this.tag=="B1" && col.gameObject.tag == "Player1" || this.tag == "B2" && col.gameObject.tag == "Player2" || this.tag == "B3" && col.gameObject.tag == "Player3" || this.tag == "B4" && col.gameObject.tag == "Player4")
+            {
+                Debug.Log("Player hit themselves");
+                return;
+            }
+            if (IsActive)
             {
                 col.gameObject.SetActive(false);
                 IsActive = false;
@@ -29,6 +34,13 @@ public class Ball : MonoBehaviour
             }
             Debug.Log("Player Down");
         }
+
+        if (col.gameObject.tag == "Ground")
+        {
+            IsActive = false;
+        }
+
+        this.tag = "Ball";
     }
 
     public void BallThrown()

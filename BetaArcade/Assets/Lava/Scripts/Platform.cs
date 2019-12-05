@@ -12,6 +12,6 @@ public class Platform : MonoBehaviour
     }
 	void PlatformDelete()
 	{
-		Destroy(this.gameObject);
+		Destroy(gameObject);
 	}
 }

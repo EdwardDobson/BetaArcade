@@ -12,16 +12,13 @@ public class BombermanSpawn : MonoBehaviour
 	Transform playerHolder;
 	private int playerCount = 0;
 	GameManager gameManager;
+	BombermanRoundManager roundManager;
 	// Start is called before the first frame update
 	void Start()
 	{
-
+		roundManager = GameObject.FindObjectOfType<BombermanRoundManager>();
 		playerHolder = GameObject.Find("PlayerHolder").transform;
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
-		Invoke("LateStart", 0.1f);
-
-
 	}
 	private void LateStart()
 	{
@@ -30,16 +27,19 @@ public class BombermanSpawn : MonoBehaviour
 			for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
 			{
 				CreatePlayer();
-
 			}
-
-
 		}
 	}
 	// Update is called once per frame
 	void Update()
 	{
-
+		if(roundManager.hasStarted && !roundManager.hasInitialised)
+		{
+			roundManager.hasInitialised = true;
+			LateStart();
+			HazardSpawner spawner = GameObject.FindObjectOfType<HazardSpawner>();
+			spawner.SetActive(true);
+		}
 	}
 	public void CreatePlayer()
 	{
@@ -52,6 +52,27 @@ public class BombermanSpawn : MonoBehaviour
 		player.GetComponent<PlayerMove>().ID = playerCount;
 		player.transform.SetParent(playerHolder);
 		players.Add(player);
+	}
+	public void ResetPositions()
+	{
+		for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
+		{
+			players[i].transform.position = SpawnPoints[i].position;
+			players[i].GetComponent<Bomberman>().ResetPowers();
+			players[i].SetActive(true);
+		}
+	}
+	public List<GameObject> RemainingPlayers()
+	{
+		List<GameObject> tmp = new List<GameObject>();
+		for(int i = 0; i < gameManager.GetPlayerCount(); ++i)
+		{
+			if(players[i].GetComponent<Bomberman>().GetIsDead() == false)
+			{
+				tmp.Add(players[i]);
+			}
+		}
+		return tmp;
 	}
 	private Color PlayerIDToColor(int id)
 	{
