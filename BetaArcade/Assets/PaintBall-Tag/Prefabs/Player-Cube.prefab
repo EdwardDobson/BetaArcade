@@ -107,6 +107,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AmmoSpeed: 100
+  Damage: 10
+  BulletDelay: 2
   AmmoPrefab: {fileID: 2720750492839488757, guid: 449355088b6354749bd49cdaa8a46890,
     type: 3}
   ShootingPoint: {fileID: 8513199683650526201}
@@ -134,7 +136,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8513199682173205946}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.982, z: -0}
+  m_LocalPosition: {x: 0, y: -1.35, z: -0}
   m_LocalScale: {x: 2.0212245, y: 2.021223, z: 2.021223}
   m_Children: []
   m_Father: {fileID: 8513199684034475889}
@@ -187,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponSelection: 0
+  ID: 1
 --- !u!1 &8513199682280938174
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,6 +204,7 @@ GameObject:
   - component: {fileID: 8513199682280938171}
   - component: {fileID: 8513199682280938168}
   - component: {fileID: 8513199682280938169}
+  - component: {fileID: -8958474273855250491}
   m_Layer: 0
   m_Name: Player-Cube
   m_TagString: Player
@@ -294,6 +298,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1
+  shoveForce: 0
+  shoveRadius: 0
+  dashTimer: 0.5
+  shoveTimer: 0.5
 --- !u!54 &8513199682280938169
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -310,6 +318,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &-8958474273855250491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8513199682280938174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b39cee9c7ce484dae14e3fb45976e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 50
 --- !u!1 &8513199682348031470
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,6 +438,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AmmoSpeed: 100
+  Damage: 10
+  BulletDelay: 2
   AmmoPrefab: {fileID: 2720750492839488757, guid: 449355088b6354749bd49cdaa8a46890,
     type: 3}
   ShootingPoint: {fileID: 8513199682472588819}
@@ -444,7 +467,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8513199682472588816}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.436, z: 0}
+  m_LocalPosition: {x: 0, y: -0.612, z: -0}
   m_LocalScale: {x: 2.0212245, y: 2.021223, z: 2.021223}
   m_Children: []
   m_Father: {fileID: 8513199682348031465}
@@ -474,7 +497,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8513199683650526206}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.982, z: -0}
+  m_LocalPosition: {x: 0, y: -3.27, z: -0}
   m_LocalScale: {x: 2.0212245, y: 2.021223, z: 2.021223}
   m_Children: []
   m_Father: {fileID: 8513199682077622406}
@@ -587,6 +610,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AmmoSpeed: 100
+  Damage: 10
+  BulletDelay: 2
   AmmoPrefab: {fileID: 2720750492839488757, guid: 449355088b6354749bd49cdaa8a46890,
     type: 3}
   ShootingPoint: {fileID: 8513199682173205829}
