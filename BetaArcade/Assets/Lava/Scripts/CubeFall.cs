@@ -5,16 +5,18 @@ using UnityEngine;
 public class CubeFall : MonoBehaviour
 {
 
-    public Vector3 startPos;
-    public Vector3 endPos;
-    public bool falling;
+    private Vector3 startPos;
+    private Vector3 endPos;
+    private bool falling;
     public float speed;
+    public float fallWait;
+    public float respawn;
 
     // Start is called before the first frame update
     void Start()
     {
         startPos = transform.position;
-        endPos = new Vector3(transform.position.x, transform.position.y - 20, transform.position.z);
+        endPos = new Vector3(transform.position.x, transform.position.y - 30, transform.position.z);
     }
 
     // Update is called once per frame
@@ -29,7 +31,7 @@ public class CubeFall : MonoBehaviour
         }
     }
 
-    void OnCollisionExit(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         //Check for a match with the specific tag on any GameObject that collides with your GameObject
         if (collision.gameObject.tag == "Player")
@@ -40,13 +42,13 @@ public class CubeFall : MonoBehaviour
 
     IEnumerator waitplz()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(fallWait);
         fall();
         falling = false;
     }
     IEnumerator reverseplz()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(respawn);
         reverse();
     }
 
