@@ -87,6 +87,6 @@ public class LevelManager : KamilLevelManager
     player.transform.position = new Vector3((10 * m_Players.Count) - 15, 1);
     player.tag = "Player" + m_Players.Count;
     playerScript.ID = m_Players.Count;
-    ///player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
+    LevelManagerTools.SetPlayerColor(player, m_Players.Count);
     }
   }

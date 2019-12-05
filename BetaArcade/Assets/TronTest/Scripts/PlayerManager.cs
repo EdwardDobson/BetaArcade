@@ -55,7 +55,7 @@ public class PlayerManager : MonoBehaviour
       var trailScript = trail.GetComponent<TrailScript>();
       trail.transform.position = transform.position;
       trail.transform.SetParent(m_TrailParent.transform);
-      //trail.GetComponent<Renderer>().material.SetColor("_BaseColor", GetComponent<Renderer>().material.GetColor("_BaseColor"));
+      trail.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(ID));
       trailScript.ID = ID;
 
       if (Input.GetButton("Dash" + ID))
