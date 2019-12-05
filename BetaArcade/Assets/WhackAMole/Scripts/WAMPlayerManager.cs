@@ -44,7 +44,7 @@ public class WAMPlayerManager : MonoBehaviour
     if(m_CharacterAnimator != null)
       {
       m_CharacterAnimator.SetFloat("MoveSpeed", GetComponent<Rigidbody>().velocity.magnitude);
-      m_CharacterAnimator.speed = GetComponent<Rigidbody>().velocity.magnitude <= 0.1 ? 1 : Mathf.Abs(GetComponent<Rigidbody>().velocity.magnitude) / 5;
+      //m_CharacterAnimator.speed = GetComponent<Rigidbody>().velocity.magnitude <= 0.1 ? 1 : Mathf.Abs(GetComponent<Rigidbody>().velocity.magnitude) / 5;
       }
     }
 
@@ -69,7 +69,7 @@ public class WAMPlayerManager : MonoBehaviour
     yield return new WaitForSeconds(2f);
     m_CharacterAnimator.SetTrigger("StandTrigger");
     yield return new WaitForSeconds(1.5f);
-    GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+    GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
     CanSwing = true;
     Destroy(stunEffect);
     m_CharacterAnimator.SetBool("IsStunned", false);
