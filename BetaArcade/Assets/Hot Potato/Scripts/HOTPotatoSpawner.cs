@@ -44,7 +44,7 @@ public class HOTPotatoSpawner : MonoBehaviour
         player.transform.SetParent(GameObject.Find("HotPotatoManager").transform);
         playerCount++;
         player.tag = "Player" + playerCount;
-        player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
+        player.GetComponent<Renderer>().material.SetColor("_Colour", PlayerIDToColor(playerCount));
         player.GetComponent<PlayerMove>().ID = playerCount;
         hotPotato.players.Add(player);
     }
