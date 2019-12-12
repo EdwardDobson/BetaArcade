@@ -69,16 +69,15 @@ public class Win_Condition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //point = GetComponent<PointMove>();
-        //roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
-        //scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
-        //winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
-        //inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
+        roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
+        scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
+        winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
+        inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
         DodgballPlayerSpawner = GetComponent<Dodgeball_PlayerSpawner>();
         maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
         B = GameObject.Find("Ball").GetComponent<Ball>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        //roundText.text = "Round: 1 of " + maxRound;
+        roundText.text = "Round: 1 of " + maxRound;
     }
 
     // Update is called once per frame
@@ -94,7 +93,7 @@ public class Win_Condition : MonoBehaviour
         {
             //otherPlayers[i].GetComponent<PointCollide>().SetScore(scoreIncreaseValue);
             //gameManager.PlayerUIs[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: " + otherPlayers[i].GetComponent<PointCollide>().GetScore();
-            //scoreIncrease.Play();
+            scoreIncrease.Play();
             timer = 0;
         }
     }
@@ -111,30 +110,31 @@ public class Win_Condition : MonoBehaviour
                     {
                         if (otherPlayers[i].activeSelf)
                         {
-                            //inPointText.text = otherPlayers[i].tag + " is the last alive";
-                            //point.gameObject.GetComponent<MeshRenderer>().material = otherPlayers[i].GetComponent<PointCollide>().pointMat;
+                            inPointText.text = otherPlayers[i].tag + " is the last alive";
                             if (otherPlayers[i].tag == "Player1")
                             {
-                                //gameManager.SetPlayerOneScore(1);
                                 playerOneInGameScore++;
+
+                                gameManager.SetPlayerOneScore(1);
                                 NextRound();
                             }
                             if (otherPlayers[i].tag == "Player2")
                             {
-                                //gameManager.SetPlayerTwoScore(1);
                                 playerTwoInGameScore++;
+
+                                gameManager.SetPlayerTwoScore(1);
                                 NextRound();
                             }
                             if (otherPlayers[i].tag == "Player3")
                             {
-                                //gameManager.SetPlayerThreeScore(1);
                                 playerThreeInGameScore++;
+                                gameManager.SetPlayerThreeScore(1);
                                 NextRound();
                             }
                             if (otherPlayers[i].tag == "Player4")
                             {
-                                //gameManager.SetPlayerFourScore(1);
                                 playerFourInGameScore++;
+                                gameManager.SetPlayerFourScore(1);
                                 NextRound();
                             }
                         }
