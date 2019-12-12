@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3819059277035134400}
   - component: {fileID: 992195376059564478}
   m_Layer: 0
-  m_Name: Plane (1)
+  m_Name: DiscoFloor
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: e9197c7b535659747bf1eb7d60781895, type: 2}
   - {fileID: 2100000, guid: 311ee39abc948b94d905fb27cc01d6e2, type: 2}
   - {fileID: 2100000, guid: 64430b582d9835441b210d838d19b5b3, type: 2}
-  changeInterval: 0.35
+  changeInterval: 0.5
   rend: {fileID: 2960961691979021402}
   Timer: 0
   textureIndex: 0
