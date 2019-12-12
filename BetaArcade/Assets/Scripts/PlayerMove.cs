@@ -10,7 +10,7 @@ public class PlayerMove : MonoBehaviour
     private float originalSpeed = 15f;
     private float speed = 60f;
     private float maxSpeed = 5f;
-    private float jumpSpeed = 600.0f;
+    private float jumpSpeed = 300.0f;
     private float rotationSpeed = 25f;
     private float dashSpeed = 8.0f;
     private float distanceToGround;
@@ -58,6 +58,7 @@ public class PlayerMove : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump" + ID))
             {
+              
                 if (bigJumps > 0)
                 {
                     rb.AddForce(Vector3.up * jumpSpeed * 2f);
@@ -82,6 +83,7 @@ public class PlayerMove : MonoBehaviour
                         }
                     }
                 }
+            
                 Jump.Play();
             }
             if (Input.GetButtonDown("Dash" + ID) && !hasDashed)
@@ -106,6 +108,11 @@ public class PlayerMove : MonoBehaviour
                 Walk.Play();
             }
         }
+        if(!isGrounded && rb.velocity.y <= 0)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y -( 2 * Time.deltaTime), transform.position.z);
+        }
+
     }
 
     // Update is called once per frame
@@ -120,8 +127,13 @@ public class PlayerMove : MonoBehaviour
             //if(rb.velocity.sqrMagnitude < maxSpeed)
             //rb.AddForce(Time.deltaTime * movement.x * speed, 0, Time.deltaTime * movement.z * speed, ForceMode.VelocityChange);
             if (Mathf.Abs(rb.velocity.z) > maxSpeed || Mathf.Abs(rb.velocity.x) > maxSpeed)
+            {
+                float y = rb.velocity.y;
                 rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-
+                rb.velocity = new Vector3(rb.velocity.x,y,rb.velocity.z);
+            }
+               
+        
             Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
             if (Input.GetButton("Shove" + ID) && !hasPushed)
             {
@@ -154,6 +166,11 @@ public class PlayerMove : MonoBehaviour
         shoveTimer = 0.5f;
         shoveSlider.value = shoveTimer;
     }
+    public void SetSpeed(int _speed)
+    {
+        maxSpeed = _speed;
+
+    }
     void Push()
     {
 
@@ -164,7 +181,7 @@ public class PlayerMove : MonoBehaviour
             Rigidbody rb = hit.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 3.0f);
+                rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 0.8f);
             }
         }
     }

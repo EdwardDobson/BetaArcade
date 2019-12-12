@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI roundCountText2;
     public Slider RoundTotal;
     public Slider PlayerTotal;
+    public Slider RoundTotal2;
+    public Slider PlayerTotal2;
     #region TutorialScreen
     public TextMeshProUGUI title;
     public TextMeshProUGUI howToPlayText;
@@ -63,10 +65,11 @@ public class GameManager : MonoBehaviour
         winScreen = transform.GetChild(0).gameObject;
         gameModeList.text = "Game Modes \n";
         nextLevelButtonText = transform.GetChild(0).GetChild(0).GetChild(5).GetChild(0).GetComponent<TextMeshProUGUI>();
-        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
-        roundCountText2.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
         playerTotal = (int)PlayerTotal.value;
         numberOfRounds = (int)RoundTotal.value;
+
     }
 
     // Update is called once per frame
@@ -149,14 +152,23 @@ public class GameManager : MonoBehaviour
     {
         playerTotal = 2;
         PlayerTotal.value = 2;
+        PlayerTotal2.value = 2;
         playerTotalText.text = "Player Total: " + playerTotal;
         playerTotalText2.text = "Player Total: " + playerTotal;
     }
-    public void ChangePlayerCount()
+    public void ChangePlayerCount(int _id)
     {
-        playerTotal = (int)PlayerTotal.value;
-        playerTotalText.text = "Player Total: " + playerTotal;
-        playerTotalText2.text = "Player Total: " + playerTotal;
+        if(_id == 1)
+        {
+            playerTotal = (int)PlayerTotal.value;
+            playerTotalText.text = "Player Total: " + playerTotal;
+        }
+        if (_id == 2)
+        {
+            playerTotal = (int)PlayerTotal2.value;
+
+            playerTotalText2.text = "Player Total: " + playerTotal;
+        }
     }
 
   public void Countdown()
@@ -527,17 +539,25 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
-    public void ChangeNumberOfRounds()
+    public void ChangeNumberOfRounds(int _id)
     {
-        numberOfRounds = (int)RoundTotal.value;
-        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
-        roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        if (_id == 1)
+        {
+            numberOfRounds = (int)RoundTotal.value;
+            roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        }
+        if (_id == 2)
+        {
+            numberOfRounds = (int)RoundTotal2.value;
+            roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
+        }
     }
     public void SetNumberOfRounds(int _set)//Set in lobby menu
     {
         numberOfRounds = _set;
         RoundTotal.value = _set;
-        roundCountText.text = "  Round Total \nPer Game Mode: " + numberOfRounds;
+        PlayerTotal2.value = _set;
+        roundCountText.text = "Round Total \nPer Game Mode: " + numberOfRounds;
         roundCountText2.text = "Round Total \nPer Game Mode: " + numberOfRounds;
     }
     public int GetNumberOfRounds()//Used at the start of your scene to set your own max round value or to just use 

@@ -46,7 +46,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField]
     bool startGame;
     bool gameStarted = false;
-  public  float pointDrainTimer = 1;
+    public  float pointDrainTimer = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -140,6 +140,12 @@ public class ScoreManager : MonoBehaviour
                         child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[3].position;
                     }
                    StartCoroutine(RespawnPlayer(child));
+                    foreach (Transform t in PlayerUI.transform)
+                    {
+                        t.GetChild(0).GetComponent<Slider>().value = t.GetChild(0).GetComponent<Slider>().maxValue;
+                        t.GetChild(7).GetComponent<Slider>().value = t.GetChild(7).GetComponent<Slider>().maxValue;
+                       
+                    }
                 }
             }
       
@@ -306,6 +312,7 @@ public class ScoreManager : MonoBehaviour
         {
             otherPlayers[i].GetComponent<Rigidbody>().mass = 200;
         }
+        inPointCount = 0;
         yield return new WaitForSeconds(3);
         point.ResetTimer();
         canGainPoints = true;
