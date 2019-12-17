@@ -21,9 +21,8 @@ public class SettingsMenu : MonoBehaviour
     Resolution[] resolutions;
     public void Start()
     {
-        isFullscreen = PlayerPrefs.GetInt("Fullscreen") == 1 ? true : false;
-        Screen.fullScreen = isFullscreen;
-        fullscreenToggle.isOn = isFullscreen;
+        SetFullscreen(PlayerPrefs.GetInt("Fullscreen") == 1 ? true : false);
+        fullscreenToggle.isOn = Screen.fullScreen;
         Screen.SetResolution(1920, 1080, Screen.fullScreen);
         master.audioMixer.SetFloat("MasterVolume", PlayerPrefs.GetFloat("VolumeMaster"));
         effects.audioMixer.SetFloat("EffectsVolume", PlayerPrefs.GetFloat("VolumeEffects"));
