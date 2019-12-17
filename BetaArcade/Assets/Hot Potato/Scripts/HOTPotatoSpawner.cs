@@ -39,7 +39,6 @@ public class HOTPotatoSpawner : MonoBehaviour
     }
     public void CreatePlayer()
     {
-
         GameObject player = Instantiate(Player);
         player.transform.position = SpawnPoints[playerCount].position;
         playerCount++;
@@ -47,8 +46,6 @@ public class HOTPotatoSpawner : MonoBehaviour
         player.GetComponent<Renderer>().material.SetColor("_Color", PlayerIDToColor(playerCount));
         player.GetComponent<PlayerMove>().ID = playerCount;
         hotPotato.players.Add(player);
-        Debug.Log("Player Colour " + player.GetComponent<Renderer>().material.color);
-        Debug.Log("Player Colour Number " + PlayerIDToColor(playerCount));
     }
     private Color PlayerIDToColor(int id)
     {
