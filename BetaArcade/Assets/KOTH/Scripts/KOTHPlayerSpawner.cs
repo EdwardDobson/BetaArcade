@@ -41,7 +41,6 @@ public class KOTHPlayerSpawner : MonoBehaviour
         playerCount++;
         player.tag = "Player" + playerCount;
         player.GetComponent<Renderer>().material.SetColor("_Color", PlayerIDToColor(playerCount));
-        player.transform.GetChild(2).GetComponent<ParticleSystem>().startColor = (PlayerIDToColor(playerCount));
         player.GetComponent<PlayerMove>().ID = playerCount;
         player.transform.SetParent(playerHolder);
         scoreManager.otherPlayers.Add(player);

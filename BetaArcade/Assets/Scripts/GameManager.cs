@@ -391,10 +391,10 @@ public class GameManager : MonoBehaviour
             title.text = _gameName;
             howToPlayText.text = "-Pass the bomb to other players. \n" + "-If you have the bomb when the timer runs out you will explode. \n" + "-Last player standing wins the round.\n" + "-Each round gains you a point to the overall score.";
         }
-        if (_gameName == "Rising Lava")
+        if (_gameName == "Spleef")
         {
             title.text = _gameName;
-            howToPlayText.text = "-Make your way up the platform to get away from the lava. \n" + "-Watch out for falling bombs. \n" + "-Last player standing wins the round.\n" + "-Each round gains you a point to the overall score.";
+            howToPlayText.text = "-As you run over blocks they fall. \n" + "-Try to be last alive! \n" + "-Last player standing wins the round.\n" + "-Tip: Run where other players are heading so the blocks fall infront of them";
         }
         if (_gameName == "Paint The Floor")
         {
