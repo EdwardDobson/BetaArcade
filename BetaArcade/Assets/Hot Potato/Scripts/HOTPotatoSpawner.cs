@@ -39,14 +39,16 @@ public class HOTPotatoSpawner : MonoBehaviour
     }
     public void CreatePlayer()
     {
+
         GameObject player = Instantiate(Player);
         player.transform.position = SpawnPoints[playerCount].position;
-        player.transform.SetParent(GameObject.Find("HotPotatoManager").transform);
         playerCount++;
         player.tag = "Player" + playerCount;
-        player.GetComponent<Renderer>().material.SetColor("_Colour", PlayerIDToColor(playerCount));
+        player.GetComponent<Renderer>().material.SetColor("_Color", PlayerIDToColor(playerCount));
         player.GetComponent<PlayerMove>().ID = playerCount;
         hotPotato.players.Add(player);
+        Debug.Log("Player Colour " + player.GetComponent<Renderer>().material.color);
+        Debug.Log("Player Colour Number " + PlayerIDToColor(playerCount));
     }
     private Color PlayerIDToColor(int id)
     {
