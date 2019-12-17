@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 public class HotPotato : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class HotPotato : MonoBehaviour
     int playerBombTotal;
     AudioSource tick;
     AudioSource explosion;
+    GameObject PlayerPortraits;
     void Start()
     {
         maxBombTimer = 5;
@@ -44,6 +46,7 @@ public class HotPotato : MonoBehaviour
         bombTimerTitle.text = "Bomb Timer: " + maxBombTimer;
         tick = GetComponent<AudioSource>();
         explosion = transform.GetChild(0).GetComponent<AudioSource>();
+        PlayerPortraits = GameObject.Find("PlayerPortraits");
     }
     void LateStart()
     {
@@ -164,13 +167,21 @@ public class HotPotato : MonoBehaviour
     {
         foreach (Transform t in transform)
         {
-            t.gameObject.SetActive(true);
-            t.gameObject.transform.position = GetComponent<HOTPotatoSpawner>().SpawnPoints[t.GetComponent<PlayerMove>().ID - 1].transform.position;
-            roundText.text = "Round: " + currentRound + " of " + maxRound;
-            currentBombTimer = maxBombTimer;
-            t.GetComponent<PlayerHotPotato>().SetCanTakeBomb(true);
-            t.GetComponent<PlayerHotPotato>().SetHasBomb(false);
+            if(t.gameObject.name.Contains("Player"))
+            {
+                t.gameObject.SetActive(true);
+                t.gameObject.GetComponent<PlayerMove>().dashTimer = 0.5f;
+                t.gameObject.GetComponent<PlayerMove>().shoveTimer = 0.5f;
+                t.gameObject.GetComponent<PlayerMove>().dashSlider.value = t.gameObject.GetComponent<PlayerMove>().dashTimer;
+                t.gameObject.GetComponent<PlayerMove>().shoveSlider.value = t.gameObject.GetComponent<PlayerMove>().shoveTimer;
+                t.gameObject.transform.position = GetComponent<HOTPotatoSpawner>().SpawnPoints[t.GetComponent<PlayerMove>().ID - 1].transform.position;
+                roundText.text = "Round: " + currentRound + " of " + maxRound;
+                currentBombTimer = maxBombTimer;
+                t.GetComponent<PlayerHotPotato>().SetCanTakeBomb(true);
+                t.GetComponent<PlayerHotPotato>().SetHasBomb(false);
+            }
         }
+     
         increaseInactivePlayers = 0;
         roundRestarting = false;
     }

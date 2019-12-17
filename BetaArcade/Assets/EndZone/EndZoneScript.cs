@@ -53,89 +53,14 @@ public class EndZoneScript : MonoBehaviour
             int playerScore = gameManager.GetPlayerScore(LevelManagerTools.GetPlayerID(player));
             player.transform.position = spawnPoints[highScores.IndexOf(playerScore)].position;
         }
-        
-        //if(highestScore == gameManager.GetPlayerOneScore())
-        //{
-        //    players[0].transform.position = spawnPoints[0].position;
-        //}
-        //if (highestScore == gameManager.GetPlayerTwoScore())
-        //{
-        //    players[1].transform.position = spawnPoints[0].position;
-        //}
-        //if (secondHighest == gameManager.GetPlayerOneScore())
-        //{
-        //    players[0].transform.position = spawnPoints[1].position;
-        //}
-        //if (secondHighest == gameManager.GetPlayerTwoScore())
-        //{
-        //    players[1].transform.position = spawnPoints[1].position;
-        //}
-        //if (thirdHighest == gameManager.GetPlayerOneScore())
-        //{
-        //    players[0].transform.position = spawnPoints[2].position;
-        //}
-        //if (thirdHighest == gameManager.GetPlayerTwoScore())
-        //{
-        //    players[1].transform.position = spawnPoints[2].position;
-        //}
-        //if (lowestScore == gameManager.GetPlayerOneScore())
-        //{
-        //    players[0].transform.position = spawnPoints[3].position;
-        //}
-        //if (lowestScore == gameManager.GetPlayerTwoScore())
-        //{
-        //    players[1].transform.position = spawnPoints[3].position;
-        //}
-        //if (gameManager.GetPlayerCount() >= 3)
-        //{
-        //    if (highestScore == gameManager.GetPlayerThreeScore())
-        //    {
-        //        players[2].transform.position = spawnPoints[0].position;
-        //    }
-        //    if (secondHighest == gameManager.GetPlayerThreeScore())
-        //    {
-        //        players[2].transform.position = spawnPoints[1].position;
-        //    }
-        //    if (thirdHighest == gameManager.GetPlayerThreeScore())
-        //    {
-        //        players[2].transform.position = spawnPoints[2].position;
-        //    }
-        //    if (lowestScore == gameManager.GetPlayerThreeScore())
-        //    {
-        //        players[2].transform.position = spawnPoints[3].position;
-        //    }
-        //}
-        //if (gameManager.GetPlayerCount() >= 4)
-        //{
-        //    if (highestScore == gameManager.GetPlayerFourScore())
-        //    {
-        //        players[3].transform.position = spawnPoints[0].position;
-        //    }
-        //    if (secondHighest == gameManager.GetPlayerFourScore())
-        //    {
-        //        players[3].transform.position = spawnPoints[1].position;
-        //    }
-        //    if (thirdHighest == gameManager.GetPlayerFourScore())
-        //    {
-        //        players[3].transform.position = spawnPoints[2].position;
-        //    }
-        //    if (lowestScore == gameManager.GetPlayerFourScore())
-        //    {
-        //        players[3].transform.position = spawnPoints[3].position;
-        //    }
-        //}
-   
-      
-     
     }
     public void CreatePlayer()
     {
         GameObject player = Instantiate(Player);
         player.transform.position = spawnPoints[playerCount].position;
-        player.transform.SetParent(GameObject.Find("PlayerHolder").transform);
         playerCount++;
         player.tag = "Player" + playerCount;
-        player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
+        player.GetComponent<Renderer>().material.SetColor("_Color", PlayerIDToColor(playerCount));
         player.GetComponent<PlayerMove>().ID = playerCount;
         players.Add(player);
     }

@@ -18,8 +18,8 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody rb;
     private bool isFrozen = false;
     private bool isGrounded;
-    private bool hasDashed;
-    private bool hasPushed = false;
+    public bool hasDashed;
+    public bool hasPushed = false;
     [SerializeField]
     float shoveForce = 0;
     [SerializeField]
@@ -27,15 +27,15 @@ public class PlayerMove : MonoBehaviour
     int bigJumps = 0;
     int powerUpCount = 0;
     [SerializeField]
-    float dashTimer = 0.5f;
+    public float dashTimer = 0.5f;
     [SerializeField]
-    float shoveTimer = 0.5f;
+    public float shoveTimer = 0.5f;
 	[SerializeField]
 	bool jumpEnabled = true; //used in bomberman to disable the jump function
 	[SerializeField]
 	bool rotationEnabled = true;
-    Slider dashSlider;
-    Slider shoveSlider;
+    public Slider dashSlider;
+    public Slider shoveSlider;
     // Start is called before the first frame update
     void Start()
     {

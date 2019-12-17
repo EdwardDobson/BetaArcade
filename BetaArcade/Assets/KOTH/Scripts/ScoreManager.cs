@@ -139,12 +139,15 @@ public class ScoreManager : MonoBehaviour
                     {
                         child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[3].position;
                     }
-                   StartCoroutine(RespawnPlayer(child));
+                    child.gameObject.GetComponent<PlayerMove>().hasDashed = false;
+                    child.gameObject.GetComponent<PlayerMove>().hasPushed = false;
+                    child.gameObject.GetComponent<PlayerMove>().dashSlider.value = child.gameObject.GetComponent<PlayerMove>().dashTimer;
+                    child.gameObject.GetComponent<PlayerMove>().shoveSlider.value = child.gameObject.GetComponent<PlayerMove>().shoveTimer;
+                    StartCoroutine(RespawnPlayer(child));
                     foreach (Transform t in PlayerUI.transform)
                     {
                         t.GetChild(0).GetComponent<Slider>().value = t.GetChild(0).GetComponent<Slider>().maxValue;
                         t.GetChild(7).GetComponent<Slider>().value = t.GetChild(7).GetComponent<Slider>().maxValue;
-                       
                     }
                 }
             }
