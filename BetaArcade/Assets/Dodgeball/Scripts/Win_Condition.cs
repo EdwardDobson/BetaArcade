@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
-
+using UnityEngine.EventSystems;
+using System.Linq;
 public class Win_Condition : MonoBehaviour
 {
     public enum WinConditionType
@@ -18,6 +20,13 @@ public class Win_Condition : MonoBehaviour
     TextMeshProUGUI winText;
     TextMeshProUGUI inPointText;
     TextMeshProUGUI roundText;
+    TextMeshProUGUI timerText;
+    TextMeshProUGUI scoreToWinText;
+    TextMeshProUGUI scoreToWinTextTutorialText;
+    TextMeshProUGUI timerTextTutorialText;
+
+    Slider roundTimerSlider;
+    Slider scoreTimerSlider;
 
     public int maxScore;
 
@@ -29,10 +38,7 @@ public class Win_Condition : MonoBehaviour
 
     [SerializeField]
     float timer;
-    PointMove point;
 
-    [SerializeField]
-    public Material pointMat;
     AudioSource scoreIncrease;
 
     Dodgeball_PlayerSpawner DodgballPlayerSpawner;
@@ -163,5 +169,18 @@ public class Win_Condition : MonoBehaviour
 
             SpawnPoint++;
         }
+    }
+
+    public void ChangeScoreToWin()
+    {
+        maxScore = (int)scoreTimerSlider.value;
+        scoreToWinTextTutorialText.text = "Score to win : " + maxScore;
+        scoreToWinText.text = "Score to win : " + maxScore;
+    }
+
+    public void ChangeRoundTime()
+    {
+        gameManager.SetTimer((int)roundTimerSlider.value);
+        timerTextTutorialText.text = "Round Time : " + gameManager.GetTimer();
     }
 }
