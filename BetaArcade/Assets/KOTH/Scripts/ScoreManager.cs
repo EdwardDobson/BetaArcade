@@ -140,6 +140,7 @@ public class ScoreManager : MonoBehaviour
                         child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[3].position;
                     }
                     child.gameObject.GetComponent<PlayerMove>().hasDashed = false;
+                    child.gameObject.GetComponent<PlayerMove>().MassPowerUpReset();
                     child.gameObject.GetComponent<PlayerMove>().hasPushed = false;
                     child.gameObject.GetComponent<PlayerMove>().dashSlider.value = child.gameObject.GetComponent<PlayerMove>().dashTimer;
                     child.gameObject.GetComponent<PlayerMove>().shoveSlider.value = child.gameObject.GetComponent<PlayerMove>().shoveTimer;

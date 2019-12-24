@@ -169,7 +169,6 @@ public class PlayerMove : MonoBehaviour
     public void SetSpeed(int _speed)
     {
         maxSpeed = _speed;
-
     }
     void Push()
     {
@@ -230,5 +229,21 @@ public class PlayerMove : MonoBehaviour
     public int GetPowerUpCount()
     {
         return powerUpCount;
+    }
+    public void MassPowerUpReset()
+    {
+        GameObject Clone = GameObject.Find("PlayerPicture" + ID);
+        foreach (Transform t in Clone.transform.transform)
+        {
+            if (t.gameObject.tag == "PowerUpSlot")
+            {
+                t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
+                t.gameObject.name = "";
+                t.GetComponent<Image>().sprite = null;
+            }
+        }
+        powerUpCount = 0;
+        bigJumps = 0;
+        speed = originalSpeed;
     }
 }
