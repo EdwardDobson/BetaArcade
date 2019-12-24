@@ -72,11 +72,13 @@ public class Win_Condition : MonoBehaviour
     bool endGameMode = false;
 
     int tempPointCount;
+    AudioSource scoreIncreaseClip;
+    
     // Start is called before the first frame update
     void Start()
     {
         roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
-        scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
+        scoreIncreaseClip = GetComponent<AudioSource>();
         winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
         inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
         DodgballPlayerSpawner = GetComponent<Dodgeball_PlayerSpawner>();
@@ -84,6 +86,16 @@ public class Win_Condition : MonoBehaviour
         B = GameObject.Find("Ball").GetComponent<Ball>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         roundText.text = "Round: 1 of " + maxRound;
+        scoreTimerSlider = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(6).GetComponent<Slider>();
+        roundTimerSlider = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(7).GetComponent<Slider>();
+        timerTextTutorialText = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(5).GetComponent<TextMeshProUGUI>();
+        scoreToWinTextTutorialText = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(4).GetComponent<TextMeshProUGUI>();
+        scoreToWinText = GameObject.Find("Canvas").transform.GetChild(5).GetComponent<TextMeshProUGUI>();
+        timerText = GameObject.Find("Canvas").transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+        timerTextTutorialText.text = "Round Time : " + roundTimerSlider.value;
+        scoreToWinTextTutorialText.text = "Score To Win : " + scoreTimerSlider.value;
+        timerText.text = "Round Time : " + roundTimerSlider.value;
+        scoreToWinText.text = "Score To Win : " + scoreTimerSlider.value;
     }
 
     // Update is called once per frame
@@ -99,7 +111,8 @@ public class Win_Condition : MonoBehaviour
         {
             //otherPlayers[i].GetComponent<PointCollide>().SetScore(scoreIncreaseValue);
             //gameManager.PlayerUIs[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: " + otherPlayers[i].GetComponent<PointCollide>().GetScore();
-            scoreIncrease.Play();
+            //    scoreIncreaseClip.Play();
+           
             timer = 0;
         }
     }
@@ -174,13 +187,14 @@ public class Win_Condition : MonoBehaviour
     public void ChangeScoreToWin()
     {
         maxScore = (int)scoreTimerSlider.value;
-        scoreToWinTextTutorialText.text = "Score to win : " + maxScore;
-        scoreToWinText.text = "Score to win : " + maxScore;
+        scoreToWinTextTutorialText.text = "Score To Win : " + maxScore;
+        scoreToWinText.text = "Score To Win : " + maxScore;
     }
 
     public void ChangeRoundTime()
     {
         gameManager.SetTimer((int)roundTimerSlider.value);
         timerTextTutorialText.text = "Round Time : " + gameManager.GetTimer();
+        timerText.text = "Round Time : " + gameManager.GetTimer();
     }
 }

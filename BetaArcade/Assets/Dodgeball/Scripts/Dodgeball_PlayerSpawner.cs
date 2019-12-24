@@ -49,7 +49,7 @@ public class Dodgeball_PlayerSpawner : MonoBehaviour
 
         playerCount++;
 
-        player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
+        player.GetComponent<Renderer>().material.SetColor("_Color", PlayerIDToColor(playerCount));
 
         player.GetComponent<PlayerMove>().ID = playerCount;
 
