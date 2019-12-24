@@ -89,7 +89,7 @@ public class Win_Condition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (B.PlayersDown >= 3)
+        if (B.PlayersDown >= gameManager.GetPlayerCount()-1)
         {
             AddScore();
             B.PlayersDown = 0;
