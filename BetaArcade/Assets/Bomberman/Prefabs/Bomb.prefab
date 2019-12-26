@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7303297433005923562}
   - component: {fileID: 516114046965328814}
   m_Layer: 2
-  m_Name: Bomb 1
+  m_Name: Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
-  bombPrefab: {fileID: 0}
+  bombPrefab: {fileID: 3344510260443108627}
   myTransform: {fileID: 0}
   isDead: 0
   baseRegen: 1.5
