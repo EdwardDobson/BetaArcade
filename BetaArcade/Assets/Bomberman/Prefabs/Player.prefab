@@ -112,12 +112,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1
+  hasDashed: 0
+  hasPushed: 0
   shoveForce: 1
   shoveRadius: 10
   dashTimer: 0.5
   shoveTimer: 0.5
   jumpEnabled: 0
   rotationEnabled: 0
+  dashSlider: {fileID: 0}
+  shoveSlider: {fileID: 0}
 --- !u!54 &4652270019733902041
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -174,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 8803401641697793902, guid: 0481709e086a0ff409c8b2c20aca74bc, type: 3}
-  bombPrefab: {fileID: 2771977596041176808, guid: 513910e29fb0f124fa084622f22b3089,
+  bombPrefab: {fileID: 3344510260443108627, guid: 62561eebec4057148a2f515d896b54e5,
     type: 3}
   myTransform: {fileID: 6718330864816921272}
   isDead: 0
@@ -545,7 +549,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: fae8af0cd9929d74a8120fafe3695446, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
