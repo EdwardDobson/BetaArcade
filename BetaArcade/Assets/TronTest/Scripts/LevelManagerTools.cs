@@ -86,9 +86,26 @@ public static class LevelManagerTools
       return false;
       }
     var color = PlayerIDToColor(id);
-    hairObj.GetComponent<SkinnedMeshRenderer>().material.SetColor("_BaseColor", color);
-    chestObj.GetComponent<SkinnedMeshRenderer>().material.SetColor("_BaseColor", color);
+    hairObj.GetComponent<SkinnedMeshRenderer>().material.SetColor("_Color", color);
+    chestObj.GetComponent<SkinnedMeshRenderer>().material.SetColor("_Color", color);
     Debug.Log("Color set!");
     return true;
+    }
+
+    public static Material GetPlayerMaterial(GameObject playerObject)
+    {
+        var characterObj = playerObject.transform.Find("character");
+        if (characterObj == null)
+        {
+            Debug.LogWarning("Cannot get character object");
+            return null;
+        }
+        var chestObj = characterObj.transform.Find("Cube.002");
+        if (chestObj == null)
+        {
+            Debug.LogWarning("Cannot get chest object");
+            return null;
+        }
+        return chestObj.GetComponent<SkinnedMeshRenderer>().material;
     }
   }

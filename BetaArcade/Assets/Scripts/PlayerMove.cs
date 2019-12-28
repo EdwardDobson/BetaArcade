@@ -18,6 +18,8 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody rb;
     private bool isFrozen = false;
     private bool isGrounded;
+    private Animator m_CharacterAnimator;
+
     public bool hasDashed;
     public bool hasPushed = false;
     [SerializeField]
@@ -30,10 +32,10 @@ public class PlayerMove : MonoBehaviour
     public float dashTimer = 0.5f;
     [SerializeField]
     public float shoveTimer = 0.5f;
-	[SerializeField]
-	bool jumpEnabled = true; //used in bomberman to disable the jump function
-	[SerializeField]
-	bool rotationEnabled = true;
+    [SerializeField]
+    bool jumpEnabled = true; //used in bomberman to disable the jump function
+    [SerializeField]
+    bool rotationEnabled = true;
     public Slider dashSlider;
     public Slider shoveSlider;
     // Start is called before the first frame update
@@ -43,8 +45,8 @@ public class PlayerMove : MonoBehaviour
         Invoke("LateStart", 0.1f);
         distanceToGround = GetComponent<Collider>().bounds.extents.y;
         Walk = GetComponent<AudioSource>();
-        Jump = transform.GetChild(0).GetComponent<AudioSource>();
-
+        Jump = transform.Find("JumpAudioSource").GetComponent<AudioSource>();
+        m_CharacterAnimator = GetComponentInChildren<Animator>();
     }
     void LateStart()
     {
@@ -58,7 +60,7 @@ public class PlayerMove : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump" + ID))
             {
-              
+
                 if (bigJumps > 0)
                 {
                     rb.AddForce(Vector3.up * jumpSpeed * 2f);
@@ -73,7 +75,7 @@ public class PlayerMove : MonoBehaviour
                     {
                         foreach (Transform t in Clone.transform)
                         {
-                          
+
                             if (t.name == "PUJump" + "(Clone)")
                             {
                                 t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
@@ -83,7 +85,7 @@ public class PlayerMove : MonoBehaviour
                         }
                     }
                 }
-            
+
                 Jump.Play();
             }
             if (Input.GetButtonDown("Dash" + ID) && !hasDashed)
@@ -108,11 +110,15 @@ public class PlayerMove : MonoBehaviour
                 Walk.Play();
             }
         }
-        if(!isGrounded && rb.velocity.y <= 0)
+        if (!isGrounded && rb.velocity.y <= 0)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y -( 2 * Time.deltaTime), transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y - (2 * Time.deltaTime), transform.position.z);
         }
 
+        if(m_CharacterAnimator != null)
+        {
+            m_CharacterAnimator.SetFloat("MoveSpeed", GetComponent<Rigidbody>().velocity.magnitude);
+        }
     }
 
     // Update is called once per frame
@@ -130,10 +136,10 @@ public class PlayerMove : MonoBehaviour
             {
                 float y = rb.velocity.y;
                 rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-                rb.velocity = new Vector3(rb.velocity.x,y,rb.velocity.z);
+                rb.velocity = new Vector3(rb.velocity.x, y, rb.velocity.z);
             }
-               
-        
+
+
             Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
             if (Input.GetButton("Shove" + ID) && !hasPushed)
             {
@@ -188,6 +194,7 @@ public class PlayerMove : MonoBehaviour
 
     public void IncreaseMovementSpeed()
     {
+
         speed = (speed * 1.5f);
         StartCoroutine(SpeedReset(5));
     }
@@ -198,8 +205,8 @@ public class PlayerMove : MonoBehaviour
         if (Clone != null)
         {
             foreach (Transform t in Clone.transform.transform)
-            { 
-                if (t.name == "PUSpeedup"+ "(Clone)")
+            {
+                if (t.name == "PUSpeedup" + "(Clone)")
                 {
                     t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
                     t.gameObject.name = "";

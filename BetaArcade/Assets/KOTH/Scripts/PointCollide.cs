@@ -10,7 +10,8 @@ public class PointCollide : MonoBehaviour
     public Material pointMat;
     private void Start()
     {
-        pointMat = GetComponent<Renderer>().material;
+        pointMat = LevelManagerTools.GetPlayerMaterial(gameObject);
+        //pointMat = GetComponent<Renderer>().material;
     }
     private void OnTriggerStay(Collider other)
     {
