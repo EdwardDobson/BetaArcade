@@ -115,6 +115,18 @@ public class Win_Condition : MonoBehaviour
            
             timer = 0;
         }
+        if (currentRound > maxRound)
+        {
+            inPointText.text = "";
+            roundText.text = "";
+            timerText.text = "";
+            winText.text = "";
+            endGameMode = true;
+            scoreToWinText.text = "";
+            gameManager.transform.GetChild(0).gameObject.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(GameObject.Find("Next Level"));
+            //startGame = false;
+        }
     }
     public void AddScore() //call in ball i.e if (otherplayers <=1 Win_condition.AddScore)
     {
