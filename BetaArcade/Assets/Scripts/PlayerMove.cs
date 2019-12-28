@@ -44,7 +44,7 @@ public class PlayerMove : MonoBehaviour
         distanceToGround = GetComponent<Collider>().bounds.extents.y;
         Walk = GetComponent<AudioSource>();
         Jump = transform.GetChild(0).GetComponent<AudioSource>();
-        LateStart();
+     
 
     }
     void LateStart()

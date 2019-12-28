@@ -240,21 +240,7 @@ public class ScoreManager : MonoBehaviour
             }
             if (otherPlayers[i].GetComponent<PointCollide>().GetScore() >= maxScore)
             {
-                switch (otherPlayers[i].tag)
-                {
-                    case "Player1":
-                        gameManager.SetPlayerOneScore(1);
-                        break;
-                    case "Player2":
-                        gameManager.SetPlayerTwoScore(1);
-                        break;
-                    case "Player3":
-                        gameManager.SetPlayerThreeScore(1);
-                        break;
-                    case "Player4":
-                        gameManager.SetPlayerFourScore(1);
-                        break;
-                }
+                gameManager.SetPlayerScore(otherPlayers[i].GetComponent<PlayerMove>().ID,1);
                 winText.text = "Player " + (i + 1) + " wins the round";
                 currentRound++;
                 roundText.text = "Round: " + currentRound + " of " + maxRound;

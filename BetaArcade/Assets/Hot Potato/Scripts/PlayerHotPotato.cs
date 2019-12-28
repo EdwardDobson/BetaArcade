@@ -54,22 +54,7 @@ public class PlayerHotPotato : MonoBehaviour
     {
         if (!hasLeftEnemy)
         {
-            if (other.gameObject.tag == "Player")
-            {
-                StartCoroutine(ResetCanTakeBomb());
-                hasLeftEnemy = true;
-            }
-            if (other.gameObject.tag == "Player2")
-            {
-                StartCoroutine(ResetCanTakeBomb());
-                hasLeftEnemy = true;
-            }
-            if (other.gameObject.tag == "Player3")
-            {
-                StartCoroutine(ResetCanTakeBomb());
-                hasLeftEnemy = true;
-            }
-            if (other.gameObject.tag == "Player4")
+            if (other.gameObject.tag.Contains("Player"))
             {
                 StartCoroutine(ResetCanTakeBomb());
                 hasLeftEnemy = true;
@@ -78,7 +63,7 @@ public class PlayerHotPotato : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag.Contains("Player"))
         {
             if (hasBomb && other.GetComponent<PlayerHotPotato>().canTakeBomb)
             {
@@ -91,52 +76,6 @@ public class PlayerHotPotato : MonoBehaviour
                 StartCoroutine(ResetPlayerMovement());
                 hasBomb = true;
             }
-            Debug.Log("1");
-        }
-        if (other.gameObject.tag == "Player2")
-        {
-            if (hasBomb && other.GetComponent<PlayerHotPotato>().canTakeBomb)
-            {
-                other.GetComponent<PlayerHotPotato>().SetHasBomb(true);
-                hasBomb = false;
-            }
-            if (other.GetComponent<PlayerHotPotato>().hasBomb && canTakeBomb)
-            {
-                other.GetComponent<PlayerHotPotato>().SetHasBomb(false);
-                StartCoroutine(ResetPlayerMovement());
-                hasBomb = true;
-            }
-            Debug.Log("2");
-        }
-        if (other.gameObject.tag == "Player3")
-        {
-            if (hasBomb && other.GetComponent<PlayerHotPotato>().canTakeBomb)
-            {
-                other.GetComponent<PlayerHotPotato>().SetHasBomb(true);
-                hasBomb = false;
-            }
-            if (other.GetComponent<PlayerHotPotato>().hasBomb && canTakeBomb)
-            {
-                other.GetComponent<PlayerHotPotato>().SetHasBomb(false);
-                StartCoroutine(ResetPlayerMovement());
-                hasBomb = true;
-            }
-            Debug.Log("3");
-        }
-        if (other.gameObject.tag == "Player4")
-        {
-            if (hasBomb && other.GetComponent<PlayerHotPotato>().canTakeBomb)
-            {
-                other.GetComponent<PlayerHotPotato>().SetHasBomb(true);
-                hasBomb = false;
-            }
-            if (other.GetComponent<PlayerHotPotato>().hasBomb && canTakeBomb)
-            {
-                other.GetComponent<PlayerHotPotato>().SetHasBomb(false);
-                StartCoroutine(ResetPlayerMovement());
-                hasBomb = true;
-            }
-            Debug.Log("4");
         }
     }
     IEnumerator ResetCanTakeBomb()
