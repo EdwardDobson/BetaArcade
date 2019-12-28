@@ -32,7 +32,6 @@ public class PlayerHotPotato : MonoBehaviour
         if(!hasBomb)
         {
             bombImage.SetActive(false);
-            canTakeBomb = true;
             gameManager.PlayerPictures[GetComponent<PlayerMove>().ID-1].transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
             GetComponent<PlayerMove>().SetSpeed(10);
         }
@@ -141,6 +140,7 @@ public class PlayerHotPotato : MonoBehaviour
     }
     IEnumerator ResetCanTakeBomb()
     {
+        canTakeBomb = false;
         yield return new WaitForSeconds(1);
         canTakeBomb = true;
         hasLeftEnemy = false;
