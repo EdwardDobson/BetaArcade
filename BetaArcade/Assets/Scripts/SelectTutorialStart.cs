@@ -6,17 +6,31 @@ public class SelectTutorialStart : MonoBehaviour
 {
     public EventSystem eventSystem;
     public GameObject startButton;
-
+    GameManager gameManager;
+    [SerializeField]
+    PlayerMove[] playersArray;
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         eventSystem = EventSystem.current;
         eventSystem.SetSelectedGameObject(startButton);
- 
+        Invoke("LateStart", 0.5f);
     }
-
-    // Update is called once per frame
-    void Update()
+    void LateStart()
     {
+        playersArray =  FindObjectsOfType<PlayerMove>();
+        for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
+        {
+            playersArray[i].GetComponent<Rigidbody>().mass = 500;
+        }
+     
+    }
+    public void AllowPlayerMove()
+    {
+        for (int i = 0; i < playersArray.Length; ++i)
+        {
+            playersArray[i].GetComponent<Rigidbody>().mass = 1;
+        }
     }
 }
