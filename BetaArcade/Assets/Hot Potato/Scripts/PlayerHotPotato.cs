@@ -14,9 +14,9 @@ public class PlayerHotPotato : MonoBehaviour
     AudioSource stunned;
     void Start()
     {
-        bombImage = transform.GetChild(0).GetChild(1).gameObject;
+        bombImage = transform.GetChild(1).gameObject;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        stunned = transform.GetChild(0).GetChild(0).GetComponent<AudioSource>();
+        stunned = transform.Find("StunnedAudioSource").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -32,7 +32,6 @@ public class PlayerHotPotato : MonoBehaviour
         if(!hasBomb)
         {
             bombImage.SetActive(false);
-            canTakeBomb = true;
             gameManager.PlayerPictures[GetComponent<PlayerMove>().ID-1].transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
             GetComponent<PlayerMove>().SetSpeed(10);
         }
@@ -80,6 +79,7 @@ public class PlayerHotPotato : MonoBehaviour
     }
     IEnumerator ResetCanTakeBomb()
     {
+        canTakeBomb = false;
         yield return new WaitForSeconds(1);
         canTakeBomb = true;
         hasLeftEnemy = false;
