@@ -183,11 +183,13 @@ public class PlayerMove : MonoBehaviour
         Collider[] colliders = Physics.OverlapBox(pushPos, transform.localScale / 4);
         foreach (Collider hit in colliders)
         {
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 0.8f);
-            }
+
+                Rigidbody rb = hit.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 0.8f);
+                }
+       
         }
     }
 
