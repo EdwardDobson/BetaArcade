@@ -42,7 +42,6 @@ public class ScoreManager : MonoBehaviour
     GameManager gameManager;
     bool endGameMode = false;
     GameObject PlayerUI;
-    int stopTimerDecrease = 0;
     [SerializeField]
     bool startGame;
     bool gameStarted = false;
@@ -50,7 +49,6 @@ public class ScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        stopTimerDecrease = 1;
         PlayerUI = GameObject.Find("PlayerUI").transform.GetChild(1).gameObject;
         point = GetComponent<PointMove>();
         roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
@@ -123,22 +121,11 @@ public class ScoreManager : MonoBehaviour
                 if (!child.gameObject.activeSelf)
                 {
                     child.gameObject.SetActive(true);
-                    if (child.tag == "Player1")
+                    if(child.CompareTag("Player" + child.GetComponent<PlayerMove>().ID))
                     {
-                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[0].position;
+                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[child.GetComponent<PlayerMove>().ID-1].position;
                     }
-                    if (child.tag == "Player2")
-                    {
-                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[1].position;
-                    }
-                    if (child.tag == "Player3")
-                    {
-                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[2].position;
-                    }
-                    if (child.tag == "Player4")
-                    {
-                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[3].position;
-                    }
+
                     child.gameObject.GetComponent<PlayerMove>().hasDashed = false;
                     child.gameObject.GetComponent<PlayerMove>().MassPowerUpReset();
                     child.gameObject.GetComponent<PlayerMove>().hasPushed = false;
@@ -192,7 +179,6 @@ public class ScoreManager : MonoBehaviour
             gameManager.SetTimer(10);
             resetPoints = true;
             ResetPoints();
-            stopTimerDecrease = 0;
         }
     }
     void ResetScorePlayers()
@@ -254,26 +240,24 @@ public class ScoreManager : MonoBehaviour
             }
             if (otherPlayers[i].GetComponent<PointCollide>().GetScore() >= maxScore)
             {
-                if (otherPlayers[i].tag == "Player1")
+                switch (otherPlayers[i].tag)
                 {
-                    gameManager.SetPlayerOneScore(1);
-                }
-                if (otherPlayers[i].tag == "Player2")
-                {
-                    gameManager.SetPlayerTwoScore(1);
-                }
-                if (otherPlayers[i].tag == "Player3")
-                {
-                    gameManager.SetPlayerThreeScore(1);
-                }
-                if (otherPlayers[i].tag == "Player4")
-                {
-                    gameManager.SetPlayerFourScore(1);
+                    case "Player1":
+                        gameManager.SetPlayerOneScore(1);
+                        break;
+                    case "Player2":
+                        gameManager.SetPlayerTwoScore(1);
+                        break;
+                    case "Player3":
+                        gameManager.SetPlayerThreeScore(1);
+                        break;
+                    case "Player4":
+                        gameManager.SetPlayerFourScore(1);
+                        break;
                 }
                 winText.text = "Player " + (i + 1) + " wins the round";
                 currentRound++;
                 roundText.text = "Round: " + currentRound + " of " + maxRound;
-
                 resetPoints = true;
             }
         }
@@ -325,7 +309,6 @@ public class ScoreManager : MonoBehaviour
         {
             otherPlayers[i].GetComponent<Rigidbody>().mass = 1;
         }
-        stopTimerDecrease = 1;
     }
     private void OnTriggerExit(Collider other)
     {

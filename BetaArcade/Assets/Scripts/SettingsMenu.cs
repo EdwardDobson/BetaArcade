@@ -21,7 +21,6 @@ public class SettingsMenu : MonoBehaviour
     public TMP_Dropdown qualitySettings;
     public TMP_Dropdown qualitySettingsPause;
     bool isFullscreen;
-    Resolution[] resolutions;
     public void Start()
     {
         SetFullscreen(PlayerPrefs.GetInt("Fullscreen") == 1 ? true : false);

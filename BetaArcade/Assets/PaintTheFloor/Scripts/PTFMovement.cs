@@ -118,7 +118,7 @@ public class PTFMovement : MonoBehaviour
         }
       }
 
-    m_PlayerMoveScript.DecreasePowerUpCount(1);
+    m_PlayerMoveScript.DecreasePowerUpCount();
     m_ShotSize = 1;
     }
   IEnumerator ResetFireRate()
@@ -135,7 +135,7 @@ public class PTFMovement : MonoBehaviour
           }
         }
       }
-    m_PlayerMoveScript.DecreasePowerUpCount(1);
+    m_PlayerMoveScript.DecreasePowerUpCount();
     m_FireRate = 7.5f;
     }
   }

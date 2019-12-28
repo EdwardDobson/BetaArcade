@@ -44,6 +44,7 @@ public class PlayerMove : MonoBehaviour
         distanceToGround = GetComponent<Collider>().bounds.extents.y;
         Walk = GetComponent<AudioSource>();
         Jump = transform.GetChild(0).GetComponent<AudioSource>();
+        LateStart();
 
     }
     void LateStart()
@@ -145,7 +146,7 @@ public class PlayerMove : MonoBehaviour
             if (lookDir.magnitude > 0.5 && rotationEnabled == true)
             {
                 Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
-                transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.fixedDeltaTime);
             }
         }
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
@@ -218,11 +219,11 @@ public class PlayerMove : MonoBehaviour
     {
         bigJumps += count;
     }
-    public void IncreasePowerUpCount(int _count)
+    public void IncreasePowerUpCount()
     {
         powerUpCount++;
     }
-    public void DecreasePowerUpCount(int _count)
+    public void DecreasePowerUpCount()
     {
         powerUpCount--;
     }
