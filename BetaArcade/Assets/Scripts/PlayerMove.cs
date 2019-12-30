@@ -194,8 +194,8 @@ public class PlayerMove : MonoBehaviour
     void Push()
     {
 
-        Vector3 pushPos = transform.GetChild(0).GetChild(0).position;
-        Collider[] colliders = Physics.OverlapBox(pushPos, transform.localScale / 4);
+        Vector3 pushPos = transform.GetChild(0).position;
+        Collider[] colliders = Physics.OverlapBox(pushPos, transform.localScale);
         foreach (Collider hit in colliders)
         {
 

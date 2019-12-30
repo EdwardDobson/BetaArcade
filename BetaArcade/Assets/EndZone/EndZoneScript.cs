@@ -58,7 +58,8 @@ public class EndZoneScript : MonoBehaviour
     {
         GameObject player = Instantiate(Player);
         player.transform.position = spawnPoints[playerCount].position;
-        playerCount++;
+        player.transform.rotation = new Quaternion(0, -180, 0,0);
+       playerCount++;
         player.tag = "Player" + playerCount;
         LevelManagerTools.SetPlayerColor(player, playerCount);
         //player.GetComponent<Renderer>().material.SetColor("_Color", PlayerIDToColor(playerCount));
