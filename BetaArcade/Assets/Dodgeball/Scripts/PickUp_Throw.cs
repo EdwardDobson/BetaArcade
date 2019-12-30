@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PickUp_Throw : MonoBehaviour
 {
-    public float speed = 20;
+    public double power = 20;
+    public float maxPower = 30;
     public bool canHold = true;
     public bool PickedUpBall = false;
     public GameObject ChildBall;
@@ -28,20 +29,25 @@ public class PickUp_Throw : MonoBehaviour
         {
             ivepressedabutton = true;
             if (!canHold)
-                ThrowOrDrop();
+               Charge();
             else
             {
                 Pickup();
             }
         }
+
         if (Input.GetButtonUp("Y" + id))
         {
-            ivepressedabutton = false;
+            if (!canHold)
+            {
+                ivepressedabutton = false;
+                Throw();
+            }
         }
 
         if (PickedUpBall == true)
         {
-                    //We re-position the ball on our guide object
+            //We re-position the ball on our guide object
             ChildBall.transform.position = guide.position;
         }
     }
@@ -79,7 +85,16 @@ public class PickUp_Throw : MonoBehaviour
         canHold = false;
     }
 
-    private void ThrowOrDrop()
+    private void Charge()
+    {
+        if (power > maxPower)
+            return;
+        else
+            power += 0.01;
+    }
+
+
+    private void Throw()
     {
         if (!ChildBall)
             return;
@@ -94,7 +109,7 @@ public class PickUp_Throw : MonoBehaviour
         // we don't have anything to do with our ball anymore
         ChildBall = null;
         //Apply velocity on throwing
-        guide.GetChild(0).gameObject.GetComponent<Rigidbody>().velocity = transform.forward * speed;
+        guide.GetChild(0).gameObject.GetComponent<Rigidbody>().velocity = transform.forward * power;
 
         //Unparent the ball
         guide.GetChild(0).parent = null;

@@ -77,7 +77,6 @@ public class Win_Condition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
         scoreIncreaseClip = GetComponent<AudioSource>();
         winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
@@ -96,6 +95,7 @@ public class Win_Condition : MonoBehaviour
         //scoreToWinTextTutorialText.text = "Score To Win : " + scoreTimerSlider.value;
         timer = roundTimerSlider.value;
         timerText.text = "Round Time : " + timer;
+        StartCoroutine(StartCountdown());
     }
 
     // Update is called once per frame
@@ -106,7 +106,6 @@ public class Win_Condition : MonoBehaviour
             AddScore();
             B.PlayersDown = 0;
         }
-        //timer -= Time.deltaTime;
         
         if (timer <= 0)
         {
@@ -128,14 +127,20 @@ public class Win_Condition : MonoBehaviour
             //startGame = false;
         }
     }
+
+    public IEnumerator StartCountdown()
+    {
+        while (timer > 0)
+        {
+            yield return new WaitForSeconds(1.0f);
+            timer--;
+            timerText.text = "Round Time : " + timer;
+        }
+    }
+
+
     public void AddScore() //call in ball i.e if (otherplayers <=1 Win_condition.AddScore)
     {
-        /*
-        switch (WinConType)
-        {
-            case (WinConditionType.eLastManStanding):
-                {*/
-
                     for (int i = 0; i < otherPlayers.Count; i++)
                     {
                         if (otherPlayers[i].activeSelf)
@@ -174,14 +179,9 @@ public class Win_Condition : MonoBehaviour
                     }
 
                     NextRound();
-                    
-        /*}
-    break;
-
-}*/
     }
 
-    void NextRound()
+    public void NextRound()
     {
         currentRound++;
         for (int i = 0; i < otherPlayers.Count; i++)
@@ -196,6 +196,8 @@ public class Win_Condition : MonoBehaviour
 
             SpawnPoint++;
         }
+        timer = roundTimerSlider.value;
+        StartCoroutine(StartCountdown());
     }
 
     public void ChangeScoreToWin()
