@@ -62,8 +62,8 @@ public class ScoreManager : MonoBehaviour
         scoreTimerSlider = GameObject.Find("ScoreToWinSlider").GetComponent<Slider>();
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
         KOTHPlayerSpawner = GetComponent<KOTHPlayerSpawner>();
-        maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
         roundText.text = "Round: 1 of " + maxRound;
         currentRound++;
         timerText.text = "Time: " + gameManager.GetTimer();
