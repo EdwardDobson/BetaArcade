@@ -62,7 +62,7 @@ public class Win_Condition : MonoBehaviour
 
     //temp values
     [SerializeField]
-    int currentRound;
+    int currentRound = 1;
 
     [SerializeField]
     int maxRound = 0;
@@ -85,17 +85,17 @@ public class Win_Condition : MonoBehaviour
         maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
         B = GameObject.Find("Ball").GetComponent<Ball>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        roundText.text = "Round: 1 of " + maxRound;
-        scoreTimerSlider = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(6).GetComponent<Slider>();
-        roundTimerSlider = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(7).GetComponent<Slider>();
-        timerTextTutorialText = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(5).GetComponent<TextMeshProUGUI>();
-        scoreToWinTextTutorialText = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(4).GetComponent<TextMeshProUGUI>();
-        scoreToWinText = GameObject.Find("Canvas").transform.GetChild(5).GetComponent<TextMeshProUGUI>();
-        timerText = GameObject.Find("Canvas").transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+        roundText.text = "Round: " + currentRound + " of " + maxRound;
+        roundTimerSlider = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(5).GetComponent<Slider>();
+        timerTextTutorialText = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(4).GetComponent<TextMeshProUGUI>();
+        //scoreToWinTextTutorialText = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(4).GetComponent<TextMeshProUGUI>();
+        //scoreToWinText = GameObject.Find("Canvas").transform.GetChild(5).GetComponent<TextMeshProUGUI>();
+        timerText = GameObject.Find("Canvas").transform.GetChild(5).GetComponent<TextMeshProUGUI>();
         timerTextTutorialText.text = "Round Time : " + roundTimerSlider.value;
-        scoreToWinTextTutorialText.text = "Score To Win : " + scoreTimerSlider.value;
-        timerText.text = "Round Time : " + roundTimerSlider.value;
-        scoreToWinText.text = "Score To Win : " + scoreTimerSlider.value;
+        //scoreToWinTextTutorialText.text = "Score To Win : " + scoreTimerSlider.value;
+        timer = roundTimerSlider.value;
+        timerText.text = "Round Time : " + timer;
+        StartCoroutine(StartCountdown());
     }
 
     // Update is called once per frame
@@ -106,70 +106,82 @@ public class Win_Condition : MonoBehaviour
             AddScore();
             B.PlayersDown = 0;
         }
-        timer += Time.deltaTime;
-        if (timer >= 1)
+        
+        if (timer <= 0)
         {
-            //otherPlayers[i].GetComponent<PointCollide>().SetScore(scoreIncreaseValue);
-            //gameManager.PlayerUIs[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Score: " + otherPlayers[i].GetComponent<PointCollide>().GetScore();
-            //    scoreIncreaseClip.Play();
-           
-            timer = 0;
+            NextRound();
+            B.PlayersDown = 0;
+            timer = roundTimerSlider.value;
+        }
+
+        if (currentRound > maxRound)
+        {
+            inPointText.text = "";
+            roundText.text = "";
+            timerText.text = "";
+            winText.text = "";
+            endGameMode = true;
+            gameManager.transform.GetChild(0).gameObject.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(GameObject.Find("Next Level"));
+            Debug.Log("Called " + maxRound + " " + currentRound);
+            //startGame = false;
         }
     }
+
+    public IEnumerator StartCountdown()
+    {
+        while (timer > 0)
+        {
+            yield return new WaitForSeconds(1.0f);
+            timer--;
+            timerText.text = "Round Time : " + timer;
+        }
+    }
+
+
     public void AddScore() //call in ball i.e if (otherplayers <=1 Win_condition.AddScore)
     {
-        /*
-        switch (WinConType)
-        {
-            case (WinConditionType.eLastManStanding):
-                {*/
-
-                    Debug.Log("Passed Check");
                     for (int i = 0; i < otherPlayers.Count; i++)
                     {
                         if (otherPlayers[i].activeSelf)
                         {
-                            inPointText.text = otherPlayers[i].tag + " is the last alive";
+                            inPointText.text = otherPlayers[i].tag + " was the last alive";
                             if (otherPlayers[i].tag == "Player1")
                             {
                                 playerOneInGameScore++;
+                                Debug.Log("P1: " + playerOneInGameScore);
 
-                                gameManager.SetPlayerOneScore(1);
-                                NextRound();
+                                gameManager.SetPlayerOneScore(+1);
                             }
                             if (otherPlayers[i].tag == "Player2")
                             {
                                 playerTwoInGameScore++;
+                                Debug.Log("P2: " + playerTwoInGameScore);
 
-                                gameManager.SetPlayerTwoScore(1);
-                                NextRound();
+
+                                gameManager.SetPlayerTwoScore(+1);
                             }
                             if (otherPlayers[i].tag == "Player3")
                             {
+                                Debug.Log("P3: " + playerThreeInGameScore);
+
                                 playerThreeInGameScore++;
-                                gameManager.SetPlayerThreeScore(1);
-                                NextRound();
+                                gameManager.SetPlayerThreeScore(+1);
                             }
                             if (otherPlayers[i].tag == "Player4")
                             {
+                                Debug.Log("P4: " + playerFourInGameScore);
+
                                 playerFourInGameScore++;
-                                gameManager.SetPlayerFourScore(1);
-                                NextRound();
+                                gameManager.SetPlayerFourScore(+1);
                             }
                         }
-                        else
-                        {
-                            Debug.Log("No points");
-                            NextRound();
-                        }
                     }
-        /*}
-    break;
 
-}*/
+                    NextRound();
     }
 
-    void NextRound()
+    public void NextRound()
     {
         currentRound++;
         for (int i = 0; i < otherPlayers.Count; i++)
@@ -178,10 +190,14 @@ public class Win_Condition : MonoBehaviour
             otherPlayers[i].SetActive(true);
             otherPlayers[i].transform.position = DodgballPlayerSpawner.SpawnPoints[i].position;
 
+            roundText.text = "Round: " + currentRound + " of " + maxRound;
+
             Debug.Log("Player " + i + " " + otherPlayers[i].transform.position);
 
             SpawnPoint++;
         }
+        timer = roundTimerSlider.value;
+        StartCoroutine(StartCountdown());
     }
 
     public void ChangeScoreToWin()

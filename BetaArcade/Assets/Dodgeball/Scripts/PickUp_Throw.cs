@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PickUp_Throw : MonoBehaviour
 {
-    public float speed = 20;
+    public float power = 20;
+    public float maxPower = 30;
     public bool canHold = true;
     public bool PickedUpBall = false;
+    public bool PickedUp = false;
+    public bool InitalPickUp = false;
     public GameObject ChildBall;
     public Transform guide;
     private bool ivepressedabutton = false;
@@ -24,24 +27,45 @@ public class PickUp_Throw : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Y" + id) && !ivepressedabutton)
+        if (!PickedUp)
         {
-            ivepressedabutton = true;
-            if (!canHold)
-                ThrowOrDrop();
-            else
+            if (Input.GetButtonDown("Y" + id))
             {
-                Pickup();
+                if (canHold)
+                {
+                    Pickup();
+                    InitalPickUp = true;
+                }
+                PickedUp = true;
             }
         }
-        if (Input.GetButtonUp("Y" + id))
+
+        if (PickedUp)
         {
-            ivepressedabutton = false;
+            if (Input.GetButton("Y" + id))
+            {
+                if (!canHold)
+                    Charge();
+
+            }
+            if (Input.GetButtonUp("Y" + id))
+            {
+                if (!InitalPickUp)
+                {
+                    if (!canHold)
+                    {
+                        ivepressedabutton = false;
+                        Throw();
+                        PickedUp = false;
+                    }
+                }
+                InitalPickUp = false;
+            }
         }
 
         if (PickedUpBall == true)
         {
-                    //We re-position the ball on our guide object
+            //We re-position the ball on our guide object
             ChildBall.transform.position = guide.position;
         }
     }
@@ -55,10 +79,10 @@ public class PickUp_Throw : MonoBehaviour
         }
     }
 
-    private void Pickup()
+    private bool Pickup()
     {
         if (!ChildBall) //If we don't have a ball
-            return;
+            return false;
 
         PickedUpBall = true;
         //We set the object parent to our guide empty object i.e become it's child
@@ -77,9 +101,22 @@ public class PickUp_Throw : MonoBehaviour
 
         //Set the ball to be active
         canHold = false;
+
+        return true;
     }
 
-    private void ThrowOrDrop()
+    private void Charge()
+    {
+        Debug.Log("ping");
+
+        if (power > maxPower)
+            return;
+        else
+            power += 0.5f * Time.deltaTime;
+    }
+
+
+    private void Throw()
     {
         if (!ChildBall)
             return;
@@ -94,7 +131,7 @@ public class PickUp_Throw : MonoBehaviour
         // we don't have anything to do with our ball anymore
         ChildBall = null;
         //Apply velocity on throwing
-        guide.GetChild(0).gameObject.GetComponent<Rigidbody>().velocity = transform.forward * speed;
+        guide.GetChild(0).gameObject.GetComponent<Rigidbody>().velocity = transform.forward * power;
 
         //Unparent the ball
         guide.GetChild(0).parent = null;
