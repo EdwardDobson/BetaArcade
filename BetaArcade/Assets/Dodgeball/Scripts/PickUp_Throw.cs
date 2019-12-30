@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickUp_Throw : MonoBehaviour
 {
-    public double power = 20;
+    public float power = 20;
     public float maxPower = 30;
     public bool canHold = true;
     public bool PickedUpBall = false;
@@ -90,7 +90,7 @@ public class PickUp_Throw : MonoBehaviour
         if (power > maxPower)
             return;
         else
-            power += 0.01;
+            power += 0.01f;
     }
 
 
