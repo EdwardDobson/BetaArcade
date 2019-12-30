@@ -29,12 +29,9 @@ public class PickUp_Throw : MonoBehaviour
     {
         if (!PickedUp)
         {
-            if (Input.GetButtonDown("Y" + id) && !ivepressedabutton)
+            if (Input.GetButtonDown("Y" + id))
             {
-                ivepressedabutton = true;
-                if (!canHold)
-                    Charge();
-                else
+                if (canHold)
                 {
                     Pickup();
                     InitalPickUp = true;
@@ -45,6 +42,12 @@ public class PickUp_Throw : MonoBehaviour
 
         if (PickedUp)
         {
+            if (Input.GetButton("Y" + id))
+            {
+                if (!canHold)
+                    Charge();
+
+            }
             if (Input.GetButtonUp("Y" + id))
             {
                 if (!InitalPickUp)
@@ -102,28 +105,14 @@ public class PickUp_Throw : MonoBehaviour
         return true;
     }
 
-    private bool PickedUpBal()
-    {
-        if (Input.GetButtonDown("Y" + id) && !ivepressedabutton)
-        {
-            ivepressedabutton = true;
-
-            if(!Pickup())
-                return false;
-
-            return true;
-
-        }
-        else
-            return false;
-    }
-
     private void Charge()
     {
+        Debug.Log("ping");
+
         if (power > maxPower)
             return;
         else
-            power += 0.01f * Time.deltaTime;
+            power += 0.5f * Time.deltaTime;
     }
 
 
