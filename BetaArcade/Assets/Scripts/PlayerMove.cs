@@ -7,7 +7,7 @@ public class PlayerMove : MonoBehaviour
     public int ID;
     AudioSource Jump;
     AudioSource Walk;
-    private float originalSpeed = 15f;
+    private float originalSpeed = 60f;
     private float speed = 60f;
     private float maxSpeed = 5f;
     private float jumpSpeed = 300.0f;
@@ -98,7 +98,7 @@ public class PlayerMove : MonoBehaviour
                 if(m_CharacterAnimator != null)
                 {
                     // TODO if we have time we should implement this
-                    //m_CharacterAnimator.SetTrigger("Jump");
+                    m_CharacterAnimator.SetTrigger("Jump");
                 }
             }
             if (Input.GetButtonDown("Dash" + ID) && !hasDashed)

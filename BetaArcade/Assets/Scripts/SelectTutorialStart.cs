@@ -15,12 +15,12 @@ public class SelectTutorialStart : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         eventSystem = EventSystem.current;
         eventSystem.SetSelectedGameObject(startButton);
-        Invoke("LateStart", 0.5f);
+        Invoke("LateStart", 0.01f);
     }
     void LateStart()
     {
         playersArray =  FindObjectsOfType<PlayerMove>();
-        for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
+        for (int i = 0; i < playersArray.Length; ++i)
         {
             playersArray[i].GetComponent<Rigidbody>().mass = 500;
         }

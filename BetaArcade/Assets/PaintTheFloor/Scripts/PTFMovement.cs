@@ -41,15 +41,9 @@ public class PTFMovement : MonoBehaviour
     }
   private void Start()
     {
-    
     m_PlayerMoveScript = gameObject.GetComponent<PlayerMove>();
-    foreach(Transform child in transform)
-      {
-      if (child.name == "character")
-        m_CharacterAnimator = child.GetComponent<Animator>();
-      else if (child.name == "FirePoint")
-        m_FirePoint = child;
-      }
+    m_CharacterAnimator = GetComponent<Animator>();
+    m_FirePoint = transform.Find("FirePoint");
     }
   void Update()
     {

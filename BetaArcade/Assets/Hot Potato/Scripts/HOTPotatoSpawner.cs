@@ -12,11 +12,11 @@ public class HOTPotatoSpawner : MonoBehaviour
     GameManager gameManager;
     // Start is called before the first frame update
 
-    void Awake()
-    {
-        Invoke("LateStart", 0.1f);
-    }
-    private void LateStart()
+    //void Awake()
+    //{
+    //    Invoke("LateStart", 0.1f);
+    //}
+    private void Awake()
     { 
      gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         hotPotato = GetComponent<HotPotato>();

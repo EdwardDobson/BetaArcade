@@ -14,7 +14,7 @@ public class PlayerHotPotato : MonoBehaviour
     AudioSource stunned;
     void Start()
     {
-        bombImage = transform.GetChild(1).gameObject;
+        bombImage = transform.Find("SM_Bomb").gameObject;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         stunned = transform.Find("StunnedAudioSource").GetComponent<AudioSource>();
     }

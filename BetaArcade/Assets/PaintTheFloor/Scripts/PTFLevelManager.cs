@@ -65,6 +65,7 @@ public class PTFLevelManager : KamilLevelManager
     player.transform.position = new Vector3(5 * m_Players.Count, .8f, 0);
     m_Players.Add(player);
     player.tag = "Player" + m_Players.Count;
+    LevelManagerTools.SetPlayerColor(player, m_Players.Count);
     //player.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(m_Players.Count));
     player.GetComponent<PlayerMove>().ID = m_Players.Count;
     }
