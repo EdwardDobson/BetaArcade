@@ -6,22 +6,18 @@ public class Ball : MonoBehaviour
 {
     public bool IsActive = false;
 
-    Dodgeball_PlayerSpawner DodgeballPlayerSpawner;
-    //Win_Condition WC;
-
     public int PlayersDown = 0;
 
     private void Start()
     {
-        DodgeballPlayerSpawner = GameObject.Find("Spawner").GetComponent<Dodgeball_PlayerSpawner>();
-        //WC = GameObject.Find("Spawner").GetComponent<Win_Condition>();
+
     }
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "Player1" || col.gameObject.tag == "Player2" || col.gameObject.tag == "Player3" || col.gameObject.tag == "Player4")
+        if (col.tag.Contains("Player"))
         {
-            if (this.tag=="B1" && col.gameObject.tag == "Player1" || this.tag == "B2" && col.gameObject.tag == "Player2" || this.tag == "B3" && col.gameObject.tag == "Player3" || this.tag == "B4" && col.gameObject.tag == "Player4")
+            if (this.CompareTag("B1") && col.CompareTag("Player1") || this.CompareTag("B2") && col.CompareTag("Player2") || this.CompareTag("B3") && col.CompareTag("Player3") || this.CompareTag("B4") && col.CompareTag("Player4"))
             {
                 Debug.Log("Player hit themselves");
                 return;

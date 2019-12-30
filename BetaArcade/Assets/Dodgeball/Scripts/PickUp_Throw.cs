@@ -8,6 +8,8 @@ public class PickUp_Throw : MonoBehaviour
     public float maxPower = 30;
     public bool canHold = true;
     public bool PickedUpBall = false;
+    public bool PickedUp = false;
+    public bool InitalPickUp = false;
     public GameObject ChildBall;
     public Transform guide;
     private bool ivepressedabutton = false;
@@ -25,23 +27,36 @@ public class PickUp_Throw : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Y" + id) && !ivepressedabutton)
+        if (!PickedUp)
         {
-            ivepressedabutton = true;
-            if (!canHold)
-               Charge();
-            else
+            if (Input.GetButtonDown("Y" + id) && !ivepressedabutton)
             {
-                Pickup();
+                ivepressedabutton = true;
+                if (!canHold)
+                    Charge();
+                else
+                {
+                    Pickup();
+                    InitalPickUp = true;
+                }
+                PickedUp = true;
             }
         }
 
-        if (Input.GetButtonUp("Y" + id))
+        if (PickedUp)
         {
-            if (!canHold)
+            if (Input.GetButtonUp("Y" + id))
             {
-                ivepressedabutton = false;
-                Throw();
+                if (!InitalPickUp)
+                {
+                    if (!canHold)
+                    {
+                        ivepressedabutton = false;
+                        Throw();
+                        PickedUp = false;
+                    }
+                }
+                InitalPickUp = false;
             }
         }
 
@@ -61,10 +76,10 @@ public class PickUp_Throw : MonoBehaviour
         }
     }
 
-    private void Pickup()
+    private bool Pickup()
     {
         if (!ChildBall) //If we don't have a ball
-            return;
+            return false;
 
         PickedUpBall = true;
         //We set the object parent to our guide empty object i.e become it's child
@@ -83,6 +98,24 @@ public class PickUp_Throw : MonoBehaviour
 
         //Set the ball to be active
         canHold = false;
+
+        return true;
+    }
+
+    private bool PickedUpBal()
+    {
+        if (Input.GetButtonDown("Y" + id) && !ivepressedabutton)
+        {
+            ivepressedabutton = true;
+
+            if(!Pickup())
+                return false;
+
+            return true;
+
+        }
+        else
+            return false;
     }
 
     private void Charge()
@@ -90,7 +123,7 @@ public class PickUp_Throw : MonoBehaviour
         if (power > maxPower)
             return;
         else
-            power += 0.01f;
+            power += 0.01f * Time.deltaTime;
     }
 
 
