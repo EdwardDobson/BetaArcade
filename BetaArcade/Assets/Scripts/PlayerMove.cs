@@ -50,8 +50,16 @@ public class PlayerMove : MonoBehaviour
     }
     void LateStart()
     {
-        shoveSlider = GameObject.Find("PlayerPicture" + ID).transform.GetChild(0).GetComponent<Slider>();
-        dashSlider = GameObject.Find("PlayerPicture" + ID).transform.GetChild(7).GetComponent<Slider>();
+        var playerPicture = GameObject.Find("PlayerPicture" + ID);
+        if (playerPicture != null)
+        {
+            shoveSlider = playerPicture.transform.GetChild(0).GetComponent<Slider>();
+            dashSlider = playerPicture.transform.GetChild(7).GetComponent<Slider>();
+        }
+        else
+        {
+            Debug.LogWarning("Cannot get PlayerPicture UI");
+        }
     }
     private void Update()
     {
@@ -87,6 +95,11 @@ public class PlayerMove : MonoBehaviour
                 }
 
                 Jump.Play();
+                if(m_CharacterAnimator != null)
+                {
+                    // TODO if we have time we should implement this
+                    //m_CharacterAnimator.SetTrigger("Jump");
+                }
             }
             if (Input.GetButtonDown("Dash" + ID) && !hasDashed)
             {
@@ -117,7 +130,9 @@ public class PlayerMove : MonoBehaviour
 
         if(m_CharacterAnimator != null)
         {
-            m_CharacterAnimator.SetFloat("MoveSpeed", GetComponent<Rigidbody>().velocity.magnitude);
+            float horizontalMoveSpeed = Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z);
+            m_CharacterAnimator.SetFloat("MoveSpeed", horizontalMoveSpeed);
+            m_CharacterAnimator.SetFloat("RunMultiplier", 0.1f + (horizontalMoveSpeed / 6.5f));
         }
     }
 
