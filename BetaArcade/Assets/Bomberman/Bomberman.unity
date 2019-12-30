@@ -9502,12 +9502,13 @@ MonoBehaviour:
     - You can push any nearby bomb!
 
 
-    - Last player alive winas and gains a point!
+    - Last player alive wins and gains a point!
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b8a9fb11cfc933243a857d72a90706fa, type: 2}
+  m_sharedMaterial: {fileID: -5083396099698329416, guid: b8a9fb11cfc933243a857d72a90706fa,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9532,8 +9533,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9573,7 +9574,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: -551.90326, w: -642.2251}
   m_textInfo:
     textComponent: {fileID: 1405016035}
-    characterCount: 304
+    characterCount: 303
     spriteCount: 0
     spaceCount: 62
     wordCount: 60
@@ -14427,6 +14428,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 32900000, guid: 7214a119cfcdfa543a5cbd51b4ed01c1,
         type: 3}
+    - target: {fileID: 8486093460654245925, guid: e21b384693e1cd94fadc76cdddbd6172,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8486093460654245925, guid: e21b384693e1cd94fadc76cdddbd6172,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8486093460654245925, guid: e21b384693e1cd94fadc76cdddbd6172,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e21b384693e1cd94fadc76cdddbd6172, type: 3}
 --- !u!224 &2903685781336170316 stripped
