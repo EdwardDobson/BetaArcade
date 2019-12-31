@@ -10,6 +10,7 @@ public class BombermanBomb : Bomberman
 	public LayerMask levelMask;
 	[SerializeField] private bool hasExploded = false;
     [SerializeField] private bool hasTriggered = false;
+	[SerializeField] AudioSource explosion;
 	Bomberman myParent;
     Collider thisCollider;
     MeshRenderer thisRender;
@@ -27,7 +28,9 @@ public class BombermanBomb : Bomberman
 
 	void Explode()
 	{
+		explosion.Play(0);
         thisRender.enabled = false;
+		thisCollider.enabled = false;
 		hasExploded = true;
 		Instantiate(explosionPrefab, transform.position, Quaternion.identity);
 		///makes the explosions in the cardinal directions
@@ -35,7 +38,7 @@ public class BombermanBomb : Bomberman
 		StartCoroutine(CreateExplosions(Vector3.right));
 		StartCoroutine(CreateExplosions(Vector3.back));
 		StartCoroutine(CreateExplosions(Vector3.left));
-		Destroy(gameObject, .2f);
+		Destroy(gameObject, explosion.clip.length);
 	}
 
 	public void OnTriggerEnter(Collider other)
