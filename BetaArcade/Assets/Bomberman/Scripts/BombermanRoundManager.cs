@@ -13,6 +13,8 @@ public class BombermanRoundManager : MonoBehaviour
 	[SerializeField]
 	TextMeshProUGUI timerText;
 	[SerializeField]
+	Slider timerSlider;
+	[SerializeField]
 	TextMeshProUGUI eliminationText;
 	GameManager gameManager;
 	[SerializeField]
@@ -35,10 +37,20 @@ public class BombermanRoundManager : MonoBehaviour
 	TextMeshProUGUI tutorialTimeText;
 	[SerializeField]
 	BombermanSpawn spawner;
+	[SerializeField]
+	AudioSource bgm;
 
 	public void SetHasStarted(bool started)
 	{
 		hasStarted = started;
+		if(hasStarted)
+		{
+			bgm.Play(0);
+		}
+		else if(!hasStarted)
+		{
+			bgm.Stop();
+		}
 	}
 	public void SetRoundTimer()
 	{
@@ -50,8 +62,7 @@ public class BombermanRoundManager : MonoBehaviour
     {
 		currentRound = 1;
 		roundTimer = baseRoundTimer;
-		GameObject.Find("RoundTimeSlider").GetComponent<Slider>();
-		GameObject.Find("RoundTimerText").GetComponent<TextMeshProUGUI>();
+		//timerSlider = GameObject.Find("RoundTimeSlider").GetComponent<Slider>();
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 		roundText = GameObject.Find("RoundText").GetComponent<TextMeshProUGUI>();
 		timerText = GameObject.Find("TimerText").GetComponent<TextMeshProUGUI>();
@@ -115,8 +126,12 @@ public class BombermanRoundManager : MonoBehaviour
 		{
 			if (!isVictory)
 			{
+				if(roundTimer <= 0)
+				{
+					roundTimer = baseRoundTimer;
+				}
 				roundTimer -= Time.deltaTime;
-				int tempRoundTimer = Mathf.RoundToInt(roundTimer);
+				int tempRoundTimer = Mathf.CeilToInt(roundTimer);
 				timerText.text = "Time: " + tempRoundTimer;
 			}
 
