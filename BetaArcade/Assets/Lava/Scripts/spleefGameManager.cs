@@ -10,6 +10,8 @@ public class spleefGameManager : MonoBehaviour
     public GameObject winner;
     // Start is called before the first frame update
     public GameObject PlayerPrefab;
+    public int kills;
+    public int total;
     public GameObject SpawnPointParent;
     private List<GameObject> SpawnPoints = new List<GameObject>(); //list
 
@@ -18,7 +20,9 @@ public class spleefGameManager : MonoBehaviour
 
     void Start()
     {
+        
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        total = gameManager.GetPlayerCount() - 1;
         foreach (Transform SP in SpawnPointParent.transform)
         {
             SpawnPoints.Add(SP.gameObject);
@@ -33,7 +37,12 @@ public class spleefGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        kills = GameObject.Find("KillZone").GetComponent<killZone>().kills;
 
+        if (kills > total)
+        {
+            finished = true;
+        }
     }
 
     void PlayerCreate()

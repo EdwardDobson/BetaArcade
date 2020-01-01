@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class killZone : MonoBehaviour
 {
+
+    public int kills;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +23,7 @@ public class killZone : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            kills += 1;
             GameObject.Destroy(collision.gameObject);
         }
     }
