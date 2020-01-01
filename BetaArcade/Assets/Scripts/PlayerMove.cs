@@ -45,7 +45,10 @@ public class PlayerMove : MonoBehaviour
         Invoke("LateStart", 0.1f);
         distanceToGround = GetComponent<Collider>().bounds.extents.y;
         Walk = GetComponent<AudioSource>();
-        Jump = transform.Find("JumpAudioSource").GetComponent<AudioSource>();
+		if(jumpEnabled)
+		{
+			Jump = transform.Find("JumpAudioSource").GetComponent<AudioSource>();
+		}
         m_CharacterAnimator = GetComponentInChildren<Animator>();
     }
     void LateStart()
