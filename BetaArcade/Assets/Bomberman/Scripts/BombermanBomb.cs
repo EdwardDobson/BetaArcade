@@ -29,8 +29,6 @@ public class BombermanBomb : Bomberman
 	void Explode()
 	{
 		explosion.Play(0);
-        thisRender.enabled = false;
-		thisCollider.enabled = false;
 		hasExploded = true;
 		Instantiate(explosionPrefab, transform.position, Quaternion.identity);
 		///makes the explosions in the cardinal directions
@@ -38,6 +36,8 @@ public class BombermanBomb : Bomberman
 		StartCoroutine(CreateExplosions(Vector3.right));
 		StartCoroutine(CreateExplosions(Vector3.back));
 		StartCoroutine(CreateExplosions(Vector3.left));
+		thisRender.enabled = false;
+		thisCollider.enabled = false;
 		Destroy(gameObject, explosion.clip.length);
 	}
 
