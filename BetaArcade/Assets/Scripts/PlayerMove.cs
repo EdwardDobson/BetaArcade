@@ -42,7 +42,7 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Invoke("LateStart", 0.1f);
+        Invoke("LateStart", 0.001f);
         distanceToGround = GetComponent<Collider>().bounds.extents.y;
         Walk = GetComponent<AudioSource>();
 		if(jumpEnabled)
@@ -50,6 +50,8 @@ public class PlayerMove : MonoBehaviour
 			Jump = transform.Find("JumpAudioSource").GetComponent<AudioSource>();
 		}
         m_CharacterAnimator = GetComponentInChildren<Animator>();
+        MassPowerUpReset();
+   
     }
     void LateStart()
     {
@@ -58,6 +60,8 @@ public class PlayerMove : MonoBehaviour
         {
             shoveSlider = playerPicture.transform.GetChild(0).GetComponent<Slider>();
             dashSlider = playerPicture.transform.GetChild(7).GetComponent<Slider>();
+            shoveSlider.value = 0.5f;
+            dashSlider.value = 0.5f;
         }
         else
         {

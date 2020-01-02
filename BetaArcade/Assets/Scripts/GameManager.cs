@@ -233,7 +233,10 @@ public class GameManager : MonoBehaviour
         playerUI.transform.GetChild(9).GetComponent<Image>().color = PlayerUIImageColour(playerCount);
         playerUI.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
         playerUI.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
-        playerUI.transform.SetParent(GameObject.Find("PlayerUI").transform.GetChild(1).transform);
+    
+        playerUI.transform.SetParent(PlayerUI.transform.GetChild(1),false);
+        playerUI.transform.position = Portraits[playerCount - 1].transform.position;
+
         PlayerPictures.Add(playerUI);
     }
     private Color PlayerUIImageColour(int id)
