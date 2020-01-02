@@ -38,6 +38,7 @@ public class PlayerMove : MonoBehaviour
     bool rotationEnabled = true;
     public Slider dashSlider;
     public Slider shoveSlider;
+    public bool canMove = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,82 +71,89 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update()
     {
-
-        if (isGrounded && !isFrozen && jumpEnabled)
+if(canMove)
         {
-            if (Input.GetButtonDown("Jump" + ID))
+            if (isGrounded && !isFrozen && jumpEnabled)
             {
-
-                if (bigJumps > 0)
-                {
-                    rb.AddForce(Vector3.up * jumpSpeed * 2f);
-                    bigJumps--;
-                }
-                else if (bigJumps <= 0)
+                if (Input.GetButtonDown("Jump" + ID))
                 {
 
-                    rb.AddForce(Vector3.up * jumpSpeed);
-                    GameObject Clone = GameObject.Find("PlayerPicture" + ID);
-                    if (Clone != null)
+                    if (bigJumps > 0)
                     {
-                        foreach (Transform t in Clone.transform)
-                        {
+                        rb.AddForce(Vector3.up * jumpSpeed * 2f);
+                        bigJumps--;
+                    }
+                    else if (bigJumps <= 0)
+                    {
 
-                            if (t.name == "PUJump" + "(Clone)")
+                        rb.AddForce(Vector3.up * jumpSpeed);
+                        GameObject Clone = GameObject.Find("PlayerPicture" + ID);
+                        if (Clone != null)
+                        {
+                            foreach (Transform t in Clone.transform)
                             {
-                                t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
-                                t.gameObject.name = "";
-                                powerUpCount--;
+
+                                if (t.name == "PUJump" + "(Clone)")
+                                {
+                                    t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
+                                    t.gameObject.name = "";
+                                    powerUpCount--;
+                                }
                             }
                         }
                     }
-                }
 
-                Jump.Play();
-                if(m_CharacterAnimator != null)
+                    Jump.Play();
+                    if (m_CharacterAnimator != null)
+                    {
+                        // TODO if we have time we should implement this
+                        m_CharacterAnimator.SetTrigger("Jump");
+                    }
+                }
+                if (Input.GetButtonDown("Dash" + ID) && !hasDashed)
                 {
-                    // TODO if we have time we should implement this
-                    m_CharacterAnimator.SetTrigger("Jump");
+                    rb.AddForce(movement * dashSpeed, ForceMode.Impulse);
+                    hasDashed = true;
+                    StartCoroutine(ResetDash());
+                }
+                if (hasDashed)
+                {
+                    dashTimer -= Time.deltaTime;
+                    dashSlider.value = dashTimer;
+
+                }
+                if (hasPushed)
+                {
+                    shoveTimer -= Time.deltaTime;
+                    shoveSlider.value = shoveTimer;
+                }
+                if (rb.velocity.sqrMagnitude > 2f && !Walk.isPlaying)
+                {
+                    Walk.Play();
                 }
             }
-            if (Input.GetButtonDown("Dash" + ID) && !hasDashed)
+            if (!isGrounded && rb.velocity.y <= 0)
             {
-                rb.AddForce(movement * dashSpeed, ForceMode.Impulse);
-                hasDashed = true;
-                StartCoroutine(ResetDash());
+                transform.position = new Vector3(transform.position.x, transform.position.y - (2 * Time.deltaTime), transform.position.z);
             }
-            if (hasDashed)
-            {
-                dashTimer -= Time.deltaTime;
-                dashSlider.value = dashTimer;
 
-            }
-            if (hasPushed)
+            if (m_CharacterAnimator != null)
             {
-                shoveTimer -= Time.deltaTime;
-                shoveSlider.value = shoveTimer;
-            }
-            if (rb.velocity.sqrMagnitude > 2f && !Walk.isPlaying)
-            {
-                Walk.Play();
+                float horizontalMoveSpeed = Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z);
+                m_CharacterAnimator.SetFloat("MoveSpeed", horizontalMoveSpeed);
+                m_CharacterAnimator.SetFloat("RunMultiplier", 0.1f + (horizontalMoveSpeed / 6.5f));
             }
         }
-        if (!isGrounded && rb.velocity.y <= 0)
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y - (2 * Time.deltaTime), transform.position.z);
-        }
-
-        if(m_CharacterAnimator != null)
-        {
-            float horizontalMoveSpeed = Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z);
-            m_CharacterAnimator.SetFloat("MoveSpeed", horizontalMoveSpeed);
-            m_CharacterAnimator.SetFloat("RunMultiplier", 0.1f + (horizontalMoveSpeed / 6.5f));
-        }
+       
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(canMove)
+        {
+
+        
         if (!isFrozen)
         {
             float moveHorizontal = Input.GetAxisRaw("Horizontal" + ID);
@@ -177,6 +185,7 @@ public class PlayerMove : MonoBehaviour
             }
         }
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
+        }
     }
     IEnumerator ResetDash()
     {
