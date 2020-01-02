@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 public class SelectTutorialStart : MonoBehaviour
 {
     public EventSystem eventSystem;
@@ -23,6 +24,7 @@ public class SelectTutorialStart : MonoBehaviour
         for (int i = 0; i < playersArray.Length; ++i)
         {
             playersArray[i].GetComponent<Rigidbody>().mass = 500;
+            playersArray[i].GetComponent<PlayerMove>().canMove = false;
         }
      
     }
@@ -31,6 +33,19 @@ public class SelectTutorialStart : MonoBehaviour
         for (int i = 0; i < playersArray.Length; ++i)
         {
             playersArray[i].GetComponent<Rigidbody>().mass = 1;
+            playersArray[i].GetComponent<PlayerMove>().canMove = true;
+        }
+    }
+    public void Update()
+    {
+        if(SceneManager.GetActiveScene().name == "EndZone")
+        {
+            playersArray = FindObjectsOfType<PlayerMove>();
+            for (int i = 0; i < playersArray.Length; ++i)
+            {
+                playersArray[i].GetComponent<Rigidbody>().mass = 1;
+                playersArray[i].GetComponent<PlayerMove>().canMove = true;
+            }
         }
     }
 }
