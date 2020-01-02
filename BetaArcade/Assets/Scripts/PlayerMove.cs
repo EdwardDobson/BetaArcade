@@ -46,13 +46,13 @@ public class PlayerMove : MonoBehaviour
         Invoke("LateStart", 0.001f);
         distanceToGround = GetComponent<Collider>().bounds.extents.y;
         Walk = GetComponent<AudioSource>();
-		if(jumpEnabled)
-		{
-			Jump = transform.Find("JumpAudioSource").GetComponent<AudioSource>();
-		}
+        if (jumpEnabled)
+        {
+            Jump = transform.Find("JumpAudioSource").GetComponent<AudioSource>();
+        }
         m_CharacterAnimator = GetComponentInChildren<Animator>();
         MassPowerUpReset();
-   
+
     }
     void LateStart()
     {
@@ -71,7 +71,8 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update()
     {
-if(canMove)
+
+        if (canMove)
         {
             if (isGrounded && !isFrozen && jumpEnabled)
             {
@@ -144,47 +145,47 @@ if(canMove)
                 m_CharacterAnimator.SetFloat("RunMultiplier", 0.1f + (horizontalMoveSpeed / 6.5f));
             }
         }
-       
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(canMove)
+        if (canMove)
         {
 
-        
-        if (!isFrozen)
-        {
-            float moveHorizontal = Input.GetAxisRaw("Horizontal" + ID);
-            float moveVertical = Input.GetAxisRaw("Vertical" + ID);
-            movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-            rb.AddForce(new Vector3(moveHorizontal * speed, 0, moveVertical * speed));
-            //if(rb.velocity.sqrMagnitude < maxSpeed)
-            //rb.AddForce(Time.deltaTime * movement.x * speed, 0, Time.deltaTime * movement.z * speed, ForceMode.VelocityChange);
-            if (Mathf.Abs(rb.velocity.z) > maxSpeed || Mathf.Abs(rb.velocity.x) > maxSpeed)
+
+            if (!isFrozen)
             {
-                float y = rb.velocity.y;
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-                rb.velocity = new Vector3(rb.velocity.x, y, rb.velocity.z);
-            }
+                float moveHorizontal = Input.GetAxisRaw("Horizontal" + ID);
+                float moveVertical = Input.GetAxisRaw("Vertical" + ID);
+                movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+                rb.AddForce(new Vector3(moveHorizontal * speed, 0, moveVertical * speed));
+                //if(rb.velocity.sqrMagnitude < maxSpeed)
+                //rb.AddForce(Time.deltaTime * movement.x * speed, 0, Time.deltaTime * movement.z * speed, ForceMode.VelocityChange);
+                if (Mathf.Abs(rb.velocity.z) > maxSpeed || Mathf.Abs(rb.velocity.x) > maxSpeed)
+                {
+                    float y = rb.velocity.y;
+                    rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+                    rb.velocity = new Vector3(rb.velocity.x, y, rb.velocity.z);
+                }
 
 
-            Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
-            if (Input.GetButton("Shove" + ID) && !hasPushed)
-            {
-                hasPushed = true;
-                Debug.Log("Shoved");
-                Push();
-                StartCoroutine(ResetShove());
+                Vector3 lookDir = new Vector3(Input.GetAxis("Mouse X" + ID), 0, -Input.GetAxis("Mouse Y" + ID));
+                if (Input.GetButton("Shove" + ID) && !hasPushed)
+                {
+                    hasPushed = true;
+                    Debug.Log("Shoved");
+                    Push();
+                    StartCoroutine(ResetShove());
+                }
+                if (lookDir.magnitude > 0.5 && rotationEnabled == true)
+                {
+                    Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.fixedDeltaTime);
+                }
             }
-            if (lookDir.magnitude > 0.5 && rotationEnabled == true)
-            {
-                Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
-                transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.fixedDeltaTime);
-            }
-        }
-        isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
+            isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
         }
     }
     IEnumerator ResetDash()
@@ -215,12 +216,12 @@ if(canMove)
         foreach (Collider hit in colliders)
         {
 
-                Rigidbody rb = hit.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 0.8f);
-                }
-       
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddExplosionForce(shoveForce, pushPos, shoveRadius, 0.8f);
+            }
+
         }
     }
 
@@ -273,17 +274,22 @@ if(canMove)
     public void MassPowerUpReset()
     {
         GameObject Clone = GameObject.Find("PlayerPicture" + ID);
-        foreach (Transform t in Clone.transform.transform)
+        if (Clone != null)
         {
-            if (t.gameObject.tag == "PowerUpSlot")
+
+
+            foreach (Transform t in Clone.transform.transform)
             {
-                t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
-                t.gameObject.name = "";
-                t.GetComponent<Image>().sprite = null;
+                if (t.gameObject.tag == "PowerUpSlot")
+                {
+                    t.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
+                    t.gameObject.name = "";
+                    t.GetComponent<Image>().sprite = null;
+                }
             }
+            powerUpCount = 0;
+            bigJumps = 0;
+            speed = originalSpeed;
         }
-        powerUpCount = 0;
-        bigJumps = 0;
-        speed = originalSpeed;
     }
 }
