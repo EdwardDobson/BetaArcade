@@ -64,7 +64,10 @@ public class WAMLevelManager : KamilLevelManager
       else
         {
         if (CountdownTimer.Instance.Timeleft <= 0)
+          {
           m_IsPaused = false;
+          m_Players.Where(x => x != null).Select(x => x.GetComponent<PlayerMove>()).ToList().ForEach(x => x.canMove = true);
+          }
         }
       }
     }
@@ -98,7 +101,7 @@ public class WAMLevelManager : KamilLevelManager
       m_IsPaused = true;
       m_Players = new List<GameObject>();
       TargetPlayers = playerCount;
-      foreach(var mole in GameObject.FindObjectsOfType<GameObject>().Where(x => x.name == "Mole"))
+      foreach (var mole in GameObject.FindObjectsOfType<GameObject>().Where(x => x.name == "Mole"))
         {
         Destroy(mole);
         }
