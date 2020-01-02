@@ -127,8 +127,9 @@ public class Bomberman : MonoBehaviour
 		{
 			bombsRemaining--;
 			GameObject clone = Instantiate(bombPrefab, new Vector3((myTransform.position.x), (myTransform.position.y), (myTransform.position.z)), bombPrefab.transform.rotation);
-			clone.transform.SetParent(transform);
+			clone.GetComponent<BombermanBomb>().setBombPower(bombPower);
 			Debug.Log("Bomb dropped");
+		
 		}
 	}
 

@@ -19,8 +19,8 @@ public class BombermanBomb : Bomberman
     // Start is called before the first frame update
     void Start()
     {
-		myParent = transform.parent.GetComponent<Bomberman>();
-		thisBombPower = myParent.GetBombPower();
+		//myParent = transform.parent.GetComponent<Bomberman>();
+		//thisBombPower = myParent.GetBombPower();
         thisRender = GetComponent<MeshRenderer>();
         thisCollider = GetComponent<Collider>();
 		Invoke("Explode", fuse);
@@ -84,4 +84,8 @@ public class BombermanBomb : Bomberman
     {
         
     }
+	public float setBombPower(float _value)
+	{
+		return thisBombPower = _value;
+	}
 }

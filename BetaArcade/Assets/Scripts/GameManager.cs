@@ -364,51 +364,37 @@ public class GameManager : MonoBehaviour
     }
     public void ChangeTutorialScreen(string _gameName)
     {
-        if (_gameName == "King Of The Hill")
+        switch (_gameName)
         {
-            title.text = _gameName;
-            howToPlayText.text = "-Enter the zone to gain points. \n" + "-Shove other players out of the zone to stop them contesting.\n" + "-Highest points wins the round when the timer hits zero.\n" + "-Each round gains you a point to the overall score.";
+            case "King Of The Hill":
+                howToPlayText.text = "-Enter the zone to gain points. \n" + "-Shove other players out of the zone to stop them contesting.\n" + "-Highest points wins the round when the timer hits zero.\n" + "-Each round gains you a point to the overall score.";
+                break;
+            case "Hot Potato":
+                howToPlayText.text = "-Pass the bomb to other players. \n" + "-If you have the bomb when the timer runs out you will explode. \n" + "-Last player standing wins the round.\n" + "-Each round gains you a point to the overall score.";
+                break;
+            case "Spleef":
+                howToPlayText.text = "-As you run over blocks they fall. \n" + "-Try to be last alive! \n" + "-Last player standing wins the round.\n" + "-Tip: Run where other players are heading so the blocks fall infront of them";
+                break;
+            case "Paint The Floor":
+                howToPlayText.text = "-Use your sludge gun to paint the floor in your sludge and gain points from it. \n" + "-Use your sludge to slow other players. \n" + "-Highest points wins the round when the timer hits zero.\n" + "-Each round gains you a point to the overall score.";
+                break;
+                case "Paintball Tag":   
+                howToPlayText.text = "-Deathmatch style game.\n" + "-One hit from another players paint gun and you will have to wait to respawn.\n" + "-Highest eliminations at when the timer hits zero wins the round.";
+                break;
+            case "Dodgeball":
+                howToPlayText.text = "-Pick up the ball to throw it at other players.\n" + "-Get hit wait for respawn or the next round.\n" + "-Last man standing gains a point.";
+                break;
+            case "Bomberman":
+                howToPlayText.text = "-Place bombs to explode other players. \n" + "-Pick up power ups to enchance your bombs.\n" + "-Watch out though your own bombs can kill you.\n" + "-Last man standing gains a point.";
+                break;
+            case "Tron":
+                howToPlayText.text = "-Move around and try to hit other players with your trail. \n" + "-Watch out you can hit yourself with your own trail.\n" + "-Last man standing gains a point.";
+                break;
+            case "Whack-A-Mole":
+                howToPlayText.text = "-Move around and press RT to hit the moles. \n" + "-Use your hammer to stun other players. \n" + "-Highest mole eliminations wins the round and gains a point.\n";
+                break;
         }
-        if (_gameName == "Hot Potato")
-        {
-            title.text = _gameName;
-            howToPlayText.text = "-Pass the bomb to other players. \n" + "-If you have the bomb when the timer runs out you will explode. \n" + "-Last player standing wins the round.\n" + "-Each round gains you a point to the overall score.";
-        }
-        if (_gameName == "Spleef")
-        {
-            title.text = _gameName;
-            howToPlayText.text = "-As you run over blocks they fall. \n" + "-Try to be last alive! \n" + "-Last player standing wins the round.\n" + "-Tip: Run where other players are heading so the blocks fall infront of them";
-        }
-        if (_gameName == "Paint The Floor")
-        {
-            title.text = _gameName;
-            howToPlayText.text = "-Use your sludge gun to paint the floor in your sludge and gain points from it. \n" + "-Use your sludge to slow other players. \n" + "-Highest points wins the round when the timer hits zero.\n" + "-Each round gains you a point to the overall score.";
-        }
-        if (_gameName == "Paintball Tag")
-        {
-            title.text = _gameName;
-            howToPlayText.text = "-Deathmatch style game.\n" + "-One hit from another players paint gun and you will have to wait to respawn.\n" + "-Highest eliminations at when the timer hits zero wins the round.";
-        }
-        if (_gameName == "Dodgeball")
-        {
-            title.text = _gameName;
-            howToPlayText.text = "-Pick up the ball to throw it at other players.\n" + "-Get hit wait for respawn or the next round.\n" + "-Last man standing gains a point.";
-        }
-        if (_gameName == "Bomberman")
-        {
-            title.text = _gameName;
-            howToPlayText.text = "-Place bombs to explode other players. \n" + "-Pick up power ups to enchance your bombs.\n" + "-Watch out though your own bombs can kill you.\n" + "-Last man standing gains a point.";
-        }
-        if (_gameName == "Tron")
-        {
-            title.text = _gameName;
-            howToPlayText.text = "-Move around and try to hit other players with your trail. \n" + "-Watch out you can hit yourself with your own trail.\n" + "-Last man standing gains a point.";
-        }
-        if (_gameName == "Whack-A-Mole")
-        {
-            title.text = _gameName;
-            howToPlayText.text = "-Move around and press RT to hit the moles. \n" + "-Use your hammer to stun other players. \n" + "-Highest mole eliminations wins the round and gains a point.\n";
-        }
+        title.text = _gameName;
     }
     IEnumerator LoadMainMenu()
     {
