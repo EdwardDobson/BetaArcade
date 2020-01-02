@@ -36,7 +36,6 @@ public class HotPotato : MonoBehaviour
     int playerBombTotal;
     AudioSource tick;
     AudioSource explosion;
-    GameObject PlayerPortraits;
     void Start()
     {
         maxBombTimer = 5;
@@ -46,7 +45,6 @@ public class HotPotato : MonoBehaviour
         bombTimerTitle.text = "Bomb Timer: " + maxBombTimer;
         tick = GetComponent<AudioSource>();
         explosion = transform.GetChild(0).GetComponent<AudioSource>();
-        PlayerPortraits = GameObject.Find("PlayerPortraits");
     }
     void LateStart()
     {

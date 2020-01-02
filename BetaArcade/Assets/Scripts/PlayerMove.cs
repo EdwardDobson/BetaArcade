@@ -276,8 +276,6 @@ public class PlayerMove : MonoBehaviour
         GameObject Clone = GameObject.Find("PlayerPicture" + ID);
         if (Clone != null)
         {
-
-
             foreach (Transform t in Clone.transform.transform)
             {
                 if (t.gameObject.tag == "PowerUpSlot")

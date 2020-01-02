@@ -46,16 +46,13 @@ public class ScoreManager : MonoBehaviour
     bool startGame;
     bool gameStarted = false;
     public  float pointDrainTimer = 1;
+    GameObject KOTHCanvas;
     // Start is called before the first frame update
     void Start()
     {
+        KOTHCanvas = GameObject.Find("KOTHCanvas");
         PlayerUI = GameObject.Find("PlayerUI").transform.GetChild(1).gameObject;
         point = GetComponent<PointMove>();
-        roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
-        timerText = GameObject.Find("timerText").GetComponent<TextMeshProUGUI>();
-        winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
-        scoreToWinText = GameObject.Find("ScoreToWinText").GetComponent<TextMeshProUGUI>();
-        inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
         scoreToWinTextTutorialText = GameObject.Find("ScoreToWin").GetComponent<TextMeshProUGUI>();
         timerTextTutorialText = GameObject.Find("RoundTimerText").GetComponent<TextMeshProUGUI>();
         roundTimerSlider = GameObject.Find("RoundTimeSlider").GetComponent<Slider>();
@@ -63,14 +60,42 @@ public class ScoreManager : MonoBehaviour
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
         KOTHPlayerSpawner = GetComponent<KOTHPlayerSpawner>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
-        roundText.text = "Round: 1 of " + maxRound;
+        maxRound = gameManager.GetNumberOfRounds();
         currentRound++;
-        timerText.text = "Time: " + gameManager.GetTimer();
         timerTextTutorialText.text =  "Round Time: " + gameManager.GetTimer();
         scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
-        scoreToWinText.text = "Score to win: " + maxScore;
+
         gameManager.SetOldTimer();
+        foreach(Transform a in KOTHCanvas.transform)
+        {
+            switch (a.name)
+            {
+                case "WinText":
+                    winText = a.GetComponent<TextMeshProUGUI>();
+                    break;
+                case "inPointText":
+                    inPointText = a.GetComponent<TextMeshProUGUI>();
+                    break;
+                case "roundText":
+                    roundText = a.GetComponent<TextMeshProUGUI>();
+                    roundText.text = "Round: 1 of " + maxRound;
+                    break;
+                case "timerText":
+                    timerText = a.GetComponent<TextMeshProUGUI>();
+                    timerText.text = "Time: " + gameManager.GetTimer();
+                    break;
+                case "ScoreToWinText":
+                    scoreToWinText = a.GetComponent<TextMeshProUGUI>();
+                    scoreToWinText.text = "Score to win: " + maxScore;
+                    break;
+                case "StartTimeText":
+                    winText = a.GetComponent<TextMeshProUGUI>();
+                    break;
+
+            }
+
+        }
+    
         foreach (Transform t in PlayerUI.transform)
         {
             t.GetChild(6).GetComponent<TextMeshProUGUI>().text = "Score: 0";
@@ -165,9 +190,9 @@ public class ScoreManager : MonoBehaviour
     }
     IEnumerator RespawnPlayer(Transform _child)
     {
-        _child.gameObject.GetComponent<Rigidbody>().mass = 300;
+        _child.gameObject.GetComponent<PlayerMove>().canMove = false;
         yield return new WaitForSeconds(2);
-        _child.gameObject.GetComponent<Rigidbody>().mass = 1;
+        _child.gameObject.GetComponent<PlayerMove>().canMove = true;
     }
     void AddScoreOutOfTime()
     {
@@ -298,18 +323,13 @@ public class ScoreManager : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-       
         if(other.tag.Contains("Player"))
         {
             inPointCount--;
             inPointText.text = "";
-        }
-        if (other.tag.Contains("Player"))
-        {
             point.gameObject.GetComponent<MeshRenderer>().material = pointMat;
             transform.GetChild(0).GetComponent<ChangeColour>().ModColour(5);
         }
-    
     }
 
     private void OnTriggerEnter(Collider other)

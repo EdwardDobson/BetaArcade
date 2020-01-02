@@ -23,7 +23,6 @@ public class SelectTutorialStart : MonoBehaviour
         playersArray =  FindObjectsOfType<PlayerMove>();
         for (int i = 0; i < playersArray.Length; ++i)
         {
-            playersArray[i].GetComponent<Rigidbody>().mass = 500;
             playersArray[i].GetComponent<PlayerMove>().canMove = false;
         }
      
@@ -32,7 +31,6 @@ public class SelectTutorialStart : MonoBehaviour
     {
         for (int i = 0; i < playersArray.Length; ++i)
         {
-            playersArray[i].GetComponent<Rigidbody>().mass = 1;
             playersArray[i].GetComponent<PlayerMove>().canMove = true;
         }
     }
@@ -43,7 +41,6 @@ public class SelectTutorialStart : MonoBehaviour
             playersArray = FindObjectsOfType<PlayerMove>();
             for (int i = 0; i < playersArray.Length; ++i)
             {
-                playersArray[i].GetComponent<Rigidbody>().mass = 1;
                 playersArray[i].GetComponent<PlayerMove>().canMove = true;
             }
         }
