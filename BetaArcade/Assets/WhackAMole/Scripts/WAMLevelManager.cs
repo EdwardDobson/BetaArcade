@@ -64,7 +64,10 @@ public class WAMLevelManager : KamilLevelManager
       else
         {
         if (CountdownTimer.Instance.Timeleft <= 0)
+          {
           m_IsPaused = false;
+          m_Players.Where(x => x != null).Select(x => x.GetComponent<PlayerMove>()).ToList().ForEach(x => x.canMove = true);
+          }
         }
       }
     }
@@ -81,32 +84,36 @@ public class WAMLevelManager : KamilLevelManager
     }
   public override IEnumerator EndRound()
     {
-    m_RoundEnded = true;
-    // Give +1 to players who won
-    m_Players.Where(x => x.GetComponent<WAMPlayerManager>().Score == m_Players.Max(p => p.GetComponent<WAMPlayerManager>().Score))
-             .ToList().ForEach(x => { if (m_GameManager != null) m_GameManager.SetPlayerScore(LevelManagerTools.GetPlayerID(x), 1); });
-
-    yield return new WaitForSeconds(2);
-    if (!LevelCheck())
+    if (!m_RoundEnded)
       {
-      m_CurrentRound++;
-      var playerCount = m_Players.Count;
-      foreach (var player in m_Players.Where(x => x != null))
+      Debug.Log("Round ending!");
+      m_RoundEnded = true;
+      // Give +1 to players who won
+      m_Players.Where(x => x.GetComponent<WAMPlayerManager>().Score == m_Players.Max(p => p.GetComponent<WAMPlayerManager>().Score))
+               .ToList().ForEach(x => { if (m_GameManager != null) m_GameManager.SetPlayerScore(LevelManagerTools.GetPlayerID(x), 1); });
+
+      yield return new WaitForSeconds(2);
+      if (!LevelCheck())
         {
-        Destroy(player);
+        m_CurrentRound++;
+        var playerCount = m_Players.Count;
+        foreach (var player in m_Players.Where(x => x != null))
+          {
+          Destroy(player);
+          }
+        m_IsPaused = true;
+        m_Players = new List<GameObject>();
+        TargetPlayers = playerCount;
+        foreach (var mole in GameObject.FindObjectsOfType<GameObject>().Where(x => x.name == "Mole"))
+          {
+          Destroy(mole);
+          }
+        MoleCount = 0;
+        m_CanSpawnMole = true;
+        CountdownTimer.Instance.Run();
+        m_Timer = m_OldTimer;
+        m_RoundEnded = false;
         }
-      m_IsPaused = true;
-      m_Players = new List<GameObject>();
-      TargetPlayers = playerCount;
-      foreach(var mole in GameObject.FindObjectsOfType<GameObject>().Where(x => x.name == "Mole"))
-        {
-        Destroy(mole);
-        }
-      MoleCount = 0;
-      m_CanSpawnMole = true;
-      CountdownTimer.Instance.Run();
-      m_Timer = m_OldTimer;
-      m_RoundEnded = false;
       }
     }
   private void CreateMole()

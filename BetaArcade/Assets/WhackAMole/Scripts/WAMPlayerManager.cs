@@ -13,15 +13,16 @@ public class WAMPlayerManager : MonoBehaviour
     set
       {
       m_Score = value;
+      Debug.Log("Score: " + value + ", Max: " + m_MaxScore);
       if(m_Score >= m_MaxScore)
         {
-        GameObject.Find("LevelManager").GetComponent<WAMLevelManager>().EndRound();
+        StartCoroutine(GameObject.Find("LevelManager").GetComponent<WAMLevelManager>().EndRound());
         }
       }
     }
 
   private int m_Score;
-  private int m_MaxScore = 20;
+  private int m_MaxScore = 10;
   private int m_ID;
   private float m_SwingCooldownTime = 1f;
   private GameManager m_GameManager;

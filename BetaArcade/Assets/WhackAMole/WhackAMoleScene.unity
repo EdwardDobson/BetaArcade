@@ -1238,11 +1238,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 664561126}
-    - target: {fileID: 7134763253041377281, guid: 3dc3d3df1e8d80246b2e7044e1e7f9f9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3075542152666144471, guid: 3dc3d3df1e8d80246b2e7044e1e7f9f9,
         type: 3}
       propertyPath: m_TargetAudioSources.Array.size
@@ -1273,6 +1268,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ControlledAudioTrackCount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8955483913919421953, guid: 3dc3d3df1e8d80246b2e7044e1e7f9f9,
+        type: 3}
+      propertyPath: m_text
+      value: Whack-A-Mole
+      objectReference: {fileID: 0}
+    - target: {fileID: 8955483913919421953, guid: 3dc3d3df1e8d80246b2e7044e1e7f9f9,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134763253041377281, guid: 3dc3d3df1e8d80246b2e7044e1e7f9f9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3dc3d3df1e8d80246b2e7044e1e7f9f9, type: 3}

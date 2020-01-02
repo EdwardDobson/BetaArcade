@@ -7,7 +7,7 @@ public class HammerHeadScript : MonoBehaviour
   {
   private void OnTriggerEnter(Collider other)
     {
-    if(other.gameObject.name == "Mole")
+    if (other.gameObject.name == "Mole")
       {
       Destroy(other.gameObject);
       GetComponentInParent<WAMPlayerManager>().Score++;
