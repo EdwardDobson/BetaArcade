@@ -110,6 +110,7 @@ public class BombermanRoundManager : MonoBehaviour
 		List<GameObject> winners = spawner.RemainingPlayers();
 		for (int i = 0; i < winners.Count; ++i)
 		{
+			winners[i].GetComponent<Bomberman>().ResetPowers(); //cycling
 			tmpID = winners[i].GetComponent<PlayerMove>().ID;
 			Debug.Log("ID " + tmpID);
 			gameManager.SetPlayerScore(tmpID, 1);
@@ -117,11 +118,21 @@ public class BombermanRoundManager : MonoBehaviour
 		}
 		roundTimer = baseRoundTimer;
 		remainingPlayers = GameObject.Find("GameManager").GetComponent<GameManager>().GetPlayerCount();
+		currentRound++;
 		StartCoroutine("Countdown");
+		isScoring = false;
 	}
 	//used to start the game round
 	IEnumerator Countdown()
 	{
+		List<GameObject> players = spawner.players;
+		for(int i = 0; i< players.Count; ++i)
+		{
+			players[i].GetComponent<PlayerMove>().enabled = false;
+			players[i].GetComponent<Bomberman>().enabled = false;
+			players[i].GetComponent<Rigidbody>().velocity = Vector3.zero; //prevent movement on first frame
+			players[i].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+		}
 		float tmpTimer = 5.0f;
 		float countDelay = 1.0f;
 		while (tmpTimer>0.0f)
@@ -135,6 +146,11 @@ public class BombermanRoundManager : MonoBehaviour
 		}
 		if(tmpTimer<=0.0f)
 		{
+			for (int i = 0; i < players.Count; ++i)
+			{
+				players[i].GetComponent<PlayerMove>().enabled = true;
+				players[i].GetComponent<Bomberman>().enabled = true;
+			}
 			Debug.Log("Finished counting");
 			if(hasStarted != true)
 			{
@@ -171,12 +187,20 @@ public class BombermanRoundManager : MonoBehaviour
 		{
 			if (!isVictory && !isNeedTimer)
 			{
+				roundText.text = "Round " + currentRound + " / " + gameManager.GetNumberOfRounds();
 				if (roundTimer <= 0)
 				{
 					countdownText.text = "Time Up!";
 					isScoring = true;
 					isVictory = true;
-					StartCoroutine(Restart());
+					if(currentRound != roundMax)
+					{
+						StartCoroutine(Restart());
+					}
+					else if (currentRound == roundMax)
+					{
+						StartCoroutine(Final());
+					}
 				}
 				roundTimer -= Time.deltaTime;
 				int tempRoundTimer = Mathf.CeilToInt(roundTimer);

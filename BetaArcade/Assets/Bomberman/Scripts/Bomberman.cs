@@ -40,9 +40,11 @@ public class Bomberman : MonoBehaviour
 	}
 	public void ResetPowers()
 	{
-		bombPower = baseBombMax;
+		bombMax = baseBombMax;
 		bombPower = baseBombPower;
 		regenRate = baseRegen;
+		bombsRemaining = bombMax;
+		Debug.Log("Bomb power: " + bombPower + " Base: " + baseBombMax);
 		UpdateUI();
 	}
 	public bool GetIsDead()
@@ -113,6 +115,7 @@ public class Bomberman : MonoBehaviour
 	{
 		isDead = true;
 		manager.PlayerDown(player.ID);
+		ResetPowers();
 		powerText.text = " ";
 		//global point allocation
 		gameObject.SetActive(false);
@@ -134,7 +137,7 @@ public class Bomberman : MonoBehaviour
 		Mathf.CeilToInt(bombPower);
 		Mathf.CeilToInt(bombsRemaining);
 		Mathf.CeilToInt(bombMax);
-		powerText.text = "Player" + player.ID + "\nPower: " + bombPower + "\nBombs: " + bombsRemaining + "/" + bombMax;
+		powerText.text = "Player " + player.ID + "\nPower: " + bombPower + "\nBombs: " + bombsRemaining + "/" + bombMax;
 	}
 
 	void ClearUI()
