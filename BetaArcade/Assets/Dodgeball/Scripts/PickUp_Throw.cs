@@ -107,8 +107,6 @@ public class PickUp_Throw : MonoBehaviour
 
     private void Charge()
     {
-        Debug.Log("ping");
-
         if (power > maxPower)
             return;
         else

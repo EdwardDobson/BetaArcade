@@ -61,9 +61,9 @@ public class Win_Condition : MonoBehaviour
 
     GameManager gameManager;
 
-    bool endGameMode = false;
+    public bool gameStarted = false;
+    public bool StartTimer = false;
 
-    int tempPointCount;
     AudioSource scoreIncreaseClip;
     
     // Start is called before the first frame update
@@ -88,42 +88,63 @@ public class Win_Condition : MonoBehaviour
         //scoreToWinTextTutorialText.text = "Score To Win : " + scoreTimerSlider.value;
         timer = roundTimerSlider.value;
         timerText.text = "Round Time : " + timer;
-        StartCoroutine(StartCountdown());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (B.PlayersDown >= gameManager.GetPlayerCount()-1)
+        if (gameStarted)
         {
-            AddScore();
-            B.PlayersDown = 0;
-        }
-        
-        if (timer <= 0)
-        {
-            NextRound();
-            B.PlayersDown = 0;
-            timer = roundTimerSlider.value;
-        }
+            if (!StartTimer)
+            {
+                StartTime();
+            }
 
-        if (currentRound > maxRound)
+            if (B.PlayersDown >= gameManager.GetPlayerCount() - 1)
+            {
+                AddScore();
+                B.PlayersDown = 0;
+            }
+
+            if (timer <= 0)
+            {
+                NextRound();
+                B.PlayersDown = 0;
+                timer = roundTimerSlider.value;
+            }
+
+            if (currentRound > maxRound)
+            {
+                inPointText.text = "";
+                roundText.text = "";
+                timerText.text = "";
+                winText.text = "";
+                gameManager.transform.GetChild(0).gameObject.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(GameObject.Find("Next Level"));
+                Debug.Log("Called " + maxRound + " " + currentRound);
+            }
+        }
+    }
+
+    public void SetStartGame(bool _state)
+    {
+        gameStarted = _state;
+    }
+
+    public void StartTime()
+    {
+        CountdownTimer.Instance.Run();
+        if (CountdownTimer.Instance.Timeleft <= 0)
         {
-            inPointText.text = "";
-            roundText.text = "";
-            timerText.text = "";
-            winText.text = "";
-            endGameMode = true;
-            gameManager.transform.GetChild(0).gameObject.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(GameObject.Find("Next Level"));
-            Debug.Log("Called " + maxRound + " " + currentRound);
-            //startGame = false;
+            gameStarted = true;
+            StartCoroutine(StartCountdown());
         }
     }
 
     public IEnumerator StartCountdown()
     {
-       
+        Debug.Log("Ping");
+        StartTimer = true;
         while (timer > 0)
         {
             yield return new WaitForSeconds(1.0f);
@@ -192,7 +213,6 @@ public class Win_Condition : MonoBehaviour
         }
         B.transform.position = BallPosition;
         timer = roundTimerSlider.value;
-        StartCoroutine(StartCountdown());
     }
 
     public void ChangeScoreToWin()
