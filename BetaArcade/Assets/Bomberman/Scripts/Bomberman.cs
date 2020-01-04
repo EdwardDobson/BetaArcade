@@ -159,7 +159,7 @@ public class Bomberman : MonoBehaviour
 			}
 			UpdateUI();
 		}
-		if (Input.GetButtonDown("Jump"+player.ID) && bombsRemaining > 0)
+		if (Input.GetButtonDown("Jump"+player.ID) && bombsRemaining > 0 && manager.gameStarted && Time.timeScale == 1)
 		{
 			Debug.Log("Bomb button got");
 			DropBomb();

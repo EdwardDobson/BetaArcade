@@ -43,7 +43,7 @@ public class BombermanRoundManager : MonoBehaviour
 	BombermanSpawn spawner;
 	[SerializeField]
 	AudioSource bgm;
-
+	public bool gameStarted;
 	public void SetHasStarted(bool started)
 	{
 		hasStarted = started;
@@ -101,6 +101,21 @@ public class BombermanRoundManager : MonoBehaviour
 		roundText.text = "Round " + currentRound + " / " + gameManager.GetNumberOfRounds();
 		eliminationText.text = "";
 	}
+	public void StartTime()
+	{
+
+		CountdownTimer.Instance.Run();
+		if (CountdownTimer.Instance.Timeleft <= 0)
+		{
+			//	canGainPoints = true;
+				gameStarted = true;
+				isNeedTimer = false;
+				isVictory = false;
+				countdownText.text = "";
+				roundTimer = baseRoundTimer;
+			
+		}
+	}
 	//resets everything, applies points to victor(s)
 	IEnumerator Restart()
 	{
@@ -119,50 +134,12 @@ public class BombermanRoundManager : MonoBehaviour
 		roundTimer = baseRoundTimer;
 		remainingPlayers = GameObject.Find("GameManager").GetComponent<GameManager>().GetPlayerCount();
 		currentRound++;
-		StartCoroutine("Countdown");
+		isVictory = false;
+		//StartCoroutine(Countdown());
 		isScoring = false;
 	}
 	//used to start the game round
-	IEnumerator Countdown()
-	{
-		List<GameObject> players = spawner.players;
-		for(int i = 0; i< players.Count; ++i)
-		{
-			players[i].GetComponent<PlayerMove>().enabled = false;
-			players[i].GetComponent<Bomberman>().enabled = false;
-			players[i].GetComponent<Rigidbody>().velocity = Vector3.zero; //prevent movement on first frame
-			players[i].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-		}
-		float tmpTimer = 5.0f;
-		float countDelay = 1.0f;
-		while (tmpTimer>0.0f)
-		{
-			Debug.Log("Counting down");
-			int tmpRoundedTimer = Mathf.CeilToInt(tmpTimer);
-			countdownText.text = "Get Ready:\n " + tmpRoundedTimer;
-			tmpTimer -= countDelay;
-			Debug.Log(countdownText.text);
-			yield return new WaitForSecondsRealtime(countDelay);
-		}
-		if(tmpTimer<=0.0f)
-		{
-			for (int i = 0; i < players.Count; ++i)
-			{
-				players[i].GetComponent<PlayerMove>().enabled = true;
-				players[i].GetComponent<Bomberman>().enabled = true;
-			}
-			Debug.Log("Finished counting");
-			if(hasStarted != true)
-			{
-				SetHasStarted(true);
-			}
-			isNeedTimer = false;
-			isVictory = false;
-			countdownText.text = "";
-			roundTimer = baseRoundTimer;
-			yield return null;
-		}
-	}
+	
 	IEnumerator Final()
 	{
 		yield return new WaitForSeconds(0.5f);
@@ -181,12 +158,19 @@ public class BombermanRoundManager : MonoBehaviour
 		gameManager.transform.GetChild(0).gameObject.SetActive(true);
 		EventSystem.current.SetSelectedGameObject(GameObject.Find("Next Level"));
 	}
-	private void FixedUpdate()
+	private void Update()
 	{
+		
 		if (hasStarted)
 		{
-			if (!isVictory && !isNeedTimer)
+			if (!gameStarted)
 			{
+				StartTime();
+			}
+			Debug.Log("asd");
+			if (!isVictory && !isNeedTimer && gameStarted)
+			{
+			
 				roundText.text = "Round: " + currentRound + " of " + gameManager.GetNumberOfRounds();
 				if (roundTimer <= 0)
 				{
@@ -242,9 +226,5 @@ public class BombermanRoundManager : MonoBehaviour
 		eliminationText.text = "";
 		yield return null;
 	}
-	// Update is called once per frame
-	void Update()
-	{
 
-	}
 }

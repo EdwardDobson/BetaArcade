@@ -136,6 +136,7 @@ public class GameManager : MonoBehaviour
     }
     public void CreatePlayerUIButton()
     {
+        
         if (playerTotal > 1 && levelPlaylist.Count > 0 && numberOfRounds > 0)
         {
             if (playerCount < 4)
@@ -143,7 +144,9 @@ public class GameManager : MonoBehaviour
                 for (int i = 0; i < playerTotal; ++i)
                 {
                     CreatePlayerUI();
+                    Debug.Log("Creating player ui" + i);
                 }
+
             }
         }
     }
@@ -217,6 +220,7 @@ public class GameManager : MonoBehaviour
     public void CreatePlayerUI()
     {
         GameObject playerUI = Instantiate(PlayerPicture);
+        PlayerUI = GameObject.Find("PlayerUI");
         playerUI.transform.position = Portraits[playerCount].position;
         playerCount++;
         playerUI.name = "PlayerPicture" + playerCount;
@@ -405,19 +409,8 @@ public class GameManager : MonoBehaviour
             PlayerUI = GameObject.Find("PlayerUI");
         }
       
-    
-        //Used to reactive the player uis in the main menu
-        /* 
-        foreach (Transform child in GameObject.Find("PlayerUI").transform.GetChild(1).transform)
-        {
-            for(int i = 0; i< playerTotal; ++i)
-            {
-
-            child.gameObject.SetActive(true);
-            }
-        }
-        */
     }
+ 
 
     #region ScoreSetters&Getters
     public void SetPlayerScore(int ID, int _set)
