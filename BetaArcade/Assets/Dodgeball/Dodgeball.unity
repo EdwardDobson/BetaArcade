@@ -663,7 +663,7 @@ PrefabInstance:
     - target: {fileID: 8212706999659302978, guid: 94b212089544a444fac5f7e197fede84,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8212706999659302978, guid: 94b212089544a444fac5f7e197fede84,
         type: 3}
@@ -673,7 +673,7 @@ PrefabInstance:
     - target: {fileID: 8212706999659302978, guid: 94b212089544a444fac5f7e197fede84,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: StopCoroutine
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8212706999659302978, guid: 94b212089544a444fac5f7e197fede84,
         type: 3}
@@ -708,7 +708,7 @@ PrefabInstance:
     - target: {fileID: 8212706999659302978, guid: 94b212089544a444fac5f7e197fede84,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8212706999659302978, guid: 94b212089544a444fac5f7e197fede84,
         type: 3}
@@ -718,7 +718,7 @@ PrefabInstance:
     - target: {fileID: 8212706999659302978, guid: 94b212089544a444fac5f7e197fede84,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8212706999659302978, guid: 94b212089544a444fac5f7e197fede84,
         type: 3}
@@ -754,7 +754,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 227157062}
+      objectReference: {fileID: 68173158}
     - target: {fileID: 4484908809953990122, guid: 94b212089544a444fac5f7e197fede84,
         type: 3}
       propertyPath: m_text
@@ -1642,7 +1642,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 199b94e4e6a4cbc448693ec16faf1483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WinConType: 0
   maxScore: 5
   timer: 360
   otherPlayers: []

@@ -7,16 +7,6 @@ using UnityEngine.EventSystems;
 using System.Linq;
 public class Win_Condition : MonoBehaviour
 {
-    public enum WinConditionType
-    {
-        eLastManStanding,
-        eMostPoints,
-        eTeamDeathmatch,
-        eNull
-    }
-
-    public WinConditionType WinConType;
-
     TextMeshProUGUI winText;
     TextMeshProUGUI inPointText;
     TextMeshProUGUI roundText;
@@ -44,6 +34,8 @@ public class Win_Condition : MonoBehaviour
     Dodgeball_PlayerSpawner DodgballPlayerSpawner;
 
     Ball B;
+
+    Vector3 BallPosition;
 
     [SerializeField]
     public List<GameObject> otherPlayers = new List<GameObject>();
@@ -84,6 +76,7 @@ public class Win_Condition : MonoBehaviour
         DodgballPlayerSpawner = GetComponent<Dodgeball_PlayerSpawner>();
         maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
         B = GameObject.Find("Ball").GetComponent<Ball>();
+        BallPosition = B.transform.position;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         roundText.text = "Round: " + currentRound + " of " + maxRound;
         roundTimerSlider = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(5).GetComponent<Slider>();
@@ -196,6 +189,7 @@ public class Win_Condition : MonoBehaviour
 
             SpawnPoint++;
         }
+        B.transform.position = BallPosition;
         timer = roundTimerSlider.value;
         StartCoroutine(StartCountdown());
     }
