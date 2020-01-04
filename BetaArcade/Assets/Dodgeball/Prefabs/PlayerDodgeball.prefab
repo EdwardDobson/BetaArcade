@@ -30,6 +30,19 @@ Transform:
   m_Father: {fileID: 3848587142557651651}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8303926426843596571
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230726215996940496}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 13.92518, y: 18.472263, z: 7.251697}
+  m_Center: {x: -0.4198567, y: 9.028994, z: 6.08739}
 --- !u!114 &6929391317179081212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,19 +64,6 @@ MonoBehaviour:
   ChildBall: {fileID: 0}
   guide: {fileID: 8601976349744786675}
   id: 0
---- !u!65 &8303926426843596571
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 230726215996940496}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.496668, y: 18.472263, z: 2.0163152}
-  m_Center: {x: 0.07114649, y: 9.028994, z: 3.308211}
 --- !u!1001 &9092898678391814625
 PrefabInstance:
   m_ObjectHideFlags: 0
