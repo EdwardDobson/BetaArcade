@@ -40,21 +40,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 9017403271137258680}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bbf26a276fdc6446b1c17ce3fb4108b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxX: 8
-  minX: -8
-  maxY: 1
-  minY: 1
-  maxZ: 8
-  minZ: -8
-  minTime: 1
-  maxTime: 2
+  m_Script: {fileID: 11500000, guid: 820f3a402bd4c2344ba61316096e2043, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  maxX: 9
+  minX: -9
+  maxY: 0.5
+  minY: 0.2
+  maxZ: 9
+  minZ: -9
+  minTime: 0.5
+  maxTime: 4
   objectId: 0
-  Objects:
-  - {fileID: 8707230087966893501, guid: bf7828777aff9324a84b00b5dcc9019d, type: 3}
-  - {fileID: 98351048627005690, guid: 00b6238037650c343904021734f6d92d, type: 3}
-  - {fileID: 6579385602955041038, guid: 438ea00263e8f33498afdf4226f1054d, type: 3}
-  isRounding: 1
+  Objects: []
+  isRounding: 0
   isActive: 0

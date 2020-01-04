@@ -123,6 +123,7 @@ public class Win_Condition : MonoBehaviour
 
     public IEnumerator StartCountdown()
     {
+       
         while (timer > 0)
         {
             yield return new WaitForSeconds(1.0f);
@@ -204,6 +205,7 @@ public class Win_Condition : MonoBehaviour
     public void ChangeRoundTime()
     {
         gameManager.SetTimer((int)roundTimerSlider.value);
+        timer = roundTimerSlider.value;
         timerTextTutorialText.text = "Round Time : " + gameManager.GetTimer();
         timerText.text = "Round Time : " + gameManager.GetTimer();
     }

@@ -10,6 +10,7 @@ public class BombermanBomb : Bomberman
 	public LayerMask levelMask;
 	[SerializeField] private bool hasExploded = false;
     [SerializeField] private bool hasTriggered = false;
+	[SerializeField] AudioSource explosion;
 	Bomberman myParent;
     Collider thisCollider;
     MeshRenderer thisRender;
@@ -18,8 +19,8 @@ public class BombermanBomb : Bomberman
     // Start is called before the first frame update
     void Start()
     {
-		myParent = transform.parent.GetComponent<Bomberman>();
-		thisBombPower = myParent.GetBombPower();
+		//myParent = transform.parent.GetComponent<Bomberman>();
+		//thisBombPower = myParent.GetBombPower();
         thisRender = GetComponent<MeshRenderer>();
         thisCollider = GetComponent<Collider>();
 		Invoke("Explode", fuse);
@@ -27,7 +28,7 @@ public class BombermanBomb : Bomberman
 
 	void Explode()
 	{
-        thisRender.enabled = false;
+		explosion.Play(0);
 		hasExploded = true;
 		Instantiate(explosionPrefab, transform.position, Quaternion.identity);
 		///makes the explosions in the cardinal directions
@@ -35,7 +36,9 @@ public class BombermanBomb : Bomberman
 		StartCoroutine(CreateExplosions(Vector3.right));
 		StartCoroutine(CreateExplosions(Vector3.back));
 		StartCoroutine(CreateExplosions(Vector3.left));
-		Destroy(gameObject, .2f);
+		thisRender.enabled = false;
+		thisCollider.enabled = false;
+		Destroy(gameObject, explosion.clip.length);
 	}
 
 	public void OnTriggerEnter(Collider other)
@@ -81,4 +84,8 @@ public class BombermanBomb : Bomberman
     {
         
     }
+	public float setBombPower(float _value)
+	{
+		return thisBombPower = _value;
+	}
 }

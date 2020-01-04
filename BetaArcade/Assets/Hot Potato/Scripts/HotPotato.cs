@@ -36,7 +36,6 @@ public class HotPotato : MonoBehaviour
     int playerBombTotal;
     AudioSource tick;
     AudioSource explosion;
-    GameObject PlayerPortraits;
     void Start()
     {
         maxBombTimer = 5;
@@ -46,7 +45,6 @@ public class HotPotato : MonoBehaviour
         bombTimerTitle.text = "Bomb Timer: " + maxBombTimer;
         tick = GetComponent<AudioSource>();
         explosion = transform.GetChild(0).GetComponent<AudioSource>();
-        PlayerPortraits = GameObject.Find("PlayerPortraits");
     }
     void LateStart()
     {
@@ -123,24 +121,10 @@ public class HotPotato : MonoBehaviour
                     StartCoroutine(ResetRoundCoroutine());
                     for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
                     {
+                     
                         if (players[i].gameObject.activeSelf)
                         {
-                            if (players[i].tag == "Player1")
-                            {
-                                gameManager.SetPlayerOneScore(1);
-                            }
-                            if (players[i].tag == "Player2")
-                            {
-                                gameManager.SetPlayerTwoScore(1);
-                            }
-                            if (players[i].tag == "Player3")
-                            {
-                                gameManager.SetPlayerThreeScore(1);
-                            }
-                            if (players[i].tag == "Player4")
-                            {
-                                gameManager.SetPlayerFourScore(1);
-                            }
+                            gameManager.SetPlayerScore(players[i].GetComponent<PlayerMove>().ID, 1);
                             increaseInactivePlayers = 0;
                             currentRound++;
                         }
@@ -256,7 +240,6 @@ public class HotPotato : MonoBehaviour
                 {
                     if (!players[randomIndex].GetComponent<PlayerHotPotato>().HasBomb())
                     {
-                        Debug.Log("HAS BOMB");
                         players[randomIndex].GetComponent<PlayerHotPotato>().SetHasBomb(true);
                         break;
                     }

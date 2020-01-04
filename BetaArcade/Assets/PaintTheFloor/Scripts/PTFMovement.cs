@@ -8,13 +8,14 @@ public class PTFMovement : MonoBehaviour
   public GameObject PaintBall;
 
   public AudioClip ShotSound;
+  public Transform FirePoint;
 
   public bool IsPaused = true;
   public int Score = 0;
 
   private float m_AimRotateSpeed = .3f;
   private float m_ShotPower = 10f;
-  private Transform m_FirePoint;
+  
   private bool m_CanShoot = true;
   private PlayerMove m_PlayerMoveScript;
   private float m_FireRate = 7.5f;
@@ -41,15 +42,8 @@ public class PTFMovement : MonoBehaviour
     }
   private void Start()
     {
-    
     m_PlayerMoveScript = gameObject.GetComponent<PlayerMove>();
-    foreach(Transform child in transform)
-      {
-      if (child.name == "character")
-        m_CharacterAnimator = child.GetComponent<Animator>();
-      else if (child.name == "FirePoint")
-        m_FirePoint = child;
-      }
+    m_CharacterAnimator = GetComponent<Animator>();
     }
   void Update()
     {
@@ -89,12 +83,12 @@ public class PTFMovement : MonoBehaviour
 
   private void ShootPaint()
     {
-    //var paintBall = Instantiate(PaintBall);
-    //paintBall.GetComponent<PaintballScript>().Color = GetComponent<Renderer>().material.GetColor("_BaseColor");
-    //paintBall.transform.position = m_FirePoint.position;
-    //paintBall.GetComponent<Rigidbody>().AddForce(m_FirePoint.forward * m_ShotPower, ForceMode.Impulse);
-    //paintBall.transform.localScale *= ShotSize;
-    GetComponent<AudioSource>().PlayOneShot(ShotSound);
+        var paintBall = Instantiate(PaintBall);
+        paintBall.GetComponent<PaintballScript>().Color = LevelManagerTools.PlayerIDToColor(LevelManagerTools.GetPlayerID(gameObject));
+        paintBall.transform.position = FirePoint.position;
+        paintBall.GetComponent<Rigidbody>().AddForce(FirePoint.forward * m_ShotPower, ForceMode.Impulse);
+        paintBall.transform.localScale *= ShotSize;
+        GetComponent<AudioSource>().PlayOneShot(ShotSound);
     }
 
   IEnumerator ShotDelay()
@@ -118,7 +112,7 @@ public class PTFMovement : MonoBehaviour
         }
       }
 
-    m_PlayerMoveScript.DecreasePowerUpCount(1);
+    m_PlayerMoveScript.DecreasePowerUpCount();
     m_ShotSize = 1;
     }
   IEnumerator ResetFireRate()
@@ -135,7 +129,7 @@ public class PTFMovement : MonoBehaviour
           }
         }
       }
-    m_PlayerMoveScript.DecreasePowerUpCount(1);
+    m_PlayerMoveScript.DecreasePowerUpCount();
     m_FireRate = 7.5f;
     }
   }

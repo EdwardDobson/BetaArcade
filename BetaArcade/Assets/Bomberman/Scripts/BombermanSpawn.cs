@@ -19,6 +19,7 @@ public class BombermanSpawn : MonoBehaviour
 		roundManager = GameObject.FindObjectOfType<BombermanRoundManager>();
 		playerHolder = GameObject.Find("PlayerHolder").transform;
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+		LateStart();
 	}
 	private void LateStart()
 	{
@@ -36,7 +37,7 @@ public class BombermanSpawn : MonoBehaviour
 		if(roundManager.hasStarted && !roundManager.hasInitialised)
 		{
 			roundManager.hasInitialised = true;
-			LateStart();
+			
 			HazardSpawner spawner = GameObject.FindObjectOfType<HazardSpawner>();
 			spawner.SetActive(true);
 		}
@@ -48,7 +49,7 @@ public class BombermanSpawn : MonoBehaviour
 		player.transform.position = SpawnPoints[playerCount].position;
 		playerCount++;
 		player.tag = "Player" + playerCount;
-		player.GetComponent<Renderer>().material.SetColor("_BaseColor", PlayerIDToColor(playerCount));
+		player.GetComponent<Renderer>().material.SetColor("_Color", PlayerIDToColor(playerCount));
 		player.GetComponent<PlayerMove>().ID = playerCount;
 		player.transform.SetParent(playerHolder);
 		players.Add(player);

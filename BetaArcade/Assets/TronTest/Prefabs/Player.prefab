@@ -4916,8 +4916,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a5cbd8e096c1d347a2cef2b10b87ae5, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   TrailObject: {fileID: 1803840796979004291, guid: 32141a69c82d9544cb9e2a120863d3e0,
     type: 3}
   Explosion: {fileID: 4791937207289145581, guid: db1be0e950409774194a0f9aa05272d6,
@@ -4948,16 +4948,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4095259317954321583}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: f13bfad6137960642adff450ee0669f5,
-        type: 3}
-      propertyPath: m_Name
-      value: character
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 56da8606b00473c42911807b11868617,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 56da8606b00473c42911807b11868617,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 10a9bd4ed031a3846bb2f67ea7db5519, type: 2}
+    - target: {fileID: -6057140222963153312, guid: 56da8606b00473c42911807b11868617,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7780734103960978560, guid: 56da8606b00473c42911807b11868617,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5fdc2a82a8ed8bd418c8b152f725825c, type: 2}
     - target: {fileID: -4216859302048453862, guid: f13bfad6137960642adff450ee0669f5,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -5023,21 +5033,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.1
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 56da8606b00473c42911807b11868617,
+    - target: {fileID: -927199367670048503, guid: f13bfad6137960642adff450ee0669f5,
+        type: 3}
+      propertyPath: m_Name
+      value: character
+      objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: f13bfad6137960642adff450ee0669f5,
         type: 3}
       propertyPath: m_Controller
-      value:
+      value: 
       objectReference: {fileID: 9100000, guid: 10a9bd4ed031a3846bb2f67ea7db5519, type: 2}
-    - target: {fileID: -6057140222963153312, guid: 56da8606b00473c42911807b11868617,
-        type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -7780734103960978560, guid: 56da8606b00473c42911807b11868617,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value:
-      objectReference: {fileID: 2100000, guid: 5fdc2a82a8ed8bd418c8b152f725825c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f13bfad6137960642adff450ee0669f5, type: 3}
 --- !u!4 &183964093406556311 stripped

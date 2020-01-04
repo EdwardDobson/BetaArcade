@@ -40,10 +40,15 @@ public class spleefGameManager : MonoBehaviour
     {
         var player = GameObject.Instantiate(PlayerPrefab);
         player.transform.position = SpawnPoints[PlayerCount].transform.position;
-        player.transform.SetParent(transform);
+        
+
         var Movescript = player.GetComponent<PlayerMove>();
         PlayerCount++;
+        player.tag = "Player" + PlayerCount;
+        LevelManagerTools.SetPlayerColor(player, PlayerCount);
         Movescript.ID = PlayerCount;
+        player.transform.SetParent(transform);
+
     }
 }
 

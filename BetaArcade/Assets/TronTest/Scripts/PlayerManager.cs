@@ -53,9 +53,9 @@ public class PlayerManager : MonoBehaviour
       {
       var trail = Instantiate(TrailObject);
       var trailScript = trail.GetComponent<TrailScript>();
-      trail.transform.position = transform.position;
+      trail.transform.position = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z);
       trail.transform.SetParent(m_TrailParent.transform);
-      trail.GetComponent<Renderer>().material.SetColor("_BaseColor", LevelManagerTools.PlayerIDToColor(ID));
+      trail.GetComponent<Renderer>().material.SetColor("_Color", LevelManagerTools.PlayerIDToColor(ID));
       trailScript.ID = ID;
 
       if (Input.GetButton("Dash" + ID))
@@ -92,7 +92,17 @@ public class PlayerManager : MonoBehaviour
   public void ToggleFreeze(bool isFrozen)
     {
     IsDead = isFrozen;
-    m_Animator.SetBool("IsMoving", !isFrozen);
+        if (isFrozen)
+        {
+            m_Animator.SetFloat("MoveSpeed", 0);
+            m_Animator.SetFloat("RunMultiplier", 1);
+        }
+        else
+        {
+            m_Animator.SetFloat("MoveSpeed", 1);
+            m_Animator.SetFloat("RunMultiplier", 1);
+        }
+    //m_Animator.SetBool("IsMoving", !isFrozen);
     }
 
   IEnumerator DeleteAfterTime(GameObject trail)

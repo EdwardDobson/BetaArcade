@@ -13,7 +13,11 @@ public class BombermanRoundManager : MonoBehaviour
 	[SerializeField]
 	TextMeshProUGUI timerText;
 	[SerializeField]
+	Slider timerSlider;
+	[SerializeField]
 	TextMeshProUGUI eliminationText;
+	[SerializeField]
+	TextMeshProUGUI countdownText;
 	GameManager gameManager;
 	[SerializeField]
 	float baseRoundTimer = 60.0f;
@@ -30,15 +34,38 @@ public class BombermanRoundManager : MonoBehaviour
 	bool isScoring = false;
 	public bool hasStarted = false;
 	public bool hasInitialised = false;
+	public bool isNeedTimer = false;
+	public bool hasEnded = false;
 	[SerializeField]
 	Slider timeSlider;
 	TextMeshProUGUI tutorialTimeText;
 	[SerializeField]
 	BombermanSpawn spawner;
+	[SerializeField]
+	AudioSource bgm;
 
 	public void SetHasStarted(bool started)
 	{
 		hasStarted = started;
+		if (hasStarted)
+		{
+			if(!bgm.isPlaying)
+			{
+				bgm.Play(0);
+			}
+		}
+		else if (!hasStarted)
+		{
+			bgm.Stop();
+		}
+	}
+	public void SetIsTimerNeeded (bool timerNeeded)
+	{
+		isNeedTimer = timerNeeded;
+		if(timerNeeded)
+		{
+			StartCoroutine("Countdown");
+		}
 	}
 	public void SetRoundTimer()
 	{
@@ -47,24 +74,24 @@ public class BombermanRoundManager : MonoBehaviour
 	}
 	// Start is called before the first frame update
 	void Start()
-    {
+	{
 		currentRound = 1;
 		roundTimer = baseRoundTimer;
-		GameObject.Find("RoundTimeSlider").GetComponent<Slider>();
-		GameObject.Find("RoundTimerText").GetComponent<TextMeshProUGUI>();
+		//timerSlider = GameObject.Find("RoundTimeSlider").GetComponent<Slider>();
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 		roundText = GameObject.Find("RoundText").GetComponent<TextMeshProUGUI>();
 		timerText = GameObject.Find("TimerText").GetComponent<TextMeshProUGUI>();
+		countdownText = GameObject.Find("CountdownText").GetComponent<TextMeshProUGUI>();
 		eliminationText = GameObject.Find("EliminationText").GetComponent<TextMeshProUGUI>();
 		roundMax = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
 		remainingPlayers = GameObject.Find("GameManager").GetComponent<GameManager>().GetPlayerCount();
-		if(remainingPlayers < 4)
+		if (remainingPlayers < 4)
 		{
-			if(remainingPlayers == 3)
+			if (remainingPlayers == 3)
 			{
 				GameObject.Find("Player4 Text").GetComponent<TextMeshProUGUI>().text = "";
 			}
-			else if(remainingPlayers == 2)
+			else if (remainingPlayers == 2)
 			{
 				GameObject.Find("Player4 Text").GetComponent<TextMeshProUGUI>().text = "";
 				GameObject.Find("Player3 Text").GetComponent<TextMeshProUGUI>().text = "";
@@ -81,8 +108,9 @@ public class BombermanRoundManager : MonoBehaviour
 		int tmpID = 0;
 		spawner.ResetPositions();
 		List<GameObject> winners = spawner.RemainingPlayers();
-		for(int i = 0; i < winners.Count; ++i)
+		for (int i = 0; i < winners.Count; ++i)
 		{
+			winners[i].GetComponent<Bomberman>().ResetPowers(); //cycling
 			tmpID = winners[i].GetComponent<PlayerMove>().ID;
 			Debug.Log("ID " + tmpID);
 			gameManager.SetPlayerScore(tmpID, 1);
@@ -90,14 +118,58 @@ public class BombermanRoundManager : MonoBehaviour
 		}
 		roundTimer = baseRoundTimer;
 		remainingPlayers = GameObject.Find("GameManager").GetComponent<GameManager>().GetPlayerCount();
-		isVictory = false;
+		currentRound++;
+		StartCoroutine("Countdown");
+		isScoring = false;
+	}
+	//used to start the game round
+	IEnumerator Countdown()
+	{
+		List<GameObject> players = spawner.players;
+		for(int i = 0; i< players.Count; ++i)
+		{
+			players[i].GetComponent<PlayerMove>().enabled = false;
+			players[i].GetComponent<Bomberman>().enabled = false;
+			players[i].GetComponent<Rigidbody>().velocity = Vector3.zero; //prevent movement on first frame
+			players[i].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+		}
+		float tmpTimer = 5.0f;
+		float countDelay = 1.0f;
+		while (tmpTimer>0.0f)
+		{
+			Debug.Log("Counting down");
+			int tmpRoundedTimer = Mathf.CeilToInt(tmpTimer);
+			countdownText.text = "Get Ready:\n " + tmpRoundedTimer;
+			tmpTimer -= countDelay;
+			Debug.Log(countdownText.text);
+			yield return new WaitForSecondsRealtime(countDelay);
+		}
+		if(tmpTimer<=0.0f)
+		{
+			for (int i = 0; i < players.Count; ++i)
+			{
+				players[i].GetComponent<PlayerMove>().enabled = true;
+				players[i].GetComponent<Bomberman>().enabled = true;
+			}
+			Debug.Log("Finished counting");
+			if(hasStarted != true)
+			{
+				SetHasStarted(true);
+			}
+			isNeedTimer = false;
+			isVictory = false;
+			countdownText.text = "";
+			roundTimer = baseRoundTimer;
+			yield return null;
+		}
 	}
 	IEnumerator Final()
 	{
 		yield return new WaitForSeconds(0.5f);
+		hasEnded = true;
 		int tmpID = 0;
 		List<GameObject> winners = spawner.RemainingPlayers();
-		for(int i = 0; i < winners.Count; ++i)
+		for (int i = 0; i < winners.Count; ++i)
 		{
 			tmpID = winners[i].GetComponent<PlayerMove>().ID;
 			Debug.Log("ID " + tmpID);
@@ -111,39 +183,56 @@ public class BombermanRoundManager : MonoBehaviour
 	}
 	private void FixedUpdate()
 	{
-		if(hasStarted)
+		if (hasStarted)
 		{
-			if (!isVictory)
+			if (!isVictory && !isNeedTimer)
 			{
+				roundText.text = "Round: " + currentRound + " of " + gameManager.GetNumberOfRounds();
+				if (roundTimer <= 0)
+				{
+					countdownText.text = "Time Up!";
+					isScoring = true;
+					isVictory = true;
+					if(currentRound != roundMax)
+					{
+						StartCoroutine(Restart());
+					}
+					else if (currentRound == roundMax)
+					{
+						StartCoroutine(Final());
+					}
+				}
 				roundTimer -= Time.deltaTime;
-				int tempRoundTimer = Mathf.RoundToInt(roundTimer);
+				int tempRoundTimer = Mathf.CeilToInt(roundTimer);
 				timerText.text = "Time: " + tempRoundTimer;
-			}
 
-			if (remainingPlayers <= 1 && currentRound != roundMax && !isScoring)
-			{
-				isScoring = true;
-				isVictory = true;
-				StartCoroutine(Restart());
-			}
-			else if (remainingPlayers <= 1 && currentRound == roundMax && !isScoring)
-			{
-				isScoring = true;
-				isVictory = true;
-				StartCoroutine(Final());
+
+				if (remainingPlayers <= 1 && currentRound != roundMax && !isScoring)
+				{
+					isScoring = true;
+					isVictory = true;
+					StartCoroutine(Restart());
+				}
+				else if (remainingPlayers <= 1 && currentRound >= roundMax && !isScoring)
+				{
+					isScoring = true;
+					isVictory = true;
+					StartCoroutine(Final());
+				}
 			}
 		}
-		if(!hasStarted)
+		if (!hasStarted && !isNeedTimer)
 		{
 			eliminationText.text = "";
 			roundText.text = "";
 			timerText.text = "";
+			countdownText.text = "";
 		}
 	}
 	public void PlayerDown(int playerID)
 	{
 		StartCoroutine(EliminatedPlayer(eliminationText, 2.5f, playerID));
-        remainingPlayers--;
+		remainingPlayers--;
 	}
 
 	IEnumerator EliminatedPlayer(TextMeshProUGUI text, float delay, int id)
@@ -155,7 +244,7 @@ public class BombermanRoundManager : MonoBehaviour
 	}
 	// Update is called once per frame
 	void Update()
-    {
-        
-    }
+	{
+
+	}
 }

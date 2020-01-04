@@ -67,28 +67,33 @@ public static class LevelManagerTools
         return false;
         }
       }
-    var characterObj = playerObject.transform.Find("character");
-    if(characterObj == null)
-      {
-      Debug.LogWarning("Cannot get character object");
-      return false;
-      }
-    var hairObj = characterObj.transform.Find("Cube.001");
+    var hairObj = playerObject.transform.Find("Cube.001");
     if (hairObj == null)
       {
       Debug.LogWarning("Cannot get hair object");
       return false;
       }
-    var chestObj = characterObj.transform.Find("Cube.002");
+    var chestObj = playerObject.transform.Find("Cube.002");
     if(chestObj == null)
       {
       Debug.LogWarning("Cannot get chest object");
       return false;
       }
     var color = PlayerIDToColor(id);
-    hairObj.GetComponent<SkinnedMeshRenderer>().material.SetColor("_BaseColor", color);
-    chestObj.GetComponent<SkinnedMeshRenderer>().material.SetColor("_BaseColor", color);
+    hairObj.GetComponent<SkinnedMeshRenderer>().material.SetColor("_Color", color);
+    chestObj.GetComponent<SkinnedMeshRenderer>().material.SetColor("_Color", color);
     Debug.Log("Color set!");
     return true;
+    }
+
+    public static Material GetPlayerMaterial(GameObject playerObject)
+    {
+        var chestObj = playerObject.transform.Find("Cube.002");
+        if (chestObj == null)
+        {
+            Debug.LogWarning("Cannot get chest object");
+            return null;
+        }
+        return chestObj.GetComponent<SkinnedMeshRenderer>().material;
     }
   }

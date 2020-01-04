@@ -11,7 +11,7 @@ public class IncreaseFireRate : MonoBehaviour
         {
             GameObject Clone = GameObject.Find("PlayerPicture" + other.gameObject.GetComponent<PlayerMove>().ID);
             other.gameObject.GetComponent<PTFMovement>().FireRate *= 2;
-            other.gameObject.GetComponent<PlayerMove>().IncreasePowerUpCount(1);
+            other.gameObject.GetComponent<PlayerMove>().IncreasePowerUpCount();
             if (Clone != null)
             {
                 Clone.transform.GetChild(other.gameObject.GetComponent<PlayerMove>().GetPowerUpCount()).GetComponent<Image>().sprite = Icon;

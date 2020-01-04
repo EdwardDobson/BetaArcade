@@ -11,7 +11,7 @@ public class IncreaseShotSize : MonoBehaviour
         {
             GameObject Clone = GameObject.Find("PlayerPicture" + other.gameObject.GetComponent<PlayerMove>().ID);
             other.gameObject.GetComponent<PTFMovement>().ShotSize = 5;
-            other.gameObject.GetComponent<PlayerMove>().IncreasePowerUpCount(1);
+            other.gameObject.GetComponent<PlayerMove>().IncreasePowerUpCount();
 
             if (Clone != null)
             {

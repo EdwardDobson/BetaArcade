@@ -42,37 +42,60 @@ public class ScoreManager : MonoBehaviour
     GameManager gameManager;
     bool endGameMode = false;
     GameObject PlayerUI;
-    int stopTimerDecrease = 0;
     [SerializeField]
     bool startGame;
     bool gameStarted = false;
     public  float pointDrainTimer = 1;
+    GameObject KOTHCanvas;
     // Start is called before the first frame update
     void Start()
     {
-        stopTimerDecrease = 1;
+        KOTHCanvas = GameObject.Find("KOTHCanvas");
         PlayerUI = GameObject.Find("PlayerUI").transform.GetChild(1).gameObject;
         point = GetComponent<PointMove>();
-        roundText = GameObject.Find("roundText").GetComponent<TextMeshProUGUI>();
-        timerText = GameObject.Find("timerText").GetComponent<TextMeshProUGUI>();
-        winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
-        scoreToWinText = GameObject.Find("ScoreToWinText").GetComponent<TextMeshProUGUI>();
-        inPointText = GameObject.Find("inPointText").GetComponent<TextMeshProUGUI>();
         scoreToWinTextTutorialText = GameObject.Find("ScoreToWin").GetComponent<TextMeshProUGUI>();
         timerTextTutorialText = GameObject.Find("RoundTimerText").GetComponent<TextMeshProUGUI>();
         roundTimerSlider = GameObject.Find("RoundTimeSlider").GetComponent<Slider>();
         scoreTimerSlider = GameObject.Find("ScoreToWinSlider").GetComponent<Slider>();
         scoreIncrease = GameObject.Find("Points").GetComponent<AudioSource>();
         KOTHPlayerSpawner = GetComponent<KOTHPlayerSpawner>();
-        maxRound = GameObject.Find("GameManager").GetComponent<GameManager>().GetNumberOfRounds();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        roundText.text = "Round: 1 of " + maxRound;
+        maxRound = gameManager.GetNumberOfRounds();
         currentRound++;
-        timerText.text = "Time: " + gameManager.GetTimer();
         timerTextTutorialText.text =  "Round Time: " + gameManager.GetTimer();
         scoreToWinTextTutorialText.text = "Score to win: " + maxScore;
-        scoreToWinText.text = "Score to win: " + maxScore;
+
         gameManager.SetOldTimer();
+        foreach(Transform a in KOTHCanvas.transform)
+        {
+            switch (a.name)
+            {
+                case "WinText":
+                    winText = a.GetComponent<TextMeshProUGUI>();
+                    break;
+                case "inPointText":
+                    inPointText = a.GetComponent<TextMeshProUGUI>();
+                    break;
+                case "roundText":
+                    roundText = a.GetComponent<TextMeshProUGUI>();
+                    roundText.text = "Round: 1 of " + maxRound;
+                    break;
+                case "timerText":
+                    timerText = a.GetComponent<TextMeshProUGUI>();
+                    timerText.text = "Time: " + gameManager.GetTimer();
+                    break;
+                case "ScoreToWinText":
+                    scoreToWinText = a.GetComponent<TextMeshProUGUI>();
+                    scoreToWinText.text = "Score to win: " + maxScore;
+                    break;
+                case "StartTimeText":
+                    winText = a.GetComponent<TextMeshProUGUI>();
+                    break;
+
+            }
+
+        }
+    
         foreach (Transform t in PlayerUI.transform)
         {
             t.GetChild(6).GetComponent<TextMeshProUGUI>().text = "Score: 0";
@@ -123,23 +146,13 @@ public class ScoreManager : MonoBehaviour
                 if (!child.gameObject.activeSelf)
                 {
                     child.gameObject.SetActive(true);
-                    if (child.tag == "Player1")
+                    if(child.CompareTag("Player" + child.GetComponent<PlayerMove>().ID))
                     {
-                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[0].position;
+                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[child.GetComponent<PlayerMove>().ID-1].position;
                     }
-                    if (child.tag == "Player2")
-                    {
-                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[1].position;
-                    }
-                    if (child.tag == "Player3")
-                    {
-                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[2].position;
-                    }
-                    if (child.tag == "Player4")
-                    {
-                        child.gameObject.transform.position = KOTHPlayerSpawner.SpawnPoints[3].position;
-                    }
+
                     child.gameObject.GetComponent<PlayerMove>().hasDashed = false;
+                    child.gameObject.GetComponent<PlayerMove>().MassPowerUpReset();
                     child.gameObject.GetComponent<PlayerMove>().hasPushed = false;
                     child.gameObject.GetComponent<PlayerMove>().dashSlider.value = child.gameObject.GetComponent<PlayerMove>().dashTimer;
                     child.gameObject.GetComponent<PlayerMove>().shoveSlider.value = child.gameObject.GetComponent<PlayerMove>().shoveTimer;
@@ -177,9 +190,9 @@ public class ScoreManager : MonoBehaviour
     }
     IEnumerator RespawnPlayer(Transform _child)
     {
-        _child.gameObject.GetComponent<Rigidbody>().mass = 300;
+        _child.gameObject.GetComponent<PlayerMove>().canMove = false;
         yield return new WaitForSeconds(2);
-        _child.gameObject.GetComponent<Rigidbody>().mass = 1;
+        _child.gameObject.GetComponent<PlayerMove>().canMove = true;
     }
     void AddScoreOutOfTime()
     {
@@ -191,7 +204,6 @@ public class ScoreManager : MonoBehaviour
             gameManager.SetTimer(10);
             resetPoints = true;
             ResetPoints();
-            stopTimerDecrease = 0;
         }
     }
     void ResetScorePlayers()
@@ -253,26 +265,10 @@ public class ScoreManager : MonoBehaviour
             }
             if (otherPlayers[i].GetComponent<PointCollide>().GetScore() >= maxScore)
             {
-                if (otherPlayers[i].tag == "Player1")
-                {
-                    gameManager.SetPlayerOneScore(1);
-                }
-                if (otherPlayers[i].tag == "Player2")
-                {
-                    gameManager.SetPlayerTwoScore(1);
-                }
-                if (otherPlayers[i].tag == "Player3")
-                {
-                    gameManager.SetPlayerThreeScore(1);
-                }
-                if (otherPlayers[i].tag == "Player4")
-                {
-                    gameManager.SetPlayerFourScore(1);
-                }
+                gameManager.SetPlayerScore(otherPlayers[i].GetComponent<PlayerMove>().ID,1);
                 winText.text = "Player " + (i + 1) + " wins the round";
                 currentRound++;
                 roundText.text = "Round: " + currentRound + " of " + maxRound;
-
                 resetPoints = true;
             }
         }
@@ -324,22 +320,16 @@ public class ScoreManager : MonoBehaviour
         {
             otherPlayers[i].GetComponent<Rigidbody>().mass = 1;
         }
-        stopTimerDecrease = 1;
     }
     private void OnTriggerExit(Collider other)
     {
-       
         if(other.tag.Contains("Player"))
         {
             inPointCount--;
             inPointText.text = "";
-        }
-        if (other.tag.Contains("Player"))
-        {
             point.gameObject.GetComponent<MeshRenderer>().material = pointMat;
             transform.GetChild(0).GetComponent<ChangeColour>().ModColour(5);
         }
-    
     }
 
     private void OnTriggerEnter(Collider other)

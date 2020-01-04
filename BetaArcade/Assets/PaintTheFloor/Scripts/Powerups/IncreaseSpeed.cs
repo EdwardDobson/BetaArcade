@@ -12,7 +12,7 @@ public class IncreaseSpeed : MonoBehaviour
             if (other.gameObject.GetComponent<PlayerMove>().GetPowerUpCount() < 5)
             {
                 GameObject Clone = GameObject.Find("PlayerPicture" + other.gameObject.GetComponent<PlayerMove>().ID);
-                other.gameObject.GetComponent<PlayerMove>().IncreasePowerUpCount(1);
+                other.gameObject.GetComponent<PlayerMove>().IncreasePowerUpCount();
 
                 if (Clone != null)
                 {

@@ -40,9 +40,11 @@ public class Bomberman : MonoBehaviour
 	}
 	public void ResetPowers()
 	{
-		bombPower = baseBombMax;
+		bombMax = baseBombMax;
 		bombPower = baseBombPower;
 		regenRate = baseRegen;
+		bombsRemaining = bombMax;
+		Debug.Log("Bomb power: " + bombPower + " Base: " + baseBombMax);
 		UpdateUI();
 	}
 	public bool GetIsDead()
@@ -113,6 +115,8 @@ public class Bomberman : MonoBehaviour
 	{
 		isDead = true;
 		manager.PlayerDown(player.ID);
+		ResetPowers();
+		powerText.text = " ";
 		//global point allocation
 		gameObject.SetActive(false);
 	}
@@ -122,9 +126,10 @@ public class Bomberman : MonoBehaviour
 		if (bombPrefab)
 		{
 			bombsRemaining--;
-			GameObject clone = Instantiate(bombPrefab, new Vector3(Mathf.RoundToInt(myTransform.position.x) + 0.5f, Mathf.RoundToInt(myTransform.position.y), Mathf.RoundToInt(myTransform.position.z) - 0.5f), bombPrefab.transform.rotation);
-			clone.transform.SetParent(transform);
+			GameObject clone = Instantiate(bombPrefab, new Vector3((myTransform.position.x), (myTransform.position.y), (myTransform.position.z)), bombPrefab.transform.rotation);
+			clone.GetComponent<BombermanBomb>().setBombPower(bombPower);
 			Debug.Log("Bomb dropped");
+		
 		}
 	}
 
@@ -132,7 +137,13 @@ public class Bomberman : MonoBehaviour
 	{
 		Mathf.CeilToInt(bombPower);
 		Mathf.CeilToInt(bombsRemaining);
-		powerText.text = "Player" + player.ID + "\nPower: " + bombPower + "\nBombs: " + bombsRemaining + "/" + bombMax;
+		Mathf.CeilToInt(bombMax);
+		powerText.text = "Player " + player.ID + "\nPower: " + bombPower + "\nBombs: " + bombsRemaining + "/" + bombMax;
+	}
+
+	void ClearUI()
+	{
+		powerText.text = " ";
 	}
 
 	void Update()
@@ -153,6 +164,10 @@ public class Bomberman : MonoBehaviour
 			Debug.Log("Bomb button got");
 			DropBomb();
 			UpdateUI();
+		}
+		if(manager.hasEnded)
+		{
+			ClearUI();
 		}
 	}
 }
