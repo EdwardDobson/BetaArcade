@@ -48,7 +48,7 @@ public class PlayerMove : MonoBehaviour
         Walk = GetComponent<AudioSource>();
         if (jumpEnabled)
         {
-            //Jump = transform.Find("JumpAudioSource").GetComponent<AudioSource>();
+            Jump = transform.Find("JumpAudioSource").GetComponent<AudioSource>();
         }
         m_CharacterAnimator = GetComponentInChildren<Animator>();
         MassPowerUpReset();

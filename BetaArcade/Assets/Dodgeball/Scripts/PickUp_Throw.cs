@@ -13,6 +13,7 @@ public class PickUp_Throw : MonoBehaviour
     public GameObject ChildBall;
     public Transform guide;
     private bool ivepressedabutton = false;
+    private Animator m_CharacterAnimator;
 
     private Vector3 ballScale;
 
@@ -23,6 +24,7 @@ public class PickUp_Throw : MonoBehaviour
     {
         PM = GetComponent<PlayerMove>();
         id = PM.ID;
+        m_CharacterAnimator = GetComponent<Animator>();
     }
 
     void Update()
@@ -102,6 +104,7 @@ public class PickUp_Throw : MonoBehaviour
         //Set the ball to be active
         canHold = false;
 
+        Debug.Log("Picked up ball");
         return true;
     }
 
@@ -137,6 +140,7 @@ public class PickUp_Throw : MonoBehaviour
         PickedUpBall = false;
 
         canHold = true;
+        m_CharacterAnimator.SetTrigger("ThrowTrigger");
     }
 
 }
