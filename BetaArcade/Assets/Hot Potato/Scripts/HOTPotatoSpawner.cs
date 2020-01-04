@@ -49,22 +49,4 @@ public class HOTPotatoSpawner : MonoBehaviour
         hotPotato.players.Add(player);
         player.transform.SetParent(transform);
     }
-    private Color PlayerIDToColor(int id)
-    {
-        switch (id)
-        {
-            case 1:
-                return Color.red;
-            case 2:
-                return Color.yellow;
-            case 3:
-                return Color.green;
-            case 4:
-                return Color.blue;
-            default:
-                Debug.LogError("Player has no ID");
-                break;
-        }
-        return Color.clear;
-    }
 }
