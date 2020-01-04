@@ -224,13 +224,13 @@ public class GameManager : MonoBehaviour
         {
             playerUI.transform.GetChild(i).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         }
-        playerUI.GetComponent<Image>().color = PlayerUIImageColour(playerCount);
-        playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = PlayerUIImageColour(playerCount);
-        playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = PlayerUIImageColour(playerCount);
-        playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = PlayerUIImageColour(playerCount);
-        playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = PlayerUIImageColour(playerCount);
-        playerUI.transform.GetChild(8).GetComponent<Image>().color = PlayerUIImageColour(playerCount);
-        playerUI.transform.GetChild(9).GetComponent<Image>().color = PlayerUIImageColour(playerCount);
+        playerUI.GetComponent<Image>().color = LevelManagerTools.PlayerIDToColor(playerCount);
+        playerUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = LevelManagerTools.PlayerIDToColor(playerCount);
+        playerUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>().color = LevelManagerTools.PlayerIDToColor(playerCount);
+        playerUI.transform.GetChild(7).GetChild(0).GetComponent<Image>().color = LevelManagerTools.PlayerIDToColor(playerCount);
+        playerUI.transform.GetChild(7).GetChild(1).GetChild(0).GetComponent<Image>().color = LevelManagerTools.PlayerIDToColor(playerCount);
+        playerUI.transform.GetChild(8).GetComponent<Image>().color = LevelManagerTools.PlayerIDToColor(playerCount);
+        playerUI.transform.GetChild(9).GetComponent<Image>().color = LevelManagerTools.PlayerIDToColor(playerCount);
         playerUI.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
         playerUI.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
     
@@ -238,24 +238,6 @@ public class GameManager : MonoBehaviour
         playerUI.transform.position = Portraits[playerCount - 1].transform.position;
 
         PlayerPictures.Add(playerUI);
-    }
-    private Color PlayerUIImageColour(int id)
-    {
-        switch (id)
-        {
-            case 1:
-                return Color.red;
-            case 2:
-                return Color.yellow;
-            case 3:
-                return Color.green;
-            case 4:
-                return Color.blue;
-            default:
-                Debug.LogError("Player has no ID");
-                break;
-        }
-        return Color.clear;
     }
     public void AddToPlayListName(string _levelName)
     {

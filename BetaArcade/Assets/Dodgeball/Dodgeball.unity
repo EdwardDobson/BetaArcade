@@ -926,6 +926,10 @@ PrefabInstance:
       propertyPath: m_margin.z
       value: -747.97565
       objectReference: {fileID: 0}
+    - target: {fileID: 404132326, guid: 94b212089544a444fac5f7e197fede84, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94b212089544a444fac5f7e197fede84, type: 3}
 --- !u!1 &68173158 stripped
@@ -1609,7 +1613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fc97f42ad8c1ff48bf61cdd45461dd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 4030777183551942053, guid: 8dfbc968b1df8224f86db3796ee41efb, type: 3}
+  Player: {fileID: 230726215996940496, guid: 8d1ba07c5f40f1746be386ae722ad100, type: 3}
   SpawnPoints:
   - {fileID: 1003891363}
   - {fileID: 819982741}
