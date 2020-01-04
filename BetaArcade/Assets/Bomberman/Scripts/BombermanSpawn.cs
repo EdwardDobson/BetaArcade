@@ -49,7 +49,7 @@ public class BombermanSpawn : MonoBehaviour
 		player.transform.position = SpawnPoints[playerCount].position;
 		playerCount++;
 		player.tag = "Player" + playerCount;
-		player.GetComponent<Renderer>().material.SetColor("_Color", PlayerIDToColor(playerCount));
+		player.GetComponent<Renderer>().material.SetColor("_Color", LevelManagerTools.PlayerIDToColor(playerCount));
 		player.GetComponent<PlayerMove>().ID = playerCount;
 		player.transform.SetParent(playerHolder);
 		players.Add(player);
@@ -74,24 +74,6 @@ public class BombermanSpawn : MonoBehaviour
 			}
 		}
 		return tmp;
-	}
-	private Color PlayerIDToColor(int id)
-	{
-		switch (id)
-		{
-			case 1:
-				return Color.red;
-			case 2:
-				return Color.yellow;
-			case 3:
-				return Color.green;
-			case 4:
-				return Color.blue;
-			default:
-				Debug.LogError("Player has no ID");
-				break;
-		}
-		return Color.clear;
 	}
 	public Transform GetPlayerHolderTransform()
 	{
