@@ -32,7 +32,7 @@ public class PTFLevelManager : KamilLevelManager
     CountdownTimer.Instance.Run();
     m_RoundEnded = false;
     m_IsPaused = true;
-    m_CurrentRound++;
+    CurrentRound++;
     }
 
   private void Update()
@@ -41,11 +41,7 @@ public class PTFLevelManager : KamilLevelManager
       {
       if (!m_IsPaused)
         {
-        m_Timer -= Time.deltaTime;
-        if (m_Timer <= 0)
-          {
-          StartCoroutine(EndRound());
-          }
+        HandleTimer();
         }
       else
         {
@@ -79,7 +75,7 @@ public class PTFLevelManager : KamilLevelManager
     yield return new WaitForSeconds(2);
     if (!LevelCheck())
       {
-      m_CurrentRound++;
+      CurrentRound++;
       var playerCount = m_Players.Count;
       foreach(var player in m_Players.Where(x => x != null))
         {

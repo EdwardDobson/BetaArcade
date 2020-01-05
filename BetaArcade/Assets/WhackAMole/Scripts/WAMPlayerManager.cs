@@ -33,6 +33,7 @@ public class WAMPlayerManager : MonoBehaviour
     m_ID = LevelManagerTools.GetPlayerID(gameObject);
     m_GameManager = GameObject.Find("GameManager") != null ? GameObject.Find("GameManager").GetComponent<GameManager>() : null;
     m_CharacterAnimator = GetComponentInChildren<Animator>();//.SetFloat("MoveSpeed", GetComponent<Rigidbody>().velocity.magnitude);
+    GameObject.Find("MainCanvas").GetComponent<UITextScript>().SetScoreText(m_MaxScore);
     }
 
   private void Update()
