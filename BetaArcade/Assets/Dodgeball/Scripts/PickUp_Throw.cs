@@ -5,7 +5,7 @@ using UnityEngine;
 public class PickUp_Throw : MonoBehaviour
 {
     public float power = 20;
-    public float maxPower = 30;
+    public float maxPower = 50;
     public bool canHold = true;
     public bool PickedUpBall = false;
     public bool PickedUp = false;
@@ -38,7 +38,6 @@ public class PickUp_Throw : MonoBehaviour
                     Pickup();
                     InitalPickUp = true;
                 }
-                PickedUp = true;
             }
         }
 
@@ -104,6 +103,8 @@ public class PickUp_Throw : MonoBehaviour
         //Set the ball to be active
         canHold = false;
 
+        PickedUp = true;
+
         Debug.Log("Picked up ball");
         return true;
     }
@@ -113,7 +114,7 @@ public class PickUp_Throw : MonoBehaviour
         if (power > maxPower)
             return;
         else
-            power += 0.5f * Time.deltaTime;
+            power += 1.5f * Time.deltaTime;
     }
 
 
