@@ -10166,22 +10166,22 @@ PrefabInstance:
     - target: {fileID: 2973714701773086068, guid: 995cdf9d95a65174caf6f578b491725a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 106.7
+      value: 309
       objectReference: {fileID: 0}
     - target: {fileID: 2973714701773086068, guid: 995cdf9d95a65174caf6f578b491725a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -135.9
+      value: -148
       objectReference: {fileID: 0}
     - target: {fileID: 2229481631466121772, guid: 995cdf9d95a65174caf6f578b491725a,
         type: 3}
       propertyPath: m_fontSize
-      value: 122
+      value: 48.28
       objectReference: {fileID: 0}
     - target: {fileID: 2229481631466121772, guid: 995cdf9d95a65174caf6f578b491725a,
         type: 3}
       propertyPath: m_fontSizeBase
-      value: 122
+      value: 48.28
       objectReference: {fileID: 0}
     - target: {fileID: 2229481631466121772, guid: 995cdf9d95a65174caf6f578b491725a,
         type: 3}
@@ -10191,22 +10191,22 @@ PrefabInstance:
     - target: {fileID: 2229481631466121772, guid: 995cdf9d95a65174caf6f578b491725a,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2229481631466121772, guid: 995cdf9d95a65174caf6f578b491725a,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2229481631466121772, guid: 995cdf9d95a65174caf6f578b491725a,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2229481631466121772, guid: 995cdf9d95a65174caf6f578b491725a,
         type: 3}
       propertyPath: m_textInfo.pageCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 271461244862177036, guid: 995cdf9d95a65174caf6f578b491725a,
         type: 3}
@@ -14166,6 +14166,12 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6902906532589551236, guid: 94b212089544a444fac5f7e197fede84,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -2561988010081049701, guid: a4277fe39f9d2274283fb8329bba8495,
+        type: 2}
     - target: {fileID: 8212706999659302978, guid: 94b212089544a444fac5f7e197fede84,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -14190,11 +14196,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Navigation.m_Mode
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8972469898456258124, guid: 94b212089544a444fac5f7e197fede84,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 404132326, guid: 94b212089544a444fac5f7e197fede84, type: 3}
       propertyPath: m_AnchorMax.y
@@ -14224,11 +14225,10 @@ PrefabInstance:
       propertyPath: m_MaxValue
       value: 200
       objectReference: {fileID: 0}
-    - target: {fileID: 6902906532589551236, guid: 94b212089544a444fac5f7e197fede84,
+    - target: {fileID: 8972469898456258124, guid: 94b212089544a444fac5f7e197fede84,
         type: 3}
-      propertyPath: OutputAudioMixerGroup
-      value: 
-      objectReference: {fileID: -2561988010081049701, guid: a4277fe39f9d2274283fb8329bba8495,
-        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94b212089544a444fac5f7e197fede84, type: 3}
