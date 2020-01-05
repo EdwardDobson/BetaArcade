@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class HammerHeadScript : MonoBehaviour
   {
+  public AudioClip BonkEffect;
   private void OnTriggerEnter(Collider other)
     {
     if (other.gameObject.name == "Mole")
@@ -12,6 +13,7 @@ public class HammerHeadScript : MonoBehaviour
       Destroy(other.gameObject);
       GetComponentInParent<WAMPlayerManager>().Score++;
       GameObject.Find("LevelManager").GetComponent<WAMLevelManager>().MoleCount--;
+      GetComponent<AudioSource>().PlayOneShot(BonkEffect);
       }
     else if (other.gameObject.tag.Contains("Player"))
       {
