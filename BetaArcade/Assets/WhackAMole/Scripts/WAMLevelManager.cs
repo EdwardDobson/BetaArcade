@@ -37,7 +37,7 @@ public class WAMLevelManager : KamilLevelManager
     m_RoundEnded = false;
 
     Physics.IgnoreLayerCollision(11, 12);
-    m_CurrentRound++;
+    CurrentRound++;
     }
 
   private void FixedUpdate()
@@ -55,11 +55,7 @@ public class WAMLevelManager : KamilLevelManager
       {
       if (!m_IsPaused)
         {
-        m_Timer -= Time.deltaTime;
-        if (m_Timer <= 0.0f)
-          {
-          StartCoroutine(EndRound());
-          }
+        HandleTimer();
         }
       else
         {
@@ -95,7 +91,7 @@ public class WAMLevelManager : KamilLevelManager
       yield return new WaitForSeconds(2);
       if (!LevelCheck())
         {
-        m_CurrentRound++;
+        CurrentRound++;
         var playerCount = m_Players.Count;
         foreach (var player in m_Players.Where(x => x != null))
           {
