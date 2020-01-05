@@ -97,6 +97,16 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: ce49a1c5ec947814aae5bd6f314110c5, type: 2}
+    - target: {fileID: 1018427562933917653, guid: a731132c6f2f5314290638b877e0c925,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018427562933917653, guid: a731132c6f2f5314290638b877e0c925,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1018427562933917652, guid: a731132c6f2f5314290638b877e0c925,
         type: 3}
       propertyPath: m_Size.z
@@ -106,6 +116,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.z
       value: 0.18926342
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018427562933917651, guid: a731132c6f2f5314290638b877e0c925,
+        type: 3}
+      propertyPath: jumpEnabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a731132c6f2f5314290638b877e0c925, type: 3}
