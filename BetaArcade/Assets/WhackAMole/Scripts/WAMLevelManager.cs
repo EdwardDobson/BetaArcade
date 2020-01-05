@@ -118,7 +118,7 @@ public class WAMLevelManager : KamilLevelManager
     var z = m_Rand.Next(0, 18) - 9;
     var mole = Instantiate(MolePrefab);
     mole.name = "Mole";
-    mole.transform.position = new Vector3(x, -0.5f, z);
+    mole.transform.position = new Vector3(x, -0.75f, z);
     MoleCount++;
     }
 
