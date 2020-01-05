@@ -72,6 +72,6 @@ public abstract class KamilLevelManager : MonoBehaviour
     m_Timer = Mathf.Max(m_Timer - Time.deltaTime, 0.0f);
     m_UITextScript.SetTimerText((int)m_Timer);
     if (m_Timer <= 0.0f)
-      EndRound();
+      StartCoroutine(EndRound());
     }
   }

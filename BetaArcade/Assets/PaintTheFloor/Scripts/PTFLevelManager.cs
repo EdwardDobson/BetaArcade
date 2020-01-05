@@ -7,6 +7,7 @@ public class PTFLevelManager : KamilLevelManager
   {
   public GameObject Player;
   public GameObject FlatFloor;
+  public Material DiscoMaterial;
 
   private int maxX = 50;
   private int maxY = 50;
@@ -16,7 +17,6 @@ public class PTFLevelManager : KamilLevelManager
   protected override void Start()
     {
     m_RoundEnded = true;
-   // StartGame();
     }
 
   public void StartGame()
@@ -25,9 +25,7 @@ public class PTFLevelManager : KamilLevelManager
     FlatFloor.transform.localScale = new Vector3(maxX, .1f, maxY);
     Physics.IgnoreLayerCollision(9, 10);
 
-    #region Level Generation
     LevelGeneration();
-    #endregion
 
     CountdownTimer.Instance.Run();
     m_RoundEnded = false;
@@ -104,6 +102,7 @@ public class PTFLevelManager : KamilLevelManager
         cube.transform.position = new Vector3(i - (maxX / 2), 0, y - (maxY / 2));
         cube.transform.localScale = new Vector3(1, 0.2f, 1);
         cube.transform.SetParent(levelParent.transform);
+        cube.GetComponent<Renderer>().material = DiscoMaterial;
         }
       }
     }

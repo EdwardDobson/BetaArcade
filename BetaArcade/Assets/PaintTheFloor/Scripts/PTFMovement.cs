@@ -50,22 +50,22 @@ public class PTFMovement : MonoBehaviour
     m_CharacterAnimator.SetFloat("MoveSpeed", GetComponent<Rigidbody>().velocity.magnitude >= 0.5f ? GetComponent<Rigidbody>().velocity.magnitude : 0);
     if (!IsPaused)
       {
-      if (Input.GetButton("RB" + m_PlayerMoveScript.ID))
-        {
-        if (ShootingObject.transform.localRotation.x > -.25f)
-          {
-          Debug.Log(ShootingObject.transform.localRotation.x);
-          ShootingObject.transform.Rotate(Vector3.left, m_AimRotateSpeed);
-          }
-        }
-      if (Input.GetButton("LB" + m_PlayerMoveScript.ID))
-        {
-        if (ShootingObject.transform.localRotation.x < .25f)
-          {
-          Debug.Log(ShootingObject.transform.localRotation.x);
-          ShootingObject.transform.Rotate(Vector3.left, -m_AimRotateSpeed);
-          }
-        }
+      //if (Input.GetButton("RB" + m_PlayerMoveScript.ID))
+      //  {
+      //  if (ShootingObject.transform.localRotation.x > -.25f)
+      //    {
+      //    Debug.Log(ShootingObject.transform.localRotation.x);
+      //    ShootingObject.transform.Rotate(Vector3.left, m_AimRotateSpeed);
+      //    }
+      //  }
+      //if (Input.GetButton("LB" + m_PlayerMoveScript.ID))
+      //  {
+      //  if (ShootingObject.transform.localRotation.x < .25f)
+      //    {
+      //    Debug.Log(ShootingObject.transform.localRotation.x);
+      //    ShootingObject.transform.Rotate(Vector3.left, -m_AimRotateSpeed);
+      //    }
+      //  }
 
       if (Input.GetAxis("RT" + m_PlayerMoveScript.ID) != 0)
         {
