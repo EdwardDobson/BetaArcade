@@ -1,25 +1,38 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PaintballScript : MonoBehaviour
   {
   public Color Color;
+  private void OnCollisionEnter(Collision collision)
+    {
+    if (collision.gameObject.tag == "PaintDelete")
+      {
+      Destroy(gameObject);
+      }
+    }
   private void OnTriggerEnter(Collider other)
     {
     var color = gameObject.GetComponent<Renderer>().material.GetColor("_Color");
 
     var renderer = other.gameObject.GetComponent<Renderer>();
-    if (renderer != null)
+    if (renderer != null && !other.name.Contains("PaintBall"))
       {
-      GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+      IEnumerable<GameObject> players = GameObject.FindObjectsOfType<GameObject>().Where(x => x.tag.Contains("Player"));
 
       foreach (var player in players)
         {
-        if (player.GetComponent<Renderer>().material.GetColor("_Color") == renderer.material.GetColor("_Color"))
+        if (LevelManagerTools.GetPlayerMaterial(player).GetColor("_Color") == renderer.material.GetColor("_Color"))
+          {
           player.GetComponent<PTFMovement>().Score--;
-        if (player.GetComponent<Renderer>().material.GetColor("_Color") == color)
+          }
+        if (LevelManagerTools.GetPlayerMaterial(player).GetColor("_Color") == color)
+          {
           player.GetComponent<PTFMovement>().Score++;
+          Debug.Log("Adding score to: " + player.name);
+          }
         }
 
       renderer.material.SetColor("_Color", color);
