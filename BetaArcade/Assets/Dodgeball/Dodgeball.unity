@@ -138,6 +138,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bench (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 5849774300086874686, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 7358489051683026446, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4143,6 +4148,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bench (28)
       objectReference: {fileID: 0}
+    - target: {fileID: 5849774300086874686, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 7358489051683026446, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4963,6 +4973,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Punching Bag (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8058743224619266721, guid: 73e420240179fb64c8a51a38f363a407,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 3259724685693248993, guid: 73e420240179fb64c8a51a38f363a407,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5101,6 +5116,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bench (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 5849774300086874686, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 7358489051683026446, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5155,6 +5175,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 449989621238465678, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2964022107914514569, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032250268184978336, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 5163811276850237459, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 406090798615486012, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 7621887697069192142, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066665045413155605, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3224946436194681034, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 735ba1f2e6a691b4ea2ba6375e0940b4, type: 3}
@@ -5972,9 +6032,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 826221194}
+  - component: {fileID: 826221195}
   m_Layer: 0
   m_Name: Benches Back Wall
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6005,6 +6066,19 @@ Transform:
   m_Father: {fileID: 1300057187}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &826221195
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826221193}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 24.075779, y: 5.891762, z: 3.0395813}
+  m_Center: {x: 2.508688, y: 10.083944, z: 8.6809635}
 --- !u!1 &832037802
 GameObject:
   m_ObjectHideFlags: 0
@@ -6148,6 +6222,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bench (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5849774300086874686, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 7358489051683026446, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
         type: 3}
@@ -6598,6 +6677,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bench (30)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5849774300086874686, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 7358489051683026446, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
         type: 3}
@@ -7709,6 +7793,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7501219512556767679, guid: 73e420240179fb64c8a51a38f363a407,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153265256821955207, guid: 73e420240179fb64c8a51a38f363a407,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 266970403147609871, guid: 73e420240179fb64c8a51a38f363a407,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73e420240179fb64c8a51a38f363a407, type: 3}
@@ -8872,9 +8971,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1284372403}
+  - component: {fileID: 1284372404}
   m_Layer: 0
   m_Name: Benches Front Wall
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8905,6 +9005,19 @@ Transform:
   m_Father: {fileID: 1300057187}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1284372404
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284372402}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 24.06436, y: 5.4807434, z: 2.6850204}
+  m_Center: {x: 2.591792, y: 9.403763, z: -18.473331}
 --- !u!1 &1296567881
 GameObject:
   m_ObjectHideFlags: 0
@@ -8946,7 +9059,7 @@ GameObject:
   - component: {fileID: 1300057187}
   m_Layer: 0
   m_Name: Bench Collection
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9685,6 +9798,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bench (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 5849774300086874686, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 7358489051683026446, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9964,7 +10082,7 @@ GameObject:
   - component: {fileID: 1415403368}
   m_Layer: 0
   m_Name: Benches Middle
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10164,6 +10282,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bench (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5849774300086874686, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 7358489051683026446, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
         type: 3}
@@ -10790,6 +10913,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bench (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 5849774300086874686, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 7358489051683026446, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11112,6 +11240,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bench (29)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5849774300086874686, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 7358489051683026446, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
         type: 3}
@@ -11736,6 +11869,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bench (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 5849774300086874686, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 7358489051683026446, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11929,6 +12067,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bench (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 5849774300086874686, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 7358489051683026446, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11983,6 +12126,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 449989621238465678, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2964022107914514569, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032250268184978336, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 5163811276850237459, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 406090798615486012, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 7621887697069192142, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066665045413155605, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3224946436194681034, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 735ba1f2e6a691b4ea2ba6375e0940b4, type: 3}
@@ -12273,6 +12456,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bench (31)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5849774300086874686, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 7358489051683026446, guid: 735ba1f2e6a691b4ea2ba6375e0940b4,
         type: 3}
@@ -12722,6 +12910,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Punching Bag (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8058743224619266721, guid: 73e420240179fb64c8a51a38f363a407,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 3259724685693248993, guid: 73e420240179fb64c8a51a38f363a407,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13141,6 +13334,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Punching Bag
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058743224619266721, guid: 73e420240179fb64c8a51a38f363a407,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3259724685693248993, guid: 73e420240179fb64c8a51a38f363a407,
         type: 3}
