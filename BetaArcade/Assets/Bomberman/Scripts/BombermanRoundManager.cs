@@ -103,23 +103,25 @@ public class BombermanRoundManager : MonoBehaviour
 	}
 	public void StartTime()
 	{
-
+		roundTimer = baseRoundTimer;
+		timerText.text = "Time: " + roundTimer;
 		CountdownTimer.Instance.Run();
 		if (CountdownTimer.Instance.Timeleft <= 0)
 		{
-			//	canGainPoints = true;
 				gameStarted = true;
 				isNeedTimer = false;
 				isVictory = false;
 				countdownText.text = "";
-				roundTimer = baseRoundTimer;
-			
+		
+		
 		}
 	}
 	//resets everything, applies points to victor(s)
 	IEnumerator Restart()
 	{
+		gameStarted = false;
 		yield return new WaitForSeconds(0.5f);
+
 		int tmpID = 0;
 		spawner.ResetPositions();
 		List<GameObject> winners = spawner.RemainingPlayers();
@@ -138,6 +140,7 @@ public class BombermanRoundManager : MonoBehaviour
 		//StartCoroutine(Countdown());
 		isScoring = false;
 		countdownText.text = "";
+	
 	}
 	//used to start the game round
 	
