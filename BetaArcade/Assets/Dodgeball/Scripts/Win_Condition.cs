@@ -78,6 +78,7 @@ public class Win_Condition : MonoBehaviour
         B = GameObject.Find("Ball").GetComponent<Ball>();
         BallPosition = B.transform.position;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        currentRound++;
         roundText.text = "Round: " + currentRound + " of " + maxRound;
         roundTimerSlider = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(5).GetComponent<Slider>();
         timerTextTutorialText = GameObject.Find("TutorialScreen").transform.GetChild(0).GetChild(4).GetComponent<TextMeshProUGUI>();
