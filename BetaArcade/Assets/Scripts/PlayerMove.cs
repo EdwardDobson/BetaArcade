@@ -44,7 +44,7 @@ public class PlayerMove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         Invoke("LateStart", 0.001f);
-        distanceToGround = GetComponent<Collider>().bounds.extents.y;
+        distanceToGround = GetComponent<Collider>().bounds.extents.y/4;
         Walk = GetComponent<AudioSource>();
         if (jumpEnabled)
         {
@@ -186,7 +186,7 @@ public class PlayerMove : MonoBehaviour
                     transform.rotation = Quaternion.Lerp(transform.rotation, lookRot, rotationSpeed * Time.fixedDeltaTime);
                 }
             }
-            isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
+            isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround);
         }
     }
    public IEnumerator ResetDash()
