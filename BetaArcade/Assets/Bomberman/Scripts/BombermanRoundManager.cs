@@ -137,6 +137,7 @@ public class BombermanRoundManager : MonoBehaviour
 		isVictory = false;
 		//StartCoroutine(Countdown());
 		isScoring = false;
+		countdownText.text = "";
 	}
 	//used to start the game round
 	
