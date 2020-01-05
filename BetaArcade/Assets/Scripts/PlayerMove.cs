@@ -121,12 +121,13 @@ public class PlayerMove : MonoBehaviour
                 {
                     dashTimer -= Time.deltaTime;
                     dashSlider.value = dashTimer;
-
+                   
                 }
                 if (hasPushed)
                 {
                     shoveTimer -= Time.deltaTime;
                     shoveSlider.value = shoveTimer;
+                 
                 }
                 if (rb.velocity.sqrMagnitude > 2f && !Walk.isPlaying)
                 {
@@ -188,7 +189,7 @@ public class PlayerMove : MonoBehaviour
             isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
         }
     }
-    IEnumerator ResetDash()
+   public IEnumerator ResetDash()
     {
 
         yield return new WaitForSeconds(0.5f);
@@ -196,7 +197,7 @@ public class PlayerMove : MonoBehaviour
         dashTimer = 0.5f;
         dashSlider.value = dashTimer;
     }
-    IEnumerator ResetShove()
+    public IEnumerator ResetShove()
     {
 
         yield return new WaitForSeconds(0.5f);

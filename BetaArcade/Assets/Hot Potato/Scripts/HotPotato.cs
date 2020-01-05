@@ -76,7 +76,7 @@ public class HotPotato : MonoBehaviour
     }
     void BombTimer()
     {
-        if (!roundRestarting)
+        if (!roundRestarting && gameStarted)
         {
             timer -= Time.deltaTime;
             if (timer <= 0)
@@ -118,17 +118,10 @@ public class HotPotato : MonoBehaviour
                 bombTimerText.text = "Bomb Timer: " + currentBombTimer;
                 if (increaseInactivePlayers >= gameManager.GetPlayerCount() - 1)
                 {
-                    StartCoroutine(ResetRoundCoroutine());
-                    for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
-                    {
-                     
-                        if (players[i].gameObject.activeSelf)
-                        {
-                            gameManager.SetPlayerScore(players[i].GetComponent<PlayerMove>().ID, 1);
-                            increaseInactivePlayers = 0;
-                            currentRound++;
-                        }
-                    }
+                    roundRestarting = true;
+                    ResetRound();
+
+
                 }
                 ResetBomb();
                 for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
@@ -149,32 +142,48 @@ public class HotPotato : MonoBehaviour
     }
     void ResetRound()
     {
+
+        gameStarted = false;
+        for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
+        {
+
+            if (players[i].gameObject.activeSelf)
+            {
+                gameManager.SetPlayerScore(players[i].GetComponent<PlayerMove>().ID, 1);
+                increaseInactivePlayers = 0;
+                break;
+
+            }
+        }
         foreach (Transform t in transform)
         {
-            if(t.gameObject.name.Contains("Player"))
+            if (t.gameObject.name.Contains("Player"))
             {
                 t.gameObject.SetActive(true);
+                StartCoroutine(t.gameObject.GetComponent<PlayerMove>().ResetShove());
+                StartCoroutine(t.gameObject.GetComponent<PlayerMove>().ResetDash());
                 t.gameObject.GetComponent<PlayerMove>().dashTimer = 0.5f;
                 t.gameObject.GetComponent<PlayerMove>().shoveTimer = 0.5f;
                 t.gameObject.GetComponent<PlayerMove>().dashSlider.value = t.gameObject.GetComponent<PlayerMove>().dashTimer;
                 t.gameObject.GetComponent<PlayerMove>().shoveSlider.value = t.gameObject.GetComponent<PlayerMove>().shoveTimer;
                 t.gameObject.transform.position = GetComponent<HOTPotatoSpawner>().SpawnPoints[t.GetComponent<PlayerMove>().ID - 1].transform.position;
-                roundText.text = "Round: " + currentRound + " of " + maxRound;
                 currentBombTimer = maxBombTimer;
                 t.GetComponent<PlayerHotPotato>().SetCanTakeBomb(true);
                 t.GetComponent<PlayerHotPotato>().SetHasBomb(false);
             }
         }
-     
         increaseInactivePlayers = 0;
         roundRestarting = false;
+        currentRound++;
+        roundText.text = "Round: " + currentRound + " of " + maxRound;
     }
-    IEnumerator ResetRoundCoroutine()
+        IEnumerator ResetRoundCoroutine()
     {
         currentBombTimer = maxBombTimer;
         roundRestarting = true;
         canPassBomb = false;
-        yield return new WaitForSeconds(3);
+       
+      
         ResetRound();
         for(int i =0; i< gameManager.GetPlayerCount(); ++i)
         {
@@ -207,7 +216,7 @@ public class HotPotato : MonoBehaviour
     }
     void ResetBomb()
     {
-        if (currentBombTimer <= 0 && !roundRestarting)
+        if (currentBombTimer <= 0 && !roundRestarting && gameStarted)
         {
             for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
             {
@@ -231,7 +240,7 @@ public class HotPotato : MonoBehaviour
     }
     void SwitchPlayer()
     {
-        if(!roundRestarting)
+        if(!roundRestarting && gameStarted)
         {
             for (int i = 0; i < gameManager.GetPlayerCount(); ++i)
             {
