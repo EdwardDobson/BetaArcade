@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class WAMPlayerManager : MonoBehaviour
@@ -7,6 +8,7 @@ public class WAMPlayerManager : MonoBehaviour
   public GameObject StunEffect;
   public GameObject Hammer;
   public bool CanSwing = true;
+
   public int Score
     {
     get { return m_Score; }
@@ -14,6 +16,14 @@ public class WAMPlayerManager : MonoBehaviour
       {
       m_Score = value;
       Debug.Log("Score: " + value + ", Max: " + m_MaxScore);
+      foreach(Transform child in m_PlayerPortraits.transform)
+        {
+        if (child.name.Contains(m_ID.ToString()))
+          {
+          var score = child.Find("Score");
+          score.GetComponent<TextMeshProUGUI>().text = "Moles hit: " + value;
+          }
+        }
       if(m_Score >= m_MaxScore)
         {
         StartCoroutine(GameObject.Find("LevelManager").GetComponent<WAMLevelManager>().EndRound());
@@ -28,12 +38,15 @@ public class WAMPlayerManager : MonoBehaviour
   private GameManager m_GameManager;
   private Animator m_CharacterAnimator;
   private bool m_IsStunned = false;
+  private GameObject m_PlayerPortraits;
   private void Start()
     {
     m_ID = LevelManagerTools.GetPlayerID(gameObject);
     m_GameManager = GameObject.Find("GameManager") != null ? GameObject.Find("GameManager").GetComponent<GameManager>() : null;
     m_CharacterAnimator = GetComponentInChildren<Animator>();//.SetFloat("MoveSpeed", GetComponent<Rigidbody>().velocity.magnitude);
     GameObject.Find("MainCanvas").GetComponent<UITextScript>().SetScoreText(m_MaxScore);
+    m_PlayerPortraits = GameObject.Find("PlayerPortraits");
+    Score = 0;
     }
 
   private void Update()

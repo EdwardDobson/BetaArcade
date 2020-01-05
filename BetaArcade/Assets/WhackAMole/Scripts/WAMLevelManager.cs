@@ -88,7 +88,7 @@ public class WAMLevelManager : KamilLevelManager
       m_Players.Where(x => x.GetComponent<WAMPlayerManager>().Score == m_Players.Max(p => p.GetComponent<WAMPlayerManager>().Score))
                .ToList().ForEach(x => { if (m_GameManager != null) m_GameManager.SetPlayerScore(LevelManagerTools.GetPlayerID(x), 1); });
 
-      yield return new WaitForSeconds(2);
+      yield return new WaitForSeconds(.5f);
       if (!LevelCheck())
         {
         CurrentRound++;
@@ -108,6 +108,7 @@ public class WAMLevelManager : KamilLevelManager
         m_CanSpawnMole = true;
         CountdownTimer.Instance.Run();
         m_Timer = m_OldTimer;
+        m_UITextScript.SetTimerText((int)m_Timer);
         m_RoundEnded = false;
         }
       }

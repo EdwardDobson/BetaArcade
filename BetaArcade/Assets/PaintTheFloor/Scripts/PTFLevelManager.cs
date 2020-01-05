@@ -8,15 +8,24 @@ public class PTFLevelManager : KamilLevelManager
   public GameObject Player;
   public GameObject FlatFloor;
   public Material DiscoMaterial;
+  public GameObject LevelParent;
 
   private int maxX = 50;
   private int maxY = 50;
 
   private bool m_RoundEnded = false;
+  private IEnumerable<GameObject> m_LevelObjects;
+  private GameObject m_NewLevelParent;
 
   protected override void Start()
     {
     m_RoundEnded = true;
+    m_LevelObjects = LevelParent.GetComponentsInChildren<MeshRenderer>().Select(x => x.gameObject);
+    foreach(var obj in m_LevelObjects)
+      {
+      obj.SetActive(false);
+      }
+    m_NewLevelParent = new GameObject("NewLevelParent");
     }
 
   public void StartGame()
@@ -93,6 +102,23 @@ public class PTFLevelManager : KamilLevelManager
     {
     if (GameObject.Find("levelParent") != null)
       Destroy(GameObject.Find("levelParent"));
+
+    foreach(GameObject obj in GameObject.FindObjectsOfType<GameObject>().Where(x => x.name.Contains("PaintBall")))
+      {
+      Destroy(obj);
+      }
+
+    foreach(Transform obj in m_NewLevelParent.transform)
+      {
+      Destroy(obj.gameObject);
+      }
+
+    foreach(var obj in m_LevelObjects)
+      {
+      var newObj = Instantiate(obj, m_NewLevelParent.transform);
+      newObj.SetActive(true);
+      }
+
     var levelParent = new GameObject("levelParent");
     for (int i = 0; i <= maxX; i++)
       {
