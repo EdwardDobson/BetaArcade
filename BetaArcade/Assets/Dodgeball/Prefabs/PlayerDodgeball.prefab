@@ -41,8 +41,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 13.92518, y: 18.472263, z: 7.251697}
-  m_Center: {x: -0.4198567, y: 9.028994, z: 6.08739}
+  m_Size: {x: 13.92518, y: 18.472263, z: 0.71332014}
+  m_Center: {x: -0.4198567, y: 9.028994, z: 2.8182094}
 --- !u!114 &6929391317179081212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +136,16 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 714ea1795a9d40d4d860089f31f3f394, type: 2}
+    - target: {fileID: 8432389362766668560, guid: a731132c6f2f5314290638b877e0c925,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432389362766668560, guid: a731132c6f2f5314290638b877e0c925,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a731132c6f2f5314290638b877e0c925, type: 3}
 --- !u!1 &230726215996940496 stripped
