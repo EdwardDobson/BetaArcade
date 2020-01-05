@@ -13765,6 +13765,7 @@ MonoBehaviour:
   timeSlider: {fileID: 2903685781336170317}
   spawner: {fileID: 1954975483}
   bgm: {fileID: 1954975484}
+  gameStarted: 0
 --- !u!114 &1954975483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14228,6 +14229,11 @@ PrefabInstance:
         type: 3}
       propertyPath: PlayerPictures.Array.data[0]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7987500057223226939, guid: 06ef58d2953944a429dd556605ed05f5,
+        type: 3}
+      propertyPath: timer
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 6904190841159945215, guid: 06ef58d2953944a429dd556605ed05f5,
         type: 3}
@@ -14737,7 +14743,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_VideoClip
       value: 
-      objectReference: {fileID: 32900000, guid: 7214a119cfcdfa543a5cbd51b4ed01c1,
+      objectReference: {fileID: 32900000, guid: 64898e1e78579ba4abdc7d1c9e2d1ff9,
         type: 3}
     - target: {fileID: 8486093460654245925, guid: e21b384693e1cd94fadc76cdddbd6172,
         type: 3}
