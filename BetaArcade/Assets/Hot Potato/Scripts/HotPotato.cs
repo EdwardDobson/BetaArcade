@@ -162,6 +162,7 @@ public class HotPotato : MonoBehaviour
                 t.gameObject.SetActive(true);
                 StartCoroutine(t.gameObject.GetComponent<PlayerMove>().ResetShove());
                 StartCoroutine(t.gameObject.GetComponent<PlayerMove>().ResetDash());
+                t.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                 t.gameObject.GetComponent<PlayerMove>().dashTimer = 0.5f;
                 t.gameObject.GetComponent<PlayerMove>().shoveTimer = 0.5f;
                 t.gameObject.GetComponent<PlayerMove>().dashSlider.value = t.gameObject.GetComponent<PlayerMove>().dashTimer;

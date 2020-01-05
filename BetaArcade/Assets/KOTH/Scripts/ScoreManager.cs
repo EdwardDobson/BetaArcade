@@ -154,6 +154,7 @@ public class ScoreManager : MonoBehaviour
                     child.gameObject.GetComponent<PlayerMove>().hasDashed = false;
                     child.gameObject.GetComponent<PlayerMove>().MassPowerUpReset();
                     child.gameObject.GetComponent<PlayerMove>().hasPushed = false;
+                    child.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                     child.gameObject.GetComponent<PlayerMove>().dashSlider.value = child.gameObject.GetComponent<PlayerMove>().dashTimer;
                     child.gameObject.GetComponent<PlayerMove>().shoveSlider.value = child.gameObject.GetComponent<PlayerMove>().shoveTimer;
                     StartCoroutine(RespawnPlayer(child));

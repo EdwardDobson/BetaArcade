@@ -134,10 +134,12 @@ public class Win_Condition : MonoBehaviour
 
     public void StartTime()
     {
+        timerText.text = "Round Time : " + timer;
         CountdownTimer.Instance.Run();
         if (CountdownTimer.Instance.Timeleft <= 0)
         {
             gameStarted = true;
+            inPointText.text = "";
             StartCoroutine(StartCountdown());
         }
     }
@@ -205,15 +207,22 @@ public class Win_Condition : MonoBehaviour
             int SpawnPoint = 0;
             otherPlayers[i].SetActive(true);
             otherPlayers[i].transform.position = DodgballPlayerSpawner.SpawnPoints[i].position;
-
+            otherPlayers[i].GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
             roundText.text = "Round: " + currentRound + " of " + maxRound;
 
             Debug.Log("Player " + i + " " + otherPlayers[i].transform.position);
 
             SpawnPoint++;
         }
+       
+        StopAllCoroutines();
         B.transform.position = BallPosition;
+        B.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
         timer = roundTimerSlider.value;
+        if (currentRound <= maxRound)
+        {
+            StartTimer = false;
+        }
     }
 
     public void ChangeScoreToWin()
