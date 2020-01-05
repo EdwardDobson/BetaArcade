@@ -42,24 +42,6 @@ public class KOTHPlayerSpawner : MonoBehaviour
         player.transform.SetParent(playerHolder);
         scoreManager.otherPlayers.Add(player);
     }
-    private Color PlayerIDToColor(int id)
-    {
-        switch (id)
-        {
-            case 1:
-                return Color.red;
-            case 2:
-                return Color.yellow;
-            case 3:
-                return Color.green;
-            case 4:
-                return Color.blue;
-            default:
-                Debug.LogError("Player has no ID");
-                break;
-        }
-        return Color.clear;
-    }
     public Transform GetPlayerHolderTransform()
     {
         return playerHolder;

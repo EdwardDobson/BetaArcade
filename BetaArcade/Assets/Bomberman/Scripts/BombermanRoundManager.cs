@@ -187,7 +187,7 @@ public class BombermanRoundManager : MonoBehaviour
 		{
 			if (!isVictory && !isNeedTimer)
 			{
-				roundText.text = "Round " + currentRound + " / " + gameManager.GetNumberOfRounds();
+				roundText.text = "Round: " + currentRound + " of " + gameManager.GetNumberOfRounds();
 				if (roundTimer <= 0)
 				{
 					countdownText.text = "Time Up!";

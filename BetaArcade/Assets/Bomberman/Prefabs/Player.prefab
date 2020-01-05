@@ -119,9 +119,10 @@ MonoBehaviour:
   dashTimer: 0.5
   shoveTimer: 0.5
   jumpEnabled: 0
-  rotationEnabled: 0
+  rotationEnabled: 1
   dashSlider: {fileID: 0}
   shoveSlider: {fileID: 0}
+  canMove: 0
 --- !u!54 &4652270019733902041
 Rigidbody:
   m_ObjectHideFlags: 0
