@@ -10080,6 +10080,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1415403368}
+  - component: {fileID: 1415403372}
+  - component: {fileID: 1415403371}
+  - component: {fileID: 1415403370}
+  - component: {fileID: 1415403369}
   m_Layer: 0
   m_Name: Benches Middle
   m_TagString: Ground
@@ -10109,6 +10113,58 @@ Transform:
   m_Father: {fileID: 1300057187}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1415403369
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415403367}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.788046, y: 0.79346275, z: 1.131957}
+  m_Center: {x: 8.61, y: 9.670417, z: -4.682772}
+--- !u!65 &1415403370
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415403367}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.788047, y: 0.78398323, z: 1.131957}
+  m_Center: {x: -3.6133695, y: 9.664247, z: -4.682772}
+--- !u!65 &1415403371
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415403367}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.773502, y: 1.0748062, z: 3.820818}
+  m_Center: {x: -3.63, y: 8.866821, z: -4.7074203}
+--- !u!65 &1415403372
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415403367}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.773502, y: 1.0748062, z: 3.820818}
+  m_Center: {x: 8.672285, y: 8.866821, z: -4.7074203}
 --- !u!1 &1420074848
 GameObject:
   m_ObjectHideFlags: 0
