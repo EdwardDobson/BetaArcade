@@ -5307,7 +5307,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-29978
+  m_Name: pb_Mesh-58456
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14224,5 +14224,11 @@ PrefabInstance:
       propertyPath: m_MaxValue
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 6902906532589551236, guid: 94b212089544a444fac5f7e197fede84,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -2561988010081049701, guid: a4277fe39f9d2274283fb8329bba8495,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94b212089544a444fac5f7e197fede84, type: 3}

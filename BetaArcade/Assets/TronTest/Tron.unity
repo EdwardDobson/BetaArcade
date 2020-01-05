@@ -152,7 +152,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -850,6 +850,12 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 695216378184733184, guid: 3dc3d3df1e8d80246b2e7044e1e7f9f9,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -2561988010081049701, guid: a4277fe39f9d2274283fb8329bba8495,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3dc3d3df1e8d80246b2e7044e1e7f9f9, type: 3}
 --- !u!43 &74216942
@@ -9140,7 +9146,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh149624
+  m_Name: pb_Mesh36424
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
