@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -60,6 +61,18 @@ public abstract class KamilLevelManager : MonoBehaviour
     if(m_CurrentRound >= m_MaxRounds)
       {
       // TODO Maybe wait a little bit
+      var portraits = GameObject.Find("PlayerPortraits");
+      if(portraits != null)
+        {
+        foreach (Transform child in portraits.transform)
+          {
+          var score = child.Find("Score");
+          if (score != null)
+            {
+            score.GetComponent<TextMeshProUGUI>().text = "";
+            }
+          }
+        }
       m_GameManager.transform.GetChild(0).gameObject.SetActive(true);
       m_UITextScript.gameObject.SetActive(false);
       return true;
